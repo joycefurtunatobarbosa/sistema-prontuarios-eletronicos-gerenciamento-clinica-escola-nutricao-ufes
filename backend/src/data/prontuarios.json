@@ -1,0 +1,159 @@
+{
+    "paciente": {
+        "idPaciente": "",
+        "nomePaciente": ""
+    },
+    "atendimentos": [{
+        "codAtendimento": ""
+    }],
+    "historico": {
+        "historiaAtual": {
+            "motivoConsulta": ""
+        },
+        "historiaPregressa": {
+            "doencas": [
+                {
+                    "nome": "",
+                    "internacoes": "",
+                    "cirurgias": ""
+                }
+            ]
+        },
+        "historiaFamiliar": {
+            "doencasCardiovasculares": {
+                "cardiopatia": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "hipertensao": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "avc": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "infarto": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                }
+            },
+            "doencasDislipidêmicas": {
+                "hipercolesterolemia": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "hipocolesterolemia": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                }
+            },
+            "doencasEndocrinas": {
+                "hipotireoidismo": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "hipertireoidismo": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "diabetes": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "obesidade": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "cancer": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                },
+                "outras": {
+                    "pai": "",
+                    "mae": "",
+                    "irmaos": "",
+                    "outros": ""
+                }
+            }
+        }
+    },
+    "medicamentos": [
+        {
+            "nomeMedicamento": "",
+            "horario": "",
+            "dosagem": "",
+            "frequencia": ""
+        }
+    ],
+    "anamnese": {
+        "refeicoes": {
+            "nomeRefeicao": "",
+            "local": "",
+            "quemPrepara": "",
+            "oleoGorduraUtilizada": ""
+        },
+        "beliscarAlimento": "",
+        "periodoMaisFome": "",
+        "intoleranciaAlergia": "",
+        "fumante": {
+            "tipo": "",
+            "qtd": "",
+            "frequencia": ""
+        },
+        "alcool": {
+            "tipo": "",
+            "qtd": "",
+            "frequencia": ""
+        },
+        "exercicios": {
+            "tipo": "",
+            "horario": "",
+            "duracao": "",
+            "frequencia": ""
+        },
+        "tempoTelaLazer": "",
+        "preferenciaAlimentar": [
+            ""
+        ],
+        "produtoLightDiet": "",
+        "docesSobremesas": "",
+        "aversaoAlimentar": "",
+        "alimentosPreferidos": "",
+        "liquidos": [
+            {
+                "tipoBebida": "",
+                "recipiente": "",
+                "capacidade": "",
+                "frequencia": ""
+            }
+        ],
+        "sono": {
+            "horarioDorme": "",
+            "horarioAcorda": "",
+            "duracaoSono": ""
+        }
+    }
+}

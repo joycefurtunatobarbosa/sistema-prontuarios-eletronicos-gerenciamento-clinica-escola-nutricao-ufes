@@ -1,0 +1,16 @@
+{
+    "nome": "",
+    "dataNascimento": "",
+    "sexo": "",
+    "celular": "",
+    "email": "",
+    "endereco": {
+        "rua": "",
+        "numero": "",
+        "complemento": "",
+        "bairro": "",
+        "cidade": "",
+        "estado": "",
+        "cep": ""
+    }
+}

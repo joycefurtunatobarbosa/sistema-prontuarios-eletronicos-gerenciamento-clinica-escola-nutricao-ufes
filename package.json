@@ -1,0 +1,13 @@
+{
+    "name": "cen",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+        "start:frontend": "cd frontend && npm run serve",
+        "start:backend": "cd backend && node src/app.js"
+    },
+    "dependencies": {
+        "concurrently": "^8.2.2",
+        "lodash": "^4.17.21"
+    }
+}
