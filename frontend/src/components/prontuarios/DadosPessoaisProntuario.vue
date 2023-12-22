@@ -7,7 +7,7 @@
             <div class="form-group row">
                 <div class="col">
                     <label for="nome" class="col-form-label">Nome completo:</label>
-                    <input type="text" class="form-control" v-model="nomeCompleto" />
+                    <input type="text" class="form-control" id="nome" v-model="dadosPessoais.nomeCompleto" />
                     <!-- @input="$emit('update:modelValue', nomeCompleto)" />  -->
                 </div>
             </div>
@@ -15,12 +15,12 @@
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="dataNascimento" class="col-form-label">Data de nascimento:</label>
-                    <input type="text" class="form-control" v-model="dataNascimento">
+                    <input type="text" class="form-control" id="dataNascimento" v-model="dadosPessoais.dataNascimento">
                 </div>
 
                 <div class="col">
                     <label for="sexo" class="col col-form-label">Sexo:</label>
-                    <select class="form-select" id="">
+                    <select class="form-select" id="sexo" v-model="dadosPessoais.sexo">
                         <option value="masculino">Masculino</option>
                         <option value="feminino">Feminino</option>
                         <option value="outro">Outro</option>
@@ -28,30 +28,30 @@
                 </div>
 
                 <div class="col">
-                    <label for="" class="col-form-label">Estado civil:</label>
-                    <input type="text" class="form-control" />
+                    <label for="estacoCivil" class="col-form-label">Estado civil:</label>
+                    <input type="text" class="form-control" id="estacoCivil" v-model="dadosPessoais.estadoCivil" />
                 </div>
             </div>
 
             <div class="form-group mt-3 row">
                 <div class="col">
-                    <label for="celular" class="col-form-label">Profissão:</label>
-                    <input type="text" class="form-control" />
+                    <label for="profissao" class="col-form-label">Profissão:</label>
+                    <input type="text" class="form-control" id="profissao" v-model="dadosPessoais.profissao" />
                 </div>
                 <div class="col">
-                    <label for="email" class="col-form-label">Escolaridade:</label>
-                    <input type="text" class="form-control" />
+                    <label for="escolaridade" class="col-form-label">Escolaridade:</label>
+                    <input type="text" class="form-control" id="escolaridade" v-model="dadosPessoais.escolaridade" />
                 </div>
             </div>
 
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="celular" class="col-form-label">Celular:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="celular" v-model="dadosPessoais.celular" />
                 </div>
                 <div class="col">
                     <label for="email" class="col-form-label">Email:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="email" v-model="dadosPessoais.email" />
                 </div>
             </div>
 
@@ -61,37 +61,37 @@
             <div class="form-group mt-4 row">
                 <div class="col">
                     <label for="rua" class="col-form-label">Rua:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="rua" v-model="endereco.rua" />
                 </div>
                 <div class="col-4">
                     <label for="numero" class="col-form-label">Número:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="numero" v-model="endereco.numero" />
                 </div>
             </div>
 
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="complemento" class="col-form-label">Complemento:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="complemento" v-model="endereco.complemento" />
                 </div>
                 <div class="col">
                     <label for="bairro" class="col-form-label">Bairro:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="bairro" v-model="endereco.bairro" />
                 </div>
             </div>
 
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="cidade" class="col-form-label">Cidade:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="cidade" v-model="endereco.cidade" />
                 </div>
                 <div class="col">
                     <label for="estado" class="col-form-label">Estado:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="estado" v-model="endereco.estado" />
                 </div>
                 <div class="col">
                     <label for="cep" class="col-form-label">CEP:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" id="cep" v-model="endereco.cep" />
                 </div>
             </div>
 
@@ -102,13 +102,21 @@
 <script>
 export default {
     name: "DadosPessoaisProntuario",
+    props: {
+        dadosPessoaisProps: {
+            type: Object,
+            required: true,
+        },
+        enderecoProps: {
+            type: Object,
+            required: true,
+        },
+    },
     data() {
         return {
-            nomeCompleto: '',
-            dataNascimento: '',
+            dadosPessoais: this.dadosPessoaisProps,
+            endereco: this.enderecoProps,
         };
     },
-}
+};
 </script>
-
-<style></style>

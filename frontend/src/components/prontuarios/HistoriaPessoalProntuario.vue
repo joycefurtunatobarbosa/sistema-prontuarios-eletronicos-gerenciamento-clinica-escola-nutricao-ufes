@@ -6,26 +6,26 @@
             <!-- História Atual -->
             <div class="form-group mt-3 row">
                 <div class="col">
-                    <label for="observacoes" class="col-3 col-form-label">Motivo da Consulta:</label>
-                    <textarea class="form-control" id="" name="" rows="4"></textarea>
+                    <label for="motivoConsulta" class="col-3 col-form-label">Motivo da Consulta:</label>
+                    <textarea class="form-control" rows="4" id="motivoConsulta" v-model="historiaPessoal.motivoConsulta"></textarea>
                 </div>
             </div>
 
             <!-- História Pregressa - Doenças -->
             <h5 class="text mt-5 text-primary"><b>4. HISTÓRIA PREGRESSA</b></h5>
             <div class="form-group mt-3">
-                <label for="doencaNome" class="col-form-label">Doenças:</label>
-                <textarea class="form-control" id="" name="" rows="3"></textarea>
+                <label for="doencas" class="col-form-label">Doenças:</label>
+                <textarea class="form-control" rows="3" id="doencas" v-model="historiaPessoal.doencas"></textarea>
             </div>
 
             <div class="form-group mt-3">
-                <label for="doencaNome" class="col-form-label">Internações:</label>
-                <textarea class="form-control" id="" name="" rows="3"></textarea>
+                <label for="internacoes" class="col-form-label">Internações:</label>
+                <textarea class="form-control" rows="3" id="internacoes" v-model="historiaPessoal.internacoes"></textarea>
             </div>
 
             <div class="form-group mt-3">
-                <label for="doencaNome" class="col-form-label">Cirugias:</label>
-                <textarea class="form-control" id="" name="" rows="3"></textarea>
+                <label for="cirurgias" class="col-form-label">Cirugias:</label>
+                <textarea class="form-control" rows="3" id="cirurgias" v-model="historiaPessoal.cirurgias"></textarea>
             </div>
         </form>
     </div>
@@ -36,7 +36,12 @@ export default {
     name: "HistoriaPessoalProntuario",
     data() {
         return {
-
+            historiaPessoal: {
+                motivoConsulta: "",
+                doencas: "",
+                internacoes: "",
+                cirurgias: "",
+            },
         };
     },
 }

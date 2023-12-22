@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  name: "CadastroAlunos",
+  name: "CadastroAluno",
   components: {},
   data() {
     return {
@@ -79,7 +79,7 @@ export default {
       })
         .then(response => response.json())
         .then(response => {
-          this.$router.push("/alunos-funcionarios", response.data);
+          this.$router.push("/alunos", response.data);
         })
         .catch(error => {
           console.error('Erro ao enviar dados para o servidor:', error);

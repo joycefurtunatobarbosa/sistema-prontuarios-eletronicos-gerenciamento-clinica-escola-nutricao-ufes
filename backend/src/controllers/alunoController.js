@@ -7,7 +7,7 @@ module.exports = function (app, mongo) {
         const alunoID = req.body.id;
         try {
             await mongo.connect();
-            const database = mongo.db('alunosServidores');
+            const database = mongo.db('cen');
             const colecao = database.collection('alunos');
 
             const aluno = await colecao.findOne({ _id: new ObjectId(alunoID) });
@@ -25,7 +25,7 @@ module.exports = function (app, mongo) {
 
         try {
             await mongo.connect();
-            const database = mongo.db('alunosServidores');
+            const database = mongo.db('cen');
             const colecao = database.collection('alunos');
 
             await colecao.updateOne(
@@ -47,14 +47,14 @@ module.exports = function (app, mongo) {
 
         try {
             await mongo.connect();
-            const database = mongo.db('alunosServidores');
+            const database = mongo.db('cen');
             const colecao = database.collection('alunos');
 
             const ultimoAlunoSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
-            if (ultimoAlunoSalvo == null){
+            if (ultimoAlunoSalvo == null) {
                 aluno.cod = 1;
             }
-            else{
+            else {
                 aluno.cod = ultimoAlunoSalvo.cod + 1;
             }
 
@@ -70,7 +70,7 @@ module.exports = function (app, mongo) {
     app.get('/listarAlunos', async (req, res) => {
         try {
             await mongo.connect();
-            const database = mongo.db('alunosServidores');
+            const database = mongo.db('cen');
             const colecao = database.collection('alunos');
             const alunos = await colecao.find().toArray();
 
@@ -85,7 +85,7 @@ module.exports = function (app, mongo) {
 
         try {
             await mongo.connect();
-            const database = mongo.db('alunosServidores');
+            const database = mongo.db('cen');
             const colecao = database.collection('alunos');
 
             await colecao.deleteOne({ _id: new ObjectId(id) });

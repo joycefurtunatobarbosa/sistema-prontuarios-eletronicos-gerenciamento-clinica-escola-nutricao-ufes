@@ -53,7 +53,7 @@
 <script>
 import { cloneDeep, isEqual } from "lodash";
 export default {
-  name: "editarAluno",
+  name: "EditarAluno",
   data() {
     return {
       aluno: {},

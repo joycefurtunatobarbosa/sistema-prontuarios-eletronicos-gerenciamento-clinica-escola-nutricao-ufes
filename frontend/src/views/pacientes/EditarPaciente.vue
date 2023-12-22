@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid col-6 mx-auto">
-    <h2 class="text-center mt-3"><b>Cadastrar um novo aluno</b></h2>
-    <form class="mt-5">
+    <h2 class="text-center mt-3 mb-5"><b>Editar um aluno</b></h2>
+    <form>
       <div class="form-group mt-3 row">
         <label for="nome" class="col-2 col-form-label">Nome:</label>
         <div class="col-10">
@@ -43,58 +43,69 @@
       </div>
 
       <div class="form-group mt-3" style="text-align: end;">
-        <router-link  class="btn btn-outline-secondary me-1" to="/alunos-funcionarios">Cancelar</router-link>
-        <button type="button" class="btn btn-primary" @click="salvarAluno(aluno)"> Salvar </button>
+        <button type="button" class="btn btn-primary me-1" @click="atualizarAluno(aluno)"> Salvar </button>
+        <router-link class="btn btn-outline-secondary" to="/alunos-funcionarios">Cancelar</router-link>
       </div>
     </form>
   </div>
 </template>
 
-
 <script>
-
+import { cloneDeep, isEqual } from "lodash";
 export default {
-  name: "CadastroAlunos",
-  components: {},
+  name: "EditarPaciente",
   data() {
     return {
-      aluno: {
-        cod: "",
-        nome: "",
-        matricula: "",
-        email: "",
-        celular: "",
-        projeto: "Alunos e Funcionários",
-      }
+      aluno: {},
+      alunoOriginal: {},
     };
   },
   mounted() {
-
+    this.carregarAluno(this.$route.params.id);
   },
   methods: {
-    salvarAluno(aluno) {
-      fetch('http://localhost:3000/salvarAluno', {
-        method: 'POST',
+    carregarAluno(id) {
+      fetch("http://localhost:3000/buscarAluno", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ aluno }),
-        mode: 'cors',
+        body: JSON.stringify({ id }),
+        mode: "cors",
       })
-        .then(response => response.json())
-        .then(response => {
-          this.$router.push("/", response.data);
+        .then((response) => response.json())
+        .then((data) => {
+          this.aluno = data.aluno;
+          this.alunoOriginal = cloneDeep(this.aluno);
         })
-        .catch(error => {
-          console.error('Erro ao enviar dados para o servidor:', error);
+        .catch((error) => {
+          console.error("Erro ao carregar dados dos alunos:", error);
         });
+    },
+    atualizarAluno(aluno) {
+      if (isEqual(this.aluno, this.alunoOriginal)) {
+        alert("Nenhuma alteração foi realizada.");
+        return;
+      }
+      else {
+        fetch("http://localhost:3000/atualizarAluno", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ aluno }),
+          mode: "cors",
+        })
+          .then((response) => response.json())
+          .then((response) => {
+            alert("Aluno atualizado com sucesso.");
+            this.$router.push("/alunos-funcionarios", response.data);
+          })
+          .catch((error) => {
+            console.error("Erro ao atualizar aluno:", error);
+          });
+      }
     }
-
   },
 };
-
 </script>
-
-<style>
-
-</style>
