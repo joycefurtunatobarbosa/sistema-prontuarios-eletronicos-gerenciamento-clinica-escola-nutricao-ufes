@@ -10,8 +10,17 @@ const porta = 3000;
 const conexao = 'mongodb+srv://gabrielnama:ugcYK4KayTIoRNl9@cen.vswafpl.mongodb.net/?retryWrites=true&w=majority';
 const mongo = new MongoClient(conexao);
 
+
 app.use(bodyParser.json());
 app.use(cors());
+
+// Middleware para tratamento de erros
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Algo deu errado!');
+    // Certifique-se de chamar next() para evitar que o aplicativo seja encerrado
+    next();
+});
 
 // Chama os controllers e passa o servidor express e o banco mongo
 require('./controllers/alunoController.js')(app, mongo);
@@ -20,4 +29,3 @@ require('./controllers/prontuarioController.js')(app, mongo);
 app.listen(porta, () => {
     console.log(`Servidor Node.js está rodando em http://localhost:${porta}`);
 });
-

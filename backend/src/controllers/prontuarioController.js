@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');
 module.exports = function (app, mongo) {
 
     app.post('/salvarProntuario', async (req, res) => {
-        const prontuario = req.body.dadosPessoais;
+        const prontuario = req.body.preProntuario;
         // const prontuarioID = req.body.prontuario._id;
         // delete prontuario._id;
         console.log(prontuario);
@@ -37,7 +37,7 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
             const prontuarios = await colecao.find().toArray();
-            console.log("Servidor: ", prontuarios);
+            console.log("BANCO DE DADOS: ", prontuarios);
 
             res.json({ prontuarios });
         } finally {

@@ -18,27 +18,27 @@
     <form>
       <!-- Componente de Dados Pessoais -->
       <div v-if="abas[0].active" class="show active">
-        <DadosPessoaisProntuario :dadosPessoaisProps="dadosPessoais" :enderecoProps="endereco" ref="dadosPessoaisForm" />
+        <DadosPessoaisComponent :dadosPessoaisProps="dadosPessoais" ref="dadosPessoaisForm" />
       </div>
       <!-- Componente de História Pessoais -->
       <div v-if="abas[1].active" class="show active">
-        <HistoriaPessoalProntuario ref="historiaPessoalForm" />
+        <HistoriaPessoalComponent :historiaPessoalProps="historiaPessoal" ref="historiaPessoalForm" />
       </div>
       <!-- Componente de História Familiar -->
       <div v-if="abas[2].active" class="fade show active">
-        <HistoriaFamiliarProntuario ref="historiaFamiliarForm" />
+        <HistoriaFamiliarComponent :historiaFamiliarProps="historiaFamiliar" ref="historiaFamiliarForm" />
       </div>
       <!-- Componente de Medicamentos -->
       <div v-if="abas[3].active" class="show active">
-        <MedicamentosProntuario ref="medicamentosForm" />
+        <MedicamentosComponent :medicamentosProps="medicamentos" ref="medicamentosForm" />
       </div>
       <!-- Componente de Anamnese -->
       <div v-if="abas[4].active" class="show active">
-        <AnamneseProntuario ref="anamneseForm" />
+        <AnamneseComponent :anamneseProps="anamnese" ref="anamneseForm" />
       </div>
       <!-- Componente de Refeições -->
       <div v-if="abas[5].active" class="show active">
-        <RefeicoesProntuario ref="refeicoesForm" />
+        <RefeicoesComponent :refeicoesProps="refeicoes" ref="refeicoesForm" />
       </div>
     </form>
 
@@ -48,7 +48,7 @@
         <button type="button" class="btn btn-outline-secondary" @click="anteriorAba">Anterior</button>
         <button type="button" class="btn btn-primary ms-2" @click="proximoAba">Próximo</button>
       </div>
-      <div class="col d-flex justify-content-end">
+      <div class="col d-flex justify-content-end" v-if="abas[5].active">
         <button class="btn btn-success" @click="salvarPreProntuario()">Enviar</button>
       </div>
     </div>
@@ -56,22 +56,31 @@
 </template>
 
 <script>
-import DadosPessoaisProntuario from '@/components/prontuarios/DadosPessoaisProntuario.vue';
-import HistoriaPessoalProntuario from '@/components/prontuarios/HistoriaPessoalProntuario.vue';
-import HistoriaFamiliarProntuario from '@/components/prontuarios/HistoriaFamiliarProntuario.vue';
-import MedicamentosProntuario from '@/components/prontuarios/MedicamentosProntuario.vue';
-import AnamneseProntuario from '@/components/prontuarios/AnamneseProntuario.vue';
-import RefeicoesProntuario from '@/components/prontuarios/RefeicoesProntuario.vue';
+// Componentes
+import DadosPessoaisComponent from '@/components/prontuarios/DadosPessoaisComponent.vue';
+import HistoriaPessoalComponent from '@/components/prontuarios/HistoriaPessoalComponent.vue';
+import HistoriaFamiliarComponent from '@/components/prontuarios/HistoriaFamiliarComponent.vue';
+import MedicamentosComponent from '@/components/prontuarios/MedicamentosComponent.vue';
+import AnamneseComponent from '@/components/prontuarios/AnamneseComponent.vue';
+import RefeicoesComponent from '@/components/prontuarios/RefeicoesComponent.vue';
+
+// Classes
+import DadosPessoais from '@/models/DadosPessoais';
+import HistoriaPessoal from '@/models/HistoriaPessoal';
+import HistoriaFamiliar from '@/models/HistoriaFamiliar';
+import Medicamentos from "@/models/Medicamentos";
+import Anamnese from "@/models/Anamnese";
+import Refeicoes from "@/models/Refeicoes";
 
 export default {
   name: "PreProntuario",
   components: {
-    DadosPessoaisProntuario,
-    HistoriaPessoalProntuario,
-    HistoriaFamiliarProntuario,
-    MedicamentosProntuario,
-    AnamneseProntuario,
-    RefeicoesProntuario
+    DadosPessoaisComponent,
+    HistoriaPessoalComponent,
+    HistoriaFamiliarComponent,
+    MedicamentosComponent,
+    AnamneseComponent,
+    RefeicoesComponent
   },
   data() {
     return {
@@ -83,16 +92,16 @@ export default {
         { label: 'Anamnese', id: 'anamnese', active: false },
         { label: 'Refeições', id: 'refeicoes', active: false },
       ],
-      dadosPessoais: {},
-      endereco: {},
-      historiaPessoal: {},
-      dadosFormulario: {},
-      preProntuario: [],
-      // Adicione propriedades para outras abas
+      dadosPessoais: new DadosPessoais(),
+      historiaPessoal: new HistoriaPessoal(),
+      historiaFamiliar: new HistoriaFamiliar(),
+      medicamentos: new Medicamentos(),
+      anamnese: new Anamnese(),
+      refeicoes: new Refeicoes(),
     };
   },
-  mounted() {
-    this.carregarProntuarios();
+  created() {
+    // this.carregarProntuarios();
   },
   methods: {
     topoPagina() {
@@ -104,43 +113,42 @@ export default {
       });
     },
     anteriorAba() {
-      // this.salvarDadosLocais();
       const abaAtual = this.abas.findIndex((aba) => aba.active);
       const newIndex = abaAtual > 0 ? abaAtual - 1 : abaAtual;
       this.trocarAba(newIndex);
       this.topoPagina();
     },
     proximoAba() {
-      // this.salvarDadosLocais();
       const abaAtual = this.abas.findIndex((aba) => aba.active);
       const newIndex = abaAtual < this.abas.length - 1 ? abaAtual + 1 : abaAtual;
       this.trocarAba(newIndex);
       this.topoPagina();
     },
     salvarPreProntuario() {
-      let dadosPessoais = this.dadosPessoais;
-      console.log("Dados pessoais: ", dadosPessoais);
-
+      let preProntuario = {
+        dadosPessoais: this.dadosPessoais,
+        historiaPessoal: this.historiaPessoal,
+        historiaFamiliar: this.historiaFamiliar,
+        medicamentos: this.medicamentos,
+        anamnese: this.anamnese,
+        refeicoes: this.refeicoes,
+      };
+      console.log("Pré-prontuário:", preProntuario);
       fetch('http://localhost:3000/salvarProntuario', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ dadosPessoais }),
+        body: JSON.stringify({ preProntuario }),
         mode: 'cors',
       })
         .then(response => response.json())
         .then(response => {
-          // this.$router.push("/alunos-funcionarios", response.data);
           alert("Prontuário salvo com sucesso!", response.data);
         })
         .catch(error => {
           console.error('Erro ao enviar dados para o servidor:', error);
         });
-    },
-    salvarDadosLocais() {
-      // console.log("Dados pessoais: ", this.dadosPessoais);
-      // console.log("Endereço: ", this.endereco);
     },
     carregarProntuarios() {
       fetch("http://localhost:3000/listarProntuarios", {
@@ -152,8 +160,12 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Banco de dados:", data.prontuarios);
-          this.dadosPessoais.nomeCompleto = data.prontuarios[0].nomeCompleto;
+          this.dadosPessoais = Object.assign(new DadosPessoais(), data.prontuarios[0].dadosPessoais);
+          this.historiaPessoal = Object.assign(new HistoriaPessoal(), data.prontuarios[0].historiaPessoal);
+          this.historiaFamiliar = Object.assign(new HistoriaFamiliar(), data.prontuarios[0].historiaFamiliar);
+          this.medicamentos = Object.assign(new Medicamentos(), data.prontuarios[0].medicamentos);
+          this.anamnese = Object.assign(new Anamnese(), data.prontuarios[0].anamnese);
+          this.refeicoes = Object.assign(new Refeicoes(), data.prontuarios[0].refeicoes);
         })
         .catch((error) => {
           console.error("Erro ao carregar dados dos prontuários:", error);

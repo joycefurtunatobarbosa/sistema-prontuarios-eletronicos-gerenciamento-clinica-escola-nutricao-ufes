@@ -7,7 +7,8 @@
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="motivoConsulta" class="col-3 col-form-label">Motivo da Consulta:</label>
-                    <textarea class="form-control" rows="4" id="motivoConsulta" v-model="historiaPessoal.motivoConsulta"></textarea>
+                    <textarea class="form-control" rows="4" id="motivoConsulta"
+                        v-model="historiaPessoal.motivoConsulta"></textarea>
                 </div>
             </div>
 
@@ -33,15 +34,16 @@
 
 <script>
 export default {
-    name: "HistoriaPessoalProntuario",
+    name: "HistoriaPessoalComponent",
+    props: {
+        historiaPessoalProps: {
+            type: Object,
+            required: true,
+        },
+    },
     data() {
         return {
-            historiaPessoal: {
-                motivoConsulta: "",
-                doencas: "",
-                internacoes: "",
-                cirurgias: "",
-            },
+            historiaPessoal: this.historiaPessoalProps,
         };
     },
 }

@@ -7,7 +7,7 @@
             <div class="form-group row">
                 <div class="col-4">
                     <label for="numeroRefeicoes" class="col-form-label">Nº de refeições diárias:</label>
-                    <input type="text" class="form-control" id="numeroRefeicoes" v-model="numeroRefeicoes" />
+                    <input type="text" class="form-control" id="numeroRefeicoes" v-model="refeicoes.qtdRefeicoes" />
                 </div>
             </div>
 
@@ -124,18 +124,16 @@
 
 <script>
 export default {
-    name: "RefeicoesProntuario",
+    name: "RefeicoesComponent",
+    props:{
+        refeicoesProps: {
+            type: Object,
+            required: true
+        },
+    },
     data() {
         return {
-            refeicoes: {
-                numeroRefeicoes: "",
-                cafeManha: { local: "", preparador: "", oleoGordura: "" },
-                lancheManha: { local: "", preparador: "", oleoGordura: "" },
-                almoco: { local: "", preparador: "", oleoGordura: "" },
-                lancheTarde: { local: "", preparador: "", oleoGordura: "" },
-                jantar: { local: "", preparador: "", oleoGordura: "" },
-                ceia: { local: "", preparador: "", oleoGordura: "" },
-            },
+            refeicoes: this.refeicoesProps,
         };
     },
 }

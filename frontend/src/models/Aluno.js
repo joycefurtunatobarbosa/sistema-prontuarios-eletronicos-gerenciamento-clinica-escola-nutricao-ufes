@@ -1,5 +1,6 @@
 class Aluno {
-    constructor(nome, matricula, email, projeto) {
+    constructor() {
+        this._id = "";
         this.cod = "";
         this.nome = nome;
         this.matricula = matricula;

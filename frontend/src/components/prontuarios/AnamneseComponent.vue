@@ -13,14 +13,14 @@
                         <label class="col-form-label">Tentativa anterior de dieta:</label>
 
                         <div class="form-check form-check-inline ms-2">
-                            <input class="form-check-input" type="radio" id="simDietaAnterior"
+                            <input class="form-check-input" type="radio" id="simDietaAnterior" value="Sim"
                                 v-model="anamnese.sobrePaciente.tentativaDieta" />
                             <label class="form-check-label" for="simDietaAnterior">Sim</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="naoDietaAnterior"
-                                v-model="anamnese.sobrePaciente.tentativaDieta" value="Não" />
+                            <input class="form-check-input" type="radio" id="naoDietaAnterior" value="Não"
+                                v-model="anamnese.sobrePaciente.tentativaDieta" />
                             <label class="form-check-label" for="naoDietaAnterior">Não</label>
                         </div>
                     </div>
@@ -33,14 +33,14 @@
                         <label class="col-form-label">Já usou medicamentos para emagrecer:</label>
 
                         <div class="form-check form-check-inline ms-2">
-                            <input class="form-check-input" type="radio" id="simMedicamentos"
+                            <input class="form-check-input" type="radio" id="simMedicamentos" value="Sim"
                                 v-model="anamnese.sobrePaciente.usoMedicamentos" />
                             <label class="form-check-label" for="simMedicamentos">Sim</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="naoMedicamentos"
-                                v-model="anamnese.sobrePaciente.usoMedicamentos" value="Não" />
+                            <input class="form-check-input" type="radio" id="naoMedicamentos" value="Não"
+                                v-model="anamnese.sobrePaciente.usoMedicamentos" />
                             <label class="form-check-label" for="naoMedicamentos">Não</label>
                         </div>
                     </div>
@@ -53,14 +53,14 @@
                         <label class="col-form-label">Alterações corporais durante a vida (efeito sanfona):</label>
 
                         <div class="form-check form-check-inline ms-2">
-                            <input class="form-check-input" type="radio" id="simAlteracoesCorporais"
+                            <input class="form-check-input" type="radio" id="simAlteracoesCorporais" value="Sim"
                                 v-model="anamnese.sobrePaciente.alteracoesCorporais" />
                             <label class="form-check-label" for="simAlteracoesCorporais">Sim</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="naoAlteracoesCorporais"
-                                v-model="anamnese.sobrePaciente.alteracoesCorporais" value="Não" />
+                            <input class="form-check-input" type="radio" id="naoAlteracoesCorporais" value="Não"
+                                v-model="anamnese.sobrePaciente.alteracoesCorporais" />
                             <label class="form-check-label" for="naoAlteracoesCorporais">Não</label>
                         </div>
                     </div>
@@ -151,12 +151,14 @@
 
                 <div class="col-3">
                     <label for="quantidadeFumo" class="col-form-label">Quantidade:</label>
-                    <input type="text" class="form-control" id="quantidadeFumo" v-model="anamnese.habitosGerais.quantidadeFumo" />
+                    <input type="text" class="form-control" id="quantidadeFumo"
+                        v-model="anamnese.habitosGerais.quantidadeFumo" />
                 </div>
 
                 <div class="col">
                     <label for="frequenciaFumo" class="col-form-label">Frequência:</label>
-                    <input type="text" class="form-control" id="frequenciaFumo" v-model="anamnese.habitosGerais.frequenciaFumo" />
+                    <input type="text" class="form-control" id="frequenciaFumo"
+                        v-model="anamnese.habitosGerais.frequenciaFumo" />
                 </div>
             </div>
 
@@ -225,7 +227,8 @@
             <div class="form-group row">
                 <div class="col">
                     <label for="tipoExercicio" class="col-form-label">Tipo:</label>
-                    <input type="text" class="form-control" id="tipoExercicio" v-model="anamnese.habitosGerais.tipoExercicio" />
+                    <input type="text" class="form-control" id="tipoExercicio"
+                        v-model="anamnese.habitosGerais.tipoExercicio" />
                 </div>
 
                 <div class="col">
@@ -253,16 +256,28 @@
             <h6 class="mt-5 mb-3"><b>● Ingestão de Água</b></h6>
             <div class="form-group row mt-4">
                 <div class="col">
-                    <label for="meioConsumoAgua" class="col col-form-label">Meio de consumo:</label>
-                    <select class="form-select" id="meioConsumoAgua" v-model="anamnese.habitosGerais.meioConsumoAgua">
+                    <label for="recipienteAgua" class="col col-form-label">Meio de consumo:</label>
+                    <select class="form-select" id="recipienteAgua" v-model="anamnese.habitosGerais.recipienteAgua">
                         <option value="Copo">Copos, canecas ou xícaras</option>
                         <option value="Garrafa">Garrafas ou garrafinhas</option>
                     </select>
                 </div>
 
                 <div class="col">
+                    <label for="capacidadeRecipienteAgua" class="col-form-label">Capacidade (ml):</label>
+                    <input type=text class="form-control" id="capacidadeRecipienteAgua"
+                        v-model="anamnese.habitosGerais.capacidadeRecipienteAgua" />
+                </div>
+
+                <div class="col">
+                    <label for="qtdRecipienteAgua" class="col-form-label">Quantidade:</label>
+                    <input type=text class="form-control" id="qtdRecipienteAgua"
+                        v-model="anamnese.habitosGerais.qtdRecipienteAgua" />
+                </div>
+
+                <div class="col">
                     <label for="consumoTotalAgua" class="col-form-label">Consumo total:</label>
-                    <textarea class="form-control" id="consumoTotalAgua" rows="3"
+                    <textarea class="form-control" id="consumoTotalAgua" rows="2"
                         v-model="anamnese.habitosGerais.consumoTotalAgua"></textarea>
                 </div>
             </div>
@@ -272,12 +287,14 @@
             <div class="form-group row mt-4">
                 <div class="col">
                     <label for="horarioDorme" class="col-form-label">Horário que dorme:</label>
-                    <input type="text" class="form-control" id="horarioDorme" v-model="anamnese.habitosGerais.horarioDorme" />
+                    <input type="text" class="form-control" id="horarioDorme"
+                        v-model="anamnese.habitosGerais.horarioDorme" />
                 </div>
 
                 <div class="col">
                     <label for="horarioAcorda" class="col-form-label">Horário que acorda:</label>
-                    <input type="text" class="form-control" id="horarioAcorda" v-model="anamnese.habitosGerais.horarioAcorda" />
+                    <input type="text" class="form-control" id="horarioAcorda"
+                        v-model="anamnese.habitosGerais.horarioAcorda" />
                 </div>
 
                 <div class="col">
@@ -289,7 +306,8 @@
             <div class="form-group row mt-4">
                 <div class="col">
                     <label for="qualidadeSono" class="col-form-label">Qualidade do sono:</label>
-                    <input type="text" class="form-control" id="qualidadeSono" v-model="anamnese.habitosGerais.qualidadeSono" />
+                    <input type="text" class="form-control" id="qualidadeSono"
+                        v-model="anamnese.habitosGerais.qualidadeSono" />
                 </div>
 
                 <div class="col">
@@ -304,47 +322,16 @@
 
 <script>
 export default {
-    name: "AnamneseProntuario",
+    name: "AnamneseComponent",
+    props: {
+        anamneseProps: {
+            type: Object,
+            required: true,
+        },
+    },
     data() {
         return {
-            anamnese: {
-                sobrePaciente: {
-                    tentativaDieta: "",
-                    usoMedicamentos: "",
-                    alteracoesCorporais: "",
-                },
-                preferenciasAlimentares: {
-                    periodoComFome: "",
-                    beliscaAlimento: "",
-                    produtosLightDiet: "",
-                    docesSobremesas: "",
-                    intoleranciaAlergia: "",
-                    aversaoAlimentar: "",
-                },
-                habitosGerais: {
-                    tempoTela: "",
-                    fuma: "",
-                    tipoFumo: "",
-                    quantidadeFumo: "",
-                    frequenciaFumo: "",
-                    bebe: "",
-                    tipoBebida: "",
-                    quantidadeBebida: "",
-                    frequenciaBebida: "",
-                    exercicios: "",
-                    tipoExercicio: "",
-                    horarioExercicio: "",
-                    duracaoExercicio: "",
-                    frequenciaExercicio: "",
-                    meioConsumoAgua: "",
-                    consumoTotalAgua: "",
-                    horarioDorme: "",
-                    horarioAcorda: "",
-                    horasSono: "",
-                    qualidadeSono: "",
-                    observacaoSono: "",
-                }
-            },
+            anamnese: this.anamneseProps,
         };
     },
 }

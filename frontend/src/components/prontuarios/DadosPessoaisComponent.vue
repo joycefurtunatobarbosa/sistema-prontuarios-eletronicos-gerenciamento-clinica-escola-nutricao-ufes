@@ -29,7 +29,14 @@
 
                 <div class="col">
                     <label for="estacoCivil" class="col-form-label">Estado civil:</label>
-                    <input type="text" class="form-control" id="estacoCivil" v-model="dadosPessoais.estadoCivil" />
+                    <select class="form-select" id="estadoCivil" v-model="dadosPessoais.estadoCivil">
+                        <option value="solteiro">Solteiro(a)</option>
+                        <option value="casado">Casado(a)</option>
+                        <option value="divorciado">Divorciado(a)</option>
+                        <option value="viuvo">Viúvo(a)</option>
+                        <option value="separado">Separado(a)</option>
+                        <option value="uniaoEstavel">União Estável</option>
+                    </select>
                 </div>
             </div>
 
@@ -61,37 +68,37 @@
             <div class="form-group mt-4 row">
                 <div class="col">
                     <label for="rua" class="col-form-label">Rua:</label>
-                    <input type="text" class="form-control" id="rua" v-model="endereco.rua" />
+                    <input type="text" class="form-control" id="rua" v-model="dadosPessoais.endereco.rua" />
                 </div>
                 <div class="col-4">
                     <label for="numero" class="col-form-label">Número:</label>
-                    <input type="text" class="form-control" id="numero" v-model="endereco.numero" />
+                    <input type="text" class="form-control" id="numero" v-model="dadosPessoais.endereco.numero" />
                 </div>
             </div>
 
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="complemento" class="col-form-label">Complemento:</label>
-                    <input type="text" class="form-control" id="complemento" v-model="endereco.complemento" />
+                    <input type="text" class="form-control" id="complemento" v-model="dadosPessoais.endereco.complemento" />
                 </div>
                 <div class="col">
                     <label for="bairro" class="col-form-label">Bairro:</label>
-                    <input type="text" class="form-control" id="bairro" v-model="endereco.bairro" />
+                    <input type="text" class="form-control" id="bairro" v-model="dadosPessoais.endereco.bairro" />
                 </div>
             </div>
 
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="cidade" class="col-form-label">Cidade:</label>
-                    <input type="text" class="form-control" id="cidade" v-model="endereco.cidade" />
+                    <input type="text" class="form-control" id="cidade" v-model="dadosPessoais.endereco.cidade" />
                 </div>
                 <div class="col">
                     <label for="estado" class="col-form-label">Estado:</label>
-                    <input type="text" class="form-control" id="estado" v-model="endereco.estado" />
+                    <input type="text" class="form-control" id="estado" v-model="dadosPessoais.endereco.estado" />
                 </div>
                 <div class="col">
                     <label for="cep" class="col-form-label">CEP:</label>
-                    <input type="text" class="form-control" id="cep" v-model="endereco.cep" />
+                    <input type="text" class="form-control" id="cep" v-model="dadosPessoais.endereco.cep" />
                 </div>
             </div>
 
@@ -101,13 +108,9 @@
 
 <script>
 export default {
-    name: "DadosPessoaisProntuario",
+    name: "DadosPessoaisComponent",
     props: {
         dadosPessoaisProps: {
-            type: Object,
-            required: true,
-        },
-        enderecoProps: {
             type: Object,
             required: true,
         },
@@ -115,7 +118,6 @@ export default {
     data() {
         return {
             dadosPessoais: this.dadosPessoaisProps,
-            endereco: this.enderecoProps,
         };
     },
 };
