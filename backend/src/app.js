@@ -6,8 +6,8 @@ const cors = require('cors');
 const app = express();
 const porta = 3000;
 
-// const conexao = 'mongodb://localhost:27017';
-const conexao = 'mongodb+srv://gabrielnama:ugcYK4KayTIoRNl9@cen.vswafpl.mongodb.net/?retryWrites=true&w=majority';
+const conexao = 'mongodb://localhost:27017';
+// const conexao = 'mongodb+srv://gabrielnama:ugcYK4KayTIoRNl9@cen.vswafpl.mongodb.net/?retryWrites=true&w=majority';
 const mongo = new MongoClient(conexao);
 
 

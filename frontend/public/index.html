@@ -7,6 +7,7 @@
   <title>Clínica Escola de Nutrição</title>
   <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
   <link rel="stylesheet" href="../assets/css/styles.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <body>
@@ -31,11 +32,27 @@
           <ul id="sidebarnav">
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">CLÍNICA</span>
+              <span class="hide-menu">ADMINISTRAÇÃO</span>
             </li>
 
             <li class="sidebar-item">
               <a class="sidebar-link" href="/" aria-expanded="false">
+                <span>
+                  <i class="ti ti-clipboard-text"></i>
+                </span>
+                <span class="hide-menu">Gerenciamento</span>
+              </a>
+            </li>
+          </ul>
+
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">CLÍNICA</span>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/atendimentos" aria-expanded="false">
                 <span>
                   <i class="ti ti-clipboard-text"></i>
                 </span>
@@ -164,12 +181,10 @@
       <!--  Header End -->
       <div class="container-fluid" style="max-width: 1400px;">
         <div class="card">
-          <div class="card-body">
-
+          <div class="card-body" style="min-width: 550px;">
             <div id="app">
               <!-- Conteúdo incluído com o Vue -->
             </div>
-
           </div>
         </div>
       </div>

@@ -45,8 +45,8 @@
     <!-- Botões de navegação -->
     <div class="form-group mt-3 row">
       <div class="col d-flex justify-content-start">
-        <button type="button" class="btn btn-outline-secondary" @click="anteriorAba">Anterior</button>
-        <button type="button" class="btn btn-primary ms-2" @click="proximoAba">Próximo</button>
+        <button type="button" class="btn btn-outline-secondary me-2" v-if="!abas[0].active" @click="anteriorAba">Anterior</button>
+        <button type="button" class="btn btn-primary" v-if="!abas[5].active" @click="proximoAba">Próximo</button>
       </div>
       <div class="col d-flex justify-content-end" v-if="abas[5].active">
         <button class="btn btn-success" @click="salvarPreProntuario()">Enviar</button>
@@ -106,6 +106,7 @@ export default {
   methods: {
     topoPagina() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     trocarAba(index) {
       this.abas.forEach((aba, abaIndex) => {
@@ -115,14 +116,15 @@ export default {
     anteriorAba() {
       const abaAtual = this.abas.findIndex((aba) => aba.active);
       const newIndex = abaAtual > 0 ? abaAtual - 1 : abaAtual;
-      this.trocarAba(newIndex);
       this.topoPagina();
+      this.trocarAba(newIndex);
     },
     proximoAba() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       const abaAtual = this.abas.findIndex((aba) => aba.active);
       const newIndex = abaAtual < this.abas.length - 1 ? abaAtual + 1 : abaAtual;
-      this.trocarAba(newIndex);
       this.topoPagina();
+      this.trocarAba(newIndex);
     },
     salvarPreProntuario() {
       let preProntuario = {

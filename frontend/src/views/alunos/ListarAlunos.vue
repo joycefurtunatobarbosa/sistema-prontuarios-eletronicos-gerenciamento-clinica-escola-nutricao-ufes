@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  name: "Alunos",
+  name: "ListarAlunos",
   data() {
     return {
       alunos: [],

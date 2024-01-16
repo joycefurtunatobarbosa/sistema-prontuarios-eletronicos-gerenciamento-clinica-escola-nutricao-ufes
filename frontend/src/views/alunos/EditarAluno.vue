@@ -44,7 +44,7 @@
 
       <div class="form-group mt-3" style="text-align: end;">
         <button type="button" class="btn btn-primary me-1" @click="atualizarAluno(aluno)"> Salvar </button>
-        <router-link class="btn btn-outline-secondary" to="/alunos-funcionarios">Cancelar</router-link>
+        <router-link class="btn btn-outline-secondary" to="/alunos">Cancelar</router-link>
       </div>
     </form>
   </div>

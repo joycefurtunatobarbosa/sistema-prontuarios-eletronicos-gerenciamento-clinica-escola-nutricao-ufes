@@ -1,0 +1,6 @@
+// Se precisar do tokken
+2GE9BdgXPOrIqobOoDbb8uvErsz_3opNWQrHYUqqATySXzRZL
+
+//Executar o túnel
+ngrok http --host-header="localhost:8080" https://localhost:8080
+ou npm run ngrok
