@@ -18,7 +18,6 @@ app.use(cors());
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Algo deu errado!');
-    // Certifique-se de chamar next() para evitar que o aplicativo seja encerrado
     next();
 });
 

@@ -4,14 +4,16 @@ import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 /* Importar os meus componentes do Vue */
-import AlunosClinica from "./views/atendimentos/AlunosClinica.vue";
+import Gerenciamento from "./views/administracao/Gerenciamento.vue";
+import AlunoPacientes from "./views/administracao/AlunoPacientes.vue";
+import Paciente from "./views/administracao/Paciente.vue";
+import AtendimentosDoPaciente from "./views/administracao/AtendimentosDoPaciente.vue";
+
 import CadastroAtendimento from "./views/atendimentos/CadastroAtendimento.vue";
 import EditarAtendimento from "./views/atendimentos/EditarAtendimento.vue";
 import ListarAlunos from "./views/alunos/ListarAlunos.vue";
 import CadastroAluno from "./views/alunos/CadastroAluno.vue";
 import EditarAluno from "./views/alunos/EditarAluno.vue";
-import AlunoPacientes from "./views/atendimentos/AlunoPacientes.vue";
-import Paciente from "./views/atendimentos/Paciente.vue";
 import CadastroPaciente from "./views/pacientes/CadastroPaciente.vue";
 import Pacientes from "./views/pacientes/Pacientes.vue";
 import EditarPaciente from "./views/pacientes/EditarPaciente.vue";
@@ -24,23 +26,26 @@ import Obesidade from "./views/preProntuarios/Obesidade.vue";
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        /* CLÍNICA */
 
+        /* ADMINISTRAÇÃO */
+        { path: "/", component: Gerenciamento },
+
+        /* CLÍNICA */
         // Atendimentos
-        { path: "/", component: AlunosClinica },
         { path: "/cadastrar-atendimento", component: CadastroAtendimento },
         { path: "/editar-atendimento/:id", component: EditarAtendimento },
 
         // Alunos
         { path: "/alunos", component: ListarAlunos },
-        { path: "/cadastrar-aluno", component: CadastroAluno },     
+        { path: "/cadastrar-aluno", component: CadastroAluno },
         { path: "/editar-aluno/:id", component: EditarAluno },
-        
+
         //Aluno -> Pacientes
         { path: "/aluno-pacientes", component: AlunoPacientes },
 
         //Paciente
         { path: "/paciente", component: Paciente },
+        { path: "/paciente-atendimentos", component: AtendimentosDoPaciente },
 
         // Pacientes
         { path: "/pacientes", component: Pacientes },

@@ -1,0 +1,83 @@
+<template>
+  <div class="container-fluid text-center">
+    <h2 class="text-center"><b>Paciente: </b>{{ aluno.pacientes.nome }}</h2>
+    <h5 class="text-end" style="margin-top: -30px;"><b>Status: </b>Em atendimento</h5>
+
+    <div class="d-flex justify-content-center flex-column">
+
+      <div class="d-flex justify-content-center flex-wrap">
+        <div class="m-1">
+          <h6 id="subtitulo" class="mt-4 mb-3">Atendimentos</h6>
+          <div class="d-flex flex-wrap gap-2">
+            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
+              <IconFileFilled class="icon-user me-2" /> 1º atendimento
+            </router-link>
+
+            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
+              <IconFileFilled class="icon-user me-2" /> Retorno 1
+            </router-link>
+
+            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
+              <IconFileFilled class="icon-user me-2" /> Retorno 2
+            </router-link>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<script>
+// import { IconFilePlus } from '@tabler/icons-vue';
+import { IconFileFilled } from '@tabler/icons-vue';
+export default {
+  name: "AtendimentosDoPaciente",
+  components: {
+    // IconFilePlus,
+    IconFileFilled,
+  },
+  data() {
+    return {
+      aluno: {
+        nome: 'Joyce Barbosa',
+        pacientes: {
+          nome: 'Gabriel Namã',
+        },
+      },
+    }
+  },
+};
+
+</script>
+
+<style>
+#subtitulo {
+  text-align: left;
+}
+
+h5 {
+  /*color: var(--dt-on-surface,#3c4043);*/
+  /* color: #5A6A85; */
+  color: #3e4449;
+}
+
+.botao-navegacao {
+  /* color: var(--bs-heading-color, inherit); */
+  /* color: var(--dt-on-surface,rgb(60,64,67)); */
+  /* color: var(--bs-table-color); */
+  /* color: #32373b; */
+  color: #32373b;
+  font-size: 14px;
+  background-color: #F0F4F9;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-user {
+  width: 18px;
+  /* margin-right: 10px; */
+}
+</style>
