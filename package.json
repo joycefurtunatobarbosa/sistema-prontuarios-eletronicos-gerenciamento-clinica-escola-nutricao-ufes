@@ -4,8 +4,7 @@
     "scripts": {
         "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
         "start:frontend": "cd frontend && npm run serve",
-        "start:backend": "cd backend && node src/app.js",
-        "ngrok": "ngrok http --host-header=\"localhost:8080\" https://localhost:8080"
+        "start:backend": "cd backend && node src/app.js"
     },
     "dependencies": {
         "concurrently": "^8.2.2",

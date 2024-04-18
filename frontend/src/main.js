@@ -8,6 +8,7 @@ import Gerenciamento from "./views/administracao/Gerenciamento.vue";
 import AlunoPacientes from "./views/administracao/AlunoPacientes.vue";
 import Paciente from "./views/administracao/Paciente.vue";
 import AtendimentosDoPaciente from "./views/administracao/AtendimentosDoPaciente.vue";
+import FilaPacientes from "./views/atendimentos/FilaPacientes.vue";
 
 import CadastroAtendimento from "./views/atendimentos/CadastroAtendimento.vue";
 import EditarAtendimento from "./views/atendimentos/EditarAtendimento.vue";
@@ -34,6 +35,7 @@ const router = createRouter({
         // Atendimentos
         { path: "/cadastrar-atendimento", component: CadastroAtendimento },
         { path: "/editar-atendimento/:id", component: EditarAtendimento },
+        { path: "/fila", component: FilaPacientes },
 
         // Alunos
         { path: "/alunos", component: ListarAlunos },
