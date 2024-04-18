@@ -13,7 +13,7 @@
               <IconFileFilled class="icon-user me-2" /> Prontuário
             </router-link>
 
-            <router-link class="btn btn-outline-primary botao-navegacao" to="">
+            <router-link class="btn btn-outline-primary botao-navegacao" to="/exames">
               <IconFileFilled class="icon-user me-2" /> Exames
             </router-link>
 

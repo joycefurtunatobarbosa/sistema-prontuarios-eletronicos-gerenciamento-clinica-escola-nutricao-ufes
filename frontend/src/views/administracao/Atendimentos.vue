@@ -93,7 +93,7 @@
 <script>
 import { IconUserFilled } from '@tabler/icons-vue';
 export default {
-  name: "Gerenciamento",
+  name: "Atendimentos",
   components: {
     IconUserFilled,
   },

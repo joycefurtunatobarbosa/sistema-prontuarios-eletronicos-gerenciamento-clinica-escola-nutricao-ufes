@@ -4,9 +4,10 @@ import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 /* Importar os meus componentes do Vue */
-import Gerenciamento from "./views/administracao/Gerenciamento.vue";
+import Atendimentos from "./views/administracao/Atendimentos.vue";
 import AlunoPacientes from "./views/administracao/AlunoPacientes.vue";
 import Paciente from "./views/administracao/Paciente.vue";
+import Exames from "./views/administracao/Exames.vue";
 import AtendimentosDoPaciente from "./views/administracao/AtendimentosDoPaciente.vue";
 import FilaPacientes from "./views/atendimentos/FilaPacientes.vue";
 
@@ -29,7 +30,7 @@ const router = createRouter({
     routes: [
 
         /* ADMINISTRAÇÃO */
-        { path: "/", component: Gerenciamento },
+        { path: "/", component: Atendimentos },
 
         /* CLÍNICA */
         // Atendimentos
@@ -47,6 +48,7 @@ const router = createRouter({
 
         //Paciente
         { path: "/paciente", component: Paciente },
+        { path: "/exames", component: Exames },
         { path: "/paciente-atendimentos", component: AtendimentosDoPaciente },
 
         // Pacientes

@@ -26,7 +26,10 @@
           <th>Nome</th>
           <th>Idade</th>
           <th>Motivo</th>
+          <th>Projeto</th>
           <th>Prioridade</th>
+          <th>Status</th>
+          <th>Opções</th>
         </tr>
       </thead>
       <tbody>
@@ -37,10 +40,12 @@
           <td>{{ paciente.nome }}</td>
           <td>{{ paciente.idade }}</td>
           <td>{{ paciente.motivo }}</td>
+          <td>{{ paciente.projeto }}</td>
           <td>{{ paciente.prioridade }}</td>
+          <td>{{ paciente.status }}</td>
           <td>
-            <button @click="stop" class="btn btn-warning me-1"> Atender </button>
-            <button @click="stop" class="btn btn-danger"> Mudar prioridade </button>
+            <button @click="stop" class="btn btn-success me-1"> Atender </button>
+            <!-- <button @click="stop" class="btn btn-danger"> Mudar prioridade </button> -->
           </td>
         </tr>
 
@@ -63,6 +68,7 @@ export default {
           idade: 20,
           motivo: "Emagrecer",
           prioridade: "Baixa",
+          status: "Em atendimento",
           projeto: "Alunos e Funcionários",
         },
         {
@@ -71,7 +77,8 @@ export default {
           idade: 35,
           motivo: "Controlar diabetes",
           prioridade: "Média",
-          projeto: "Alunos e Funcionários",
+          status: "Na fila",
+          projeto: "Obesidade",
         },
         {
           cod: "003",
@@ -79,7 +86,8 @@ export default {
           idade: 45,
           motivo: "Diminuir a pressão",
           prioridade: "Alta",
-          projeto: "Alunos e Funcionários",
+          status: "Na fila",
+          projeto: "Cardiovascular",
         }
       ]
     };

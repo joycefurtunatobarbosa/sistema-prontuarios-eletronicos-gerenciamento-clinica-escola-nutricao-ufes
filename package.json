@@ -7,7 +7,11 @@
         "start:backend": "cd backend && node src/app.js"
     },
     "dependencies": {
+        "bootstrap": "^5.3.3",
         "concurrently": "^8.2.2",
-        "lodash": "^4.17.21"
+        "jquery": "^3.7.1",
+        "lodash": "^4.17.21",
+        "pdfjs-dist": "^4.1.392",
+        "popper.js": "^1.16.1"
     }
 }

@@ -1,18 +1,51 @@
 <template>
   <div class="container-fluid text-center">
-    <h2 class="text-center"><b>Paciente: </b>{{ aluno.pacientes.nome }}</h2>
-    <h5 class="text-end" style="margin-top: -30px;"><b>Status: </b>Em atendimento</h5>
+
+    <div class="row">
+      <div class="col mt-2" id="status">
+        <h6 class="text-end"><b>Status: </b>Em atendimento</h6>
+      </div>
+
+      <div class="col-12 mx-auto text-center">
+        <h2><b>Paciente: </b>{{ aluno.pacientes.nome }}</h2>
+      </div>
+    </div>
 
     <div class="d-flex justify-content-center flex-column">
 
       <div class="d-flex justify-content-center flex-wrap">
-        <div class="m-1">
-          <h6 id="subtitulo" class="mt-4 mb-3">Atendimentos</h6>
+
+        <div class="row col-8 mt-4">
+          <h5 id="subtitulo" class="col-8 mt-2">CONSULTAS</h5>
+          <h6 class="text-end col"><router-link class="btn btn-primary" to="/cadastrar-aluno">+ 1</router-link></h6>
+
           <div class="d-flex flex-wrap gap-2">
             <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
               <IconFileFilled class="icon-user me-2" /> 1º atendimento
             </router-link>
+          </div>
+        </div>
 
+        <div class="row col-8 mt-4">
+          <h5 id="subtitulo" class="col-8 mt-2">ENTREGAS DE PLANOS</h5>
+          <h6 class="text-end col"><router-link class="btn btn-primary" to="/cadastrar-aluno">+ 1</router-link></h6>
+
+          <div class="d-flex flex-wrap gap-2">
+            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
+              <IconFileFilled class="icon-user me-2" /> Plano Alimentar 1
+            </router-link>
+
+            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
+              <IconFileFilled class="icon-user me-2" /> Plano Alimentar 2
+            </router-link>
+          </div>
+        </div>
+
+        <div class="row col-8 mt-4">
+          <h5 id="subtitulo" class="col-8 mt-2">RETORNOS</h5>
+          <h6 class="text-end col"><router-link class="btn btn-primary" to="/cadastrar-aluno">+ 1</router-link></h6>
+
+          <div class="d-flex flex-wrap gap-2">
             <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
               <IconFileFilled class="icon-user me-2" /> Retorno 1
             </router-link>
@@ -52,8 +85,13 @@ export default {
 </script>
 
 <style>
+#status {
+  margin-bottom: -50px;
+}
+
 #subtitulo {
   text-align: left;
+  color: black;
 }
 
 h5 {
