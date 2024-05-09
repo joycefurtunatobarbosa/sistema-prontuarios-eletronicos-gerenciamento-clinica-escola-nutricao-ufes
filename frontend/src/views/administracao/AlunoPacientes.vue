@@ -6,19 +6,19 @@
       <div class="m-1">
         <h6 id="subtitulo" class="mt-4 mb-3">Pacientes</h6>
         <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente-atendimentos">
+          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
             <IconUserFilled class="icon-user me-2" /> {{ aluno.pacientes.nome }}
           </router-link>
 
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente-atendimentos">
+          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
             <IconUserFilled class="icon-user me-2" /> {{ aluno.pacientes.nome }}
           </router-link>
 
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente-atendimentos">
+          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
             <IconUserFilled class="icon-user me-2" /> {{ aluno.pacientes.nome }}
           </router-link>
 
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente-atendimentos">
+          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
             <IconUserFilled class="icon-user me-2" /> {{ aluno.pacientes.nome }}
           </router-link>
         </div>

@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-center flex-wrap">
+    <!-- <div class="d-flex justify-content-center flex-wrap">
       <div class="m-1">
         <h6 class="mt-4 mb-3">Cardiovascular</h6>
         <div class="d-flex flex-wrap gap-2">
@@ -86,7 +86,7 @@
           </router-link>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
