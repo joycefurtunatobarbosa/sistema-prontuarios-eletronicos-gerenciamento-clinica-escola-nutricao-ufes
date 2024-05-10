@@ -35,7 +35,7 @@
       </div>
       <div class="row">
         <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-secondary botao-navegacao" to="/exames">
+          <router-link class="btn btn-outline-secondary botao-navegacao" to="">
             <IconFileFilled class="icon-user me-2" /> Plano alimentar
           </router-link>
         </div>
@@ -76,16 +76,16 @@
           </div>
           <div class="modal-body">
             <!-- Formulário de upload de arquivos -->
-            <form action="#" method="post" enctype="multipart/form-data">
+            <form>
               <div class="mb-3">
                 <label for="fileNameInput" class="form-label">Nome do arquivo:</label>
-                <input type="text" class="form-control" id="fileNameInput" name="fileName">
+                <input type="text" class="form-control" id="nomeArquivo" name="fileName">
               </div>
               <div class="mb-3">
                 <label for="fileInput" class="form-label">Selecione o arquivo:</label>
-                <input type="file" class="form-control" id="fileInput" name="file">
+                <input type="file" class="form-control" id="arquivo" name="file">
               </div>
-              <button type="submit" class="btn btn-primary">Enviar</button>
+              <button type="button" class="btn btn-primary" @click="enviarArquivo()" data-bs-dismiss="modal">Enviar</button>
             </form>
           </div>
         </div>
@@ -97,6 +97,7 @@
 
 <script>
 import { IconFileFilled } from '@tabler/icons-vue';
+
 export default {
   name: "Paciente",
   components: {
@@ -112,6 +113,46 @@ export default {
       },
     }
   },
+  methods: {
+    enviarArquivo() {
+      // Obtém o nome do arquivo do input de texto
+      const nomeArquivo = document.getElementById('nomeArquivo').value;
+
+      // Obtém o arquivo selecionado do input file
+      const arquivoInput = document.getElementById('arquivo');
+      const arquivo = arquivoInput.files[0];
+
+      // Verifica se um arquivo foi selecionado
+      if (!arquivo) {
+        console.error('Nenhum arquivo selecionado.');
+        return;
+      }
+      const formData = new FormData();
+      formData.append('fileName', nomeArquivo);
+      formData.append('file', arquivo);
+
+      fetch('http://localhost:3000/salvarArquivo', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('Arquivo enviado com sucesso.');
+            // Limpa os campos do formulário
+            document.getElementById('nomeArquivo').value = '';
+            document.getElementById('arquivo').value = '';
+          } else {
+            console.error('Erro ao enviar arquivo:', response.statusText);
+            // Lógica adicional em caso de erro no envio
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao enviar arquivo:', error);
+          // Lógica adicional em caso de erro de rede ou outro erro
+        });
+    },
+
+  }
 };
 
 </script>

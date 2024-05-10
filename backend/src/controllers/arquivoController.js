@@ -1,17 +1,21 @@
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const path = require("path");
+const multer = require("multer");
 
-app.post('/salvarExame', async (req, res) => {
-    const alunoID = req.body.id;
-    try {
-        await mongo.connect();
-        const database = mongo.db('cen');
-        const colecao = database.collection('alunos');
-
-        const aluno = await colecao.findOne({ _id: new ObjectId(alunoID) });
-        res.json({ aluno });
-
-    } finally {
-        await mongo.close();
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "uploads/")
+    },
+    filename: function (req, file, cb) {
+        cb(null, req.body.fileName + " - " + Date.now() + path.extname(file.originalname));
     }
 });
+
+const upload = multer({ storage });
+
+module.exports = function (app, mongo) {
+    app.post('/salvarArquivo', upload.single("file"), (req, res) => {
+        console.log("Arquivo recebido:", req.file);
+        console.log("Nome do arquivo:", req.body.fileName);
+        res.send('Arquivo recebido com sucesso.');
+    });
+};
