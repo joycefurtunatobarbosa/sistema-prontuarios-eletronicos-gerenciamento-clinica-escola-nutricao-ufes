@@ -29,15 +29,19 @@
     <div class="m-1 mt-4">
       <div class="row align-items-center">
         <h6 id="subtitulo" class="col">Arquivos</h6>
-        <h6 class="text-end col ">
+        <h6 class="text-end col">
           <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uploadArquivoModal">Adicionar</button>
         </h6>
       </div>
       <div class="row">
         <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-secondary botao-navegacao" to="">
-            <IconFileFilled class="icon-user me-2" /> Plano alimentar
-          </router-link>
+          <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
+          <template v-for="arquivo in paciente.arquivos" :key="arquivo">
+            <a :href="`http://localhost:3000/uploads/${arquivo}`" class="btn btn-outline-secondary botao-navegacao"
+              target="_blank">
+              <IconFileFilled class="icon-user me-2" /> {{ arquivo }}
+            </a>
+          </template>
         </div>
       </div>
     </div>
@@ -85,7 +89,8 @@
                 <label for="fileInput" class="form-label">Selecione o arquivo:</label>
                 <input type="file" class="form-control" id="arquivo" name="file">
               </div>
-              <button type="button" class="btn btn-primary" @click="enviarArquivo()" data-bs-dismiss="modal">Enviar</button>
+              <button type="button" class="btn btn-primary" @click="enviarArquivo()"
+                data-bs-dismiss="modal">Enviar</button>
             </form>
           </div>
         </div>
@@ -105,15 +110,41 @@ export default {
   },
   data() {
     return {
+      paciente: {},
       aluno: {
         nome: 'Joyce Barbosa',
         pacientes: {
           nome: 'Gabriel Namã',
         },
       },
+      arquivos: [
+        "Gabriel - 1715347732644.png",
+        "OutroArquivo.txt",
+        "DocumentoImportante.pdf"
+      ]
     }
   },
+  mounted() {
+    this.carregarPaciente(1);
+  },
   methods: {
+    carregarPaciente(cod) {
+      fetch(`http://localhost:3000/buscarPaciente/${cod}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.paciente = data; // Como o objeto paciente já é retornado, não é necessário acessar data.paciente
+          console.log("Paciente encontrado:", this.paciente);
+        })
+        .catch((error) => {
+          console.error("Erro ao carregar dados do paciente:", error);
+        });
+    },
     enviarArquivo() {
       // Obtém o nome do arquivo do input de texto
       const nomeArquivo = document.getElementById('nomeArquivo').value;
@@ -121,6 +152,9 @@ export default {
       // Obtém o arquivo selecionado do input file
       const arquivoInput = document.getElementById('arquivo');
       const arquivo = arquivoInput.files[0];
+
+      // Obtém o código do paciente
+      // const codigoPaciente = document.getElementById('codigoPaciente').value;
 
       // Verifica se um arquivo foi selecionado
       if (!arquivo) {
@@ -130,6 +164,7 @@ export default {
       const formData = new FormData();
       formData.append('fileName', nomeArquivo);
       formData.append('file', arquivo);
+      formData.append('cod', 1); // Adiciona o código do paciente
 
       fetch('http://localhost:3000/salvarArquivo', {
         method: 'POST',
@@ -141,6 +176,7 @@ export default {
             // Limpa os campos do formulário
             document.getElementById('nomeArquivo').value = '';
             document.getElementById('arquivo').value = '';
+            document.getElementById('codigoPaciente').value = ''; // Limpa o campo do código do paciente
           } else {
             console.error('Erro ao enviar arquivo:', response.statusText);
             // Lógica adicional em caso de erro no envio
@@ -150,8 +186,9 @@ export default {
           console.error('Erro ao enviar arquivo:', error);
           // Lógica adicional em caso de erro de rede ou outro erro
         });
-    },
-
+        // Atualiza a página
+        window.location.reload();
+    }
   }
 };
 

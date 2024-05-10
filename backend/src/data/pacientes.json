@@ -12,5 +12,6 @@
         "cidade": "",
         "estado": "",
         "cep": ""
-    }
+    },
+    "arquivos": []
 }
