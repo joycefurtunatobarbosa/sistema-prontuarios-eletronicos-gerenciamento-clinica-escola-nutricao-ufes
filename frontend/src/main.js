@@ -44,10 +44,11 @@ const router = createRouter({
         { path: "/editar-aluno/:id", component: EditarAluno },
 
         //Aluno -> Pacientes
-        { path: "/aluno-pacientes", component: AlunoPacientes },
+        // { path: "/aluno-pacientes:cod", component: AlunoPacientes },
+        {path: '/aluno-pacientes/:codAluno', component: AlunoPacientes, props: true},
 
         //Paciente
-        { path: "/paciente", component: Paciente },
+        { path: "/paciente/:codPaciente", component: Paciente, props: true },
         { path: "/exames", component: Exames },
         { path: "/paciente-atendimentos", component: AtendimentosDoPaciente },
 

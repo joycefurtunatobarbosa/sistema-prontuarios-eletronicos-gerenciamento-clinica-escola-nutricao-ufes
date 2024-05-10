@@ -1,6 +1,6 @@
 <template>
   <div class="titulo mb-5">
-    <h2 class="text-center"><b>Paciente: </b>{{ aluno.pacientes.nome }}</h2>
+    <h2 class="text-center"><b>Paciente: </b>{{ paciente.nome }}</h2>
     <h6 class="text-end" style="margin-top: -30px;"><b>Status: </b>Em atendimento</h6>
   </div>
 
@@ -108,24 +108,26 @@ export default {
   components: {
     IconFileFilled,
   },
+  props: ['codPaciente'],
   data() {
     return {
       paciente: {},
-      aluno: {
-        nome: 'Joyce Barbosa',
-        pacientes: {
-          nome: 'Gabriel Namã',
-        },
-      },
-      arquivos: [
-        "Gabriel - 1715347732644.png",
-        "OutroArquivo.txt",
-        "DocumentoImportante.pdf"
-      ]
+      // aluno: {
+      //   nome: 'Joyce Barbosa',
+      //   pacientes: {
+      //     nome: 'Gabriel Namã',
+      //     cod: '1'
+      //   },
+      // },
+      // arquivos: [
+      //   "Gabriel - 1715347732644.png",
+      //   "OutroArquivo.txt",
+      //   "DocumentoImportante.pdf"
+      // ]
     }
   },
   mounted() {
-    this.carregarPaciente(1);
+    this.carregarPaciente(this.codPaciente);
   },
   methods: {
     carregarPaciente(cod) {
@@ -138,8 +140,7 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          this.paciente = data; // Como o objeto paciente já é retornado, não é necessário acessar data.paciente
-          console.log("Paciente encontrado:", this.paciente);
+          this.paciente = data;
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);
@@ -176,7 +177,7 @@ export default {
             // Limpa os campos do formulário
             document.getElementById('nomeArquivo').value = '';
             document.getElementById('arquivo').value = '';
-            document.getElementById('codigoPaciente').value = ''; // Limpa o campo do código do paciente
+            document.getElementById('codigoPaciente').value = '';
           } else {
             console.error('Erro ao enviar arquivo:', response.statusText);
             // Lógica adicional em caso de erro no envio

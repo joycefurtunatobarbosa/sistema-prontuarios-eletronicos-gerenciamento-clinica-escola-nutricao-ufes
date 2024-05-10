@@ -24,8 +24,6 @@ module.exports = function (app, mongo) {
             const database = client.db('cen');
             const colecao = database.collection('pacientes');
 
-            // Obter o código do paciente do corpo da requisição
-            // const codigoPaciente = req.body.cod;
             const codigoPaciente = 1;
 
             // Atualizar o documento do paciente com o nome do arquivo

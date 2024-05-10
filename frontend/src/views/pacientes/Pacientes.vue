@@ -4,7 +4,7 @@
 
     <div class="row my-4">
       <div class="col d-flex justify-content-start">
-        <router-link class="btn btn-primary" to="/cadastrar-aluno">Novo paciente</router-link>
+        <router-link class="btn btn-primary" to="/cadastrar-paciente">Novo paciente</router-link>
       </div>
 
       <div class="col-3 d-flex align-items-center">
@@ -23,23 +23,17 @@
       <thead>
         <tr>
           <th>Nº</th>
-          <th>Aluno</th>
-          <th>Matrícula</th>
-          <th>Email</th>
-          <th>Celular</th>
+          <th>Paciente</th>
           <th>Projeto</th>
           <th>Opções</th>
         </tr>
       </thead>
       <tbody>
 
-        <tr v-for="aluno in alunosFiltro" :key="aluno._id">
-          <td>{{ aluno.cod }}</td>
-          <td>{{ aluno.nome }}</td>
-          <td>{{ aluno.matricula }}</td>
-          <td>{{ aluno.email }}</td>
-          <td>{{ aluno.celular }}</td>
-          <td>{{ aluno.projeto }}</td>
+        <tr v-for="paciente in pacientes" :key="paciente.cod">
+          <td>{{ paciente.cod }}</td>
+          <td>{{ paciente.nome }}</td>
+          <td>{{ paciente.projeto }}</td>
           <td>
             <button @click="editarAluno(aluno._id)" class="btn btn-warning me-1"> Editar </button>
             <button @click="excluirAluno(aluno._id)" class="btn btn-danger"> Excluir </button>
@@ -56,25 +50,25 @@ export default {
   name: "Pacientes",
   data() {
     return {
-      alunos: [],
+      pacientes: [],
       filtro: "Todos os Projetos"
     };
   },
   computed: {
-    alunosFiltro() {
+    pacienteFiltro() {
       if (this.filtro === "Todos os Projetos") {
-        return this.alunos;
+        return this.paciente;
       } else {
-        return this.alunos.filter(aluno => aluno.projeto === this.filtro);
+        return this.alunos.filter(paciente => paciente.projeto === this.filtro);
       }
     },
   },
   mounted() {
-    this.carregarAlunos();
+    this.carregarPacientes();
   },
   methods: {
-    carregarAlunos() {
-      fetch("http://localhost:3000/listarAlunos", {
+    carregarPacientes() {
+      fetch("http://localhost:3000/listarPacientes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -83,10 +77,10 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          this.alunos = data.alunos;
+          this.pacientes = data.pacientes;
         })
         .catch((error) => {
-          console.error("Erro ao carregar dados dos alunos:", error);
+          console.error("Erro ao carregar dados dos pacientes:", error);
         });
     },
     excluirAluno(id) {

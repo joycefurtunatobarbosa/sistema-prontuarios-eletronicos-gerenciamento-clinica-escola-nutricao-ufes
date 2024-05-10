@@ -1,17 +1,20 @@
 const fs = require('fs');
 const opn = require('opn');
 const { ObjectId } = require('mongodb');
+const { param } = require('jquery');
 
 module.exports = function (app, mongo) {
 
-    app.post('/buscarAluno', async (req, res) => {
-        const alunoID = req.body.id;
+    app.get('/buscarAluno/:cod', async (req, res) => {
+        const codigoAluno = parseInt(req.params.cod);
+
         try {
             await mongo.connect();
             const database = mongo.db('cen');
             const colecao = database.collection('alunos');
 
-            const aluno = await colecao.findOne({ _id: new ObjectId(alunoID) });
+            const aluno = await colecao.findOne({ cod: codigoAluno });
+            
             res.json({ aluno });
 
         } finally {

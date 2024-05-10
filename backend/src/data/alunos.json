@@ -3,5 +3,7 @@
     "nome": "",
     "matricula": "",
     "email": "",
-    "projeto": ""
+    "celular": "",
+    "projeto": "",
+    "pacientes": []
 }

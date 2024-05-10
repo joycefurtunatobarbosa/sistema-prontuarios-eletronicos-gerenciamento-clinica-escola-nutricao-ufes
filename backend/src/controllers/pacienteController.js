@@ -6,7 +6,7 @@ module.exports = function (app, mongo) {
 
     app.get('/buscarPaciente/:cod', async (req, res) => {
         const codigoPaciente = parseInt(req.params.cod);
-        console.log(codigoPaciente);
+
         try {
             await mongo.connect();
             const database = mongo.db('cen');
@@ -25,24 +25,18 @@ module.exports = function (app, mongo) {
         }
     });
 
-
-    // app.post('/buscarPaciente', async (req, res) => {
-    //     const codigoPaciente = req.body.cod;
-    //     try {
-    //         await mongo.connect();
-    //         const database = mongo.db('cen');
-    //         const colecao = database.collection('pacientes');
-
-    //         const paciente = await colecao.findOne({ cod: codigoPaciente });
-    //         res.json(paciente);
-
-    //     } catch (error) {
-    //         console.error("Erro ao buscar paciente:", error);
-    //         res.status(500).send("Erro interno do servidor.");
-    //     } finally {
-    //         await mongo.close();
-    //     }
-    // });
+    app.get('/listarPacientes', async (req, res) => {
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('pacientes');
+            const pacientes = await colecao.find().toArray();
+            
+            res.json({ pacientes });
+        } finally {
+            await mongo.close();
+        }
+    });
 
     app.post('/buscarAluno', async (req, res) => {
         const alunoID = req.body.id;

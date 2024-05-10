@@ -6,26 +6,16 @@
       <div class="m-1">
         <h6 id="subtitulo" class="mt-4 mb-3">Pacientes</h6>
         <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.pacientes.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.pacientes.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.pacientes.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.pacientes.nome }}
+          <!-- Loop para exibir os botões dos pacientes -->
+          <router-link v-for="(paciente, index) in aluno.pacientes" :key="index" :to="'/paciente/' + paciente.cod"
+            class="btn btn-outline-primary botao-navegacao">
+            <IconUserFilled class="icon-user me-2" /> {{ paciente.nome }}
           </router-link>
         </div>
       </div>
     </div>
+  </div>
 
-    </div>
 </template>
 
 <script>
@@ -35,22 +25,39 @@ export default {
   components: {
     IconUserFilled,
   },
+  props: ['codAluno'],
   data() {
     return {
-      aluno: {
-        nome: 'Joyce Barbosa',
-        pacientes: {
-          nome: 'Gabriel Namã',
-        },
-      },
+      aluno: {}
     }
   },
+  mounted() {
+    this.carregarAluno(this.codAluno);
+    console.log(this.codAluno);
+  },
+  methods: {
+    carregarAluno(cod) {
+      fetch(`http://localhost:3000/buscarAluno/${cod}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.aluno = data.aluno;
+        })
+        .catch((error) => {
+          console.error("Erro ao carregar dados do aluno:", error);
+        });
+    },
+  }
 };
-
 </script>
 
 <style>
-#subtitulo{
+#subtitulo {
   text-align: left;
 }
 

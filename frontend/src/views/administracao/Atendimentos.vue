@@ -6,87 +6,14 @@
       <div class="m-1">
         <h6 class="mt-4 mb-3">Alunos e Funcionários</h6>
         <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/aluno-pacientes">
+          <router-link v-for="(aluno, index) in alunos" :key="index" class="btn btn-outline-primary botao-navegacao"
+            :to="'/aluno-pacientes/' + aluno.cod">
             <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
           </router-link>
         </div>
       </div>
     </div>
 
-    <!-- <div class="d-flex justify-content-center flex-wrap">
-      <div class="m-1">
-        <h6 class="mt-4 mb-3">Cardiovascular</h6>
-        <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-danger botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-danger botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-danger botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-
-          <router-link class="btn btn-outline-danger botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-        </div>
-      </div>
-    </div>
-
-    <div class="d-flex justify-content-center flex-wrap">
-      <div class="m-1">
-        <h6 class="mt-4 mb-3">Materno Infantil</h6>
-        <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-success botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-          <router-link class="btn btn-outline-success botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-          <router-link class="btn btn-outline-success botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-          <router-link class="btn btn-outline-success botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-        </div>
-      </div>
-    </div>
-
-    <div class="d-flex justify-content-center flex-wrap">
-      <div class="m-1">
-        <h6 class="mt-4 mb-3">Obesidade</h6>
-        <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-secondary botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-          <router-link class="btn btn-outline-secondary botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-          <router-link class="btn btn-outline-secondary botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-          <router-link class="btn btn-outline-secondary botao-navegacao" to="/aluno-pacientes">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
-          </router-link>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -99,14 +26,30 @@ export default {
   },
   data() {
     return {
-      aluno: {
-        nome: 'Joyce Barbosa',
-        pacientes: {
-          nome: 'Gabriel Namã',
-        },
-      },
+      alunos: [],
     };
   },
+  mounted() {
+    this.carregarAlunos();
+  },
+  methods: {
+    carregarAlunos() {
+      fetch("http://localhost:3000/listarAlunos", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.alunos = data.alunos;
+        })
+        .catch((error) => {
+          console.error("Erro ao carregar dados dos alunos:", error);
+        });
+    },
+  }
 };
 </script>
 
