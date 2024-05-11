@@ -4,7 +4,7 @@
 
     <div class="row my-4">
       <div class="col d-flex justify-content-start">
-        <router-link class="btn btn-primary" to="/cadastrar-paciente">Novo paciente</router-link>
+        <router-link class="btn btn-primary" to="#">Novo paciente</router-link>
       </div>
 
       <div class="col-3 d-flex align-items-center">
@@ -24,7 +24,9 @@
         <tr>
           <th>Nº</th>
           <th>Paciente</th>
+          <th>Motivo</th>
           <th>Projeto</th>
+          <th>Status</th>
           <th>Opções</th>
         </tr>
       </thead>
@@ -33,11 +35,13 @@
         <tr v-for="paciente in pacientes" :key="paciente.cod">
           <td>{{ paciente.cod }}</td>
           <td>{{ paciente.nome }}</td>
+          <td>{{ paciente.motivo }}</td>
+          <td>{{ paciente.status }}</td>
           <td>{{ paciente.projeto }}</td>
           <td>
-            <button @click="editarAluno(aluno._id)" class="btn btn-warning me-1"> Editar </button>
-            <button @click="excluirAluno(aluno._id)" class="btn btn-danger"> Excluir </button>
-          </td>
+            <button class="btn btn-warning me-1"> Editar </button>
+            <button class="btn btn-danger"> Excluir </button>
+            </td>
         </tr>
 
       </tbody>
@@ -51,7 +55,8 @@ export default {
   data() {
     return {
       pacientes: [],
-      filtro: "Todos os Projetos"
+      filtro: "Todos os Projetos",
+      aluno: {}
     };
   },
   computed: {
@@ -65,8 +70,25 @@ export default {
   },
   mounted() {
     this.carregarPacientes();
+    // this.carregarAluno(1);
   },
   methods: {
+    carregarAluno(cod) {
+      fetch(`http://localhost:3000/buscarAluno/${cod}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.aluno = data.aluno;
+        })
+        .catch((error) => {
+          console.error("Erro ao carregar dados do aluno:", error);
+        });
+    },
     carregarPacientes() {
       fetch("http://localhost:3000/listarPacientes", {
         method: "GET",
@@ -83,30 +105,7 @@ export default {
           console.error("Erro ao carregar dados dos pacientes:", error);
         });
     },
-    excluirAluno(id) {
-      console.log("Editar aluno com ID:", id);
-      if (confirm("Deseja realmente excluir o aluno?")) {
-        fetch("http://localhost:3000/excluirAluno", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id }),
-          mode: "cors",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Resposta do servidor:", data);
-            this.carregarAlunos();
-          })
-          .catch((error) => {
-            console.error("Erro ao enviar dados para o servidor:", error);
-          });
-      }
-    },
-    editarAluno(id) {
-      this.$router.push({ path: `/editar-aluno/${id}` });
-    },
+
   },
 };
 </script>

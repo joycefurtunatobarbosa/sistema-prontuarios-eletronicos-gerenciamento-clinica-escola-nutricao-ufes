@@ -13,7 +13,6 @@ module.exports = function (app, mongo) {
             const colecao = database.collection('pacientes');
 
             const paciente = await colecao.findOne({ cod: codigoPaciente });
-            console.log("Paciente encontrado:", paciente);
 
             res.json(paciente);
 
@@ -31,103 +30,71 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('pacientes');
             const pacientes = await colecao.find().toArray();
-            
+
             res.json({ pacientes });
         } finally {
             await mongo.close();
         }
     });
 
-    app.post('/buscarAluno', async (req, res) => {
-        const alunoID = req.body.id;
+    app.post('/atenderPaciente', async (req, res) => {
+        const codAluno = req.body.codAluno;
+        const codPaciente = req.body.codPaciente;
+    
         try {
             await mongo.connect();
             const database = mongo.db('cen');
-            const colecao = database.collection('alunos');
-
-            const aluno = await colecao.findOne({ _id: new ObjectId(alunoID) });
-            res.json({ aluno });
-
-        } finally {
-            await mongo.close();
-        }
-    });
-
-    app.post('/atualizarAluno', async (req, res) => {
-        const aluno = req.body.aluno;
-        const alunoID = aluno._id;
-        delete aluno._id;
-
-        try {
-            await mongo.connect();
-            const database = mongo.db('cen');
-            const colecao = database.collection('alunos');
-
-            await colecao.updateOne(
-                { _id: new ObjectId(alunoID) },
-                { $set: aluno }
+            const pacientesColecao = database.collection('pacientes');
+    
+            const resultado = await pacientesColecao.updateOne(
+                { cod: codPaciente },
+                { $set: { 
+                    nutricionistasCod: codAluno,
+                    status: "Em atendimento"
+                 } }
             );
-
-            res.json({ message: 'Dados atualizados e salvos com sucesso!' });
-
-        } finally {
-            await mongo.close();
-        }
-    });
-
-    app.post('/salvarAluno', async (req, res) => {
-        const aluno = req.body.aluno;
-        const alunoID = req.body.aluno._id;
-        delete aluno._id;
-
-        try {
-            await mongo.connect();
-            const database = mongo.db('cen');
-            const colecao = database.collection('alunos');
-
-            const ultimoAlunoSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
-            if (ultimoAlunoSalvo == null) {
-                aluno.cod = 1;
+    
+            if (resultado.modifiedCount === 1) {
+                res.json({ message: 'O paciente começou a ser atendido.' });
+            } else {
+                res.status(404).json({ error: 'Paciente não encontrado.' });
             }
-            else {
-                aluno.cod = ultimoAlunoSalvo.cod + 1;
+    
+        } catch (error) {
+            console.error("Erro ao atender paciente:", error);
+            res.status(500).json({ error: "Erro interno do servidor" });
+        } finally {
+            await mongo.close();
+        }
+    });
+    
+    app.post('/alunoAtenderPaciente', async (req, res) => {
+        const codAluno = req.body.codAluno;
+        const codPaciente = req.body.codPaciente;
+        const nomePaciente = req.body.nomePaciente;
+    
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const alunosColecao = database.collection('alunos');
+    
+            const resultado = await alunosColecao.updateOne(
+                { cod: codAluno },
+                { $addToSet: { pacientes: { cod: codPaciente, nome: nomePaciente } } }
+            );
+    
+            if (resultado.modifiedCount === 1) {
+                res.json({ message: 'O aluno está atendendo o paciente.' });
+            } else {
+                res.status(404).json({ error: 'Aluno ou paciente não encontrados.' });
             }
-
-            await colecao.insertOne(aluno);
-
-            res.json({ message: 'Dados salvos com sucesso!' });
-
+    
+        } catch (error) {
+            console.error("Erro ao atender paciente:", error);
+            res.status(500).json({ error: "Erro interno do servidor" });
         } finally {
             await mongo.close();
         }
-    });
-
-    app.get('/listarAlunos', async (req, res) => {
-        try {
-            await mongo.connect();
-            const database = mongo.db('cen');
-            const colecao = database.collection('alunos');
-            const alunos = await colecao.find().toArray();
-
-            res.json({ alunos });
-        } finally {
-            await mongo.close();
-        }
-    });
-
-    app.post('/excluirAluno', async (req, res) => {
-        const id = req.body.id;
-
-        try {
-            await mongo.connect();
-            const database = mongo.db('cen');
-            const colecao = database.collection('alunos');
-
-            await colecao.deleteOne({ _id: new ObjectId(id) });
-            res.json({ message: 'Aluno excluído com sucesso!' });
-        } finally {
-            await mongo.close();
-        }
-    });
+    });    
 
 }

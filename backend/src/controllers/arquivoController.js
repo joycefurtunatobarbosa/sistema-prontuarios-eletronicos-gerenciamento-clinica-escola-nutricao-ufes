@@ -16,9 +16,6 @@ const upload = multer({ storage });
 
 module.exports = function (app, mongo) {
     app.post('/salvarArquivo', upload.single("file"), async (req, res) => {
-        console.log("Arquivo recebido:", req.file);
-        console.log("Nome do arquivo:", req.body.fileName);
-
         try {
             const client = await mongo.connect();
             const database = client.db('cen');
