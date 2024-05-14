@@ -36,8 +36,8 @@
           <td>{{ paciente.cod }}</td>
           <td>{{ paciente.nome }}</td>
           <td>{{ paciente.motivo }}</td>
-          <td>{{ paciente.status }}</td>
           <td>{{ paciente.projeto }}</td>
+          <td>{{ paciente.status }}</td>
           <td>
             <!-- <button @click="editarAluno(aluno._id)" class="btn btn-warning me-1"> Editar </button>
             <button @click="excluirAluno(aluno._id)" class="btn btn-danger"> Excluir </button> -->
