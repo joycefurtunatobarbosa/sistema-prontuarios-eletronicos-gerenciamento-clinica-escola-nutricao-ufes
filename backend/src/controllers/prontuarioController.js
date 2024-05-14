@@ -3,24 +3,28 @@ const { ObjectId } = require('mongodb');
 
 module.exports = function (app, mongo) {
 
-    app.post('/salvarProntuario', async (req, res) => {
-        const prontuario = req.body.preProntuario;
-        // const prontuarioID = req.body.prontuario._id;
-        // delete prontuario._id;
-        console.log(prontuario);
+    app.get('/buscarProntuario/:cod', async (req, res) => {
+        const codigoProntuario = parseInt(req.params.cod);
 
         try {
             await mongo.connect();
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
+            const prontuario = await colecao.findOne({ cod: codigoProntuario });
 
-            // const ultimoAlunoSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
-            // if (ultimoAlunoSalvo == null){
-            //     aluno.cod = 1;
-            // }
-            // else{
-            //     aluno.cod = ultimoAlunoSalvo.cod + 1;
-            // }
+            res.json({ prontuario });
+        } finally {
+            await mongo.close();
+        }
+    });
+
+    app.post('/salvarProntuario', async (req, res) => {
+        const prontuario = req.body.preProntuario;
+
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('prontuarios');
 
             await colecao.insertOne(prontuario);
 
@@ -37,7 +41,6 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
             const prontuarios = await colecao.find().toArray();
-            console.log("BANCO DE DADOS: ", prontuarios);
 
             res.json({ prontuarios });
         } finally {

@@ -17,19 +17,19 @@ const upload = multer({ storage });
 module.exports = function (app, mongo) {
     app.post('/salvarArquivo', upload.single("file"), async (req, res) => {
         try {
-            const client = await mongo.connect();
-            const database = client.db('cen');
+            await mongo.connect();
+            const database = mongo.db('cen');
             const colecao = database.collection('pacientes');
 
             const codigoPaciente = 1;
 
             // Atualizar o documento do paciente com o nome do arquivo
-            const resultado = await colecao.updateOne(
+            const paciente = await colecao.updateOne(
                 { cod: codigoPaciente }, // Critério de busca
                 { $push: { arquivos: nomeArquivo } } // Atualização
             );
 
-            if (resultado.modifiedCount === 1) {
+            if (paciente.modifiedCount === 1) {
                 console.log("Nome do arquivo adicionado com sucesso ao paciente de código:", codigoPaciente);
             } else {
                 console.log("Paciente não encontrado ou nenhum documento modificado.");

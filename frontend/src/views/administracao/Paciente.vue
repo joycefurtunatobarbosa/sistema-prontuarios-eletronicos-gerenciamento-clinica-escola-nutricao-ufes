@@ -1,7 +1,7 @@
 <template>
   <div class="titulo mb-5">
     <h2 class="text-center"><b>Paciente: </b>{{ paciente.nome }}</h2>
-    <h6 class="text-end" style="margin-top: -30px;"><b>Status: </b>Em atendimento</h6>
+    <h6 class="text-end" style="margin-top: -30px;"><b>Status: </b>{{ paciente.status }}</h6>
   </div>
 
   <div class="container-fluid col-10" id="container">
@@ -16,12 +16,13 @@
       </div>
       <div class="row">
         <div class="d-flex flex-wrap gap-2">
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/alunos-funcionarios">
-            <IconFileFilled class="icon-user me-2" /> Pré-prontuário
-          </router-link>
-          <router-link class="btn btn-outline-primary botao-navegacao" to="/alunos-funcionarios">
-            <IconFileFilled class="icon-user me-2" /> Prontuário completo
-          </router-link>
+          <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
+          <template v-for="prontuario in paciente.prontuarios" :key="prontuario">
+            <a :href="`http://localhost:8081/prontuario/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
+              target="_blank">
+              <IconFileFilled class="icon-user me-2" /> {{ prontuario.nome }}
+            </a>
+          </template>
         </div>
       </div>
     </div>
@@ -108,22 +109,10 @@ export default {
   components: {
     IconFileFilled,
   },
-  props: ['codPaciente'],
+  props: ["codPaciente"],
   data() {
     return {
-      paciente: {},
-      // aluno: {
-      //   nome: 'Joyce Barbosa',
-      //   pacientes: {
-      //     nome: 'Gabriel Namã',
-      //     cod: '1'
-      //   },
-      // },
-      // arquivos: [
-      //   "Gabriel - 1715347732644.png",
-      //   "OutroArquivo.txt",
-      //   "DocumentoImportante.pdf"
-      // ]
+      paciente: {}
     }
   },
   mounted() {

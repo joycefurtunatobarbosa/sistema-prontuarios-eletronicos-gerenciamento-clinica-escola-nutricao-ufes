@@ -46,7 +46,7 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const pacientesColecao = database.collection('pacientes');
     
-            const resultado = await pacientesColecao.updateOne(
+            const paciente = await pacientesColecao.updateOne(
                 { cod: codPaciente },
                 { $set: { 
                     nutricionistasCod: codAluno,
@@ -54,7 +54,7 @@ module.exports = function (app, mongo) {
                  } }
             );
     
-            if (resultado.modifiedCount === 1) {
+            if (paciente.modifiedCount === 1) {
                 res.json({ message: 'O paciente começou a ser atendido.' });
             } else {
                 res.status(404).json({ error: 'Paciente não encontrado.' });
@@ -78,12 +78,12 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const alunosColecao = database.collection('alunos');
     
-            const resultado = await alunosColecao.updateOne(
+            const aluno = await alunosColecao.updateOne(
                 { cod: codAluno },
                 { $addToSet: { pacientes: { cod: codPaciente, nome: nomePaciente } } }
             );
     
-            if (resultado.modifiedCount === 1) {
+            if (aluno.modifiedCount === 1) {
                 res.json({ message: 'O aluno está atendendo o paciente.' });
             } else {
                 res.status(404).json({ error: 'Aluno ou paciente não encontrados.' });
