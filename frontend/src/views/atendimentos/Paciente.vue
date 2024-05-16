@@ -1,6 +1,6 @@
 <template>
   <div class="titulo mb-5">
-    <h2 class="text-center"><b>Paciente: </b>{{ paciente.nome }}</h2>
+    <h2 class="text-center"><b>Paciente: </b>{{ nome }}</h2>
     <h6 class="text-end" style="margin-top: -30px;"><b>Status: </b>{{ paciente.status }}</h6>
   </div>
 
@@ -18,7 +18,7 @@
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="prontuario in paciente.prontuarios" :key="prontuario">
-            <a :href="`http://localhost:8081/prontuario/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
+            <a :href="`/prontuario/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
               target="_blank">
               <IconFileFilled class="icon-user me-2" /> {{ prontuario.nome }}
             </a>
@@ -38,9 +38,9 @@
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="arquivo in paciente.arquivos" :key="arquivo">
-            <a :href="`http://localhost:3000/uploads/${arquivo}`" class="btn btn-outline-secondary botao-navegacao"
+            <a :href="`http://localhost:3000/uploads/${arquivo.nome}`" class="btn btn-outline-secondary botao-navegacao"
               target="_blank">
-              <IconFileFilled class="icon-user me-2" /> {{ arquivo }}
+              <IconFileFilled class="icon-user me-2" /> {{ arquivo.nome }}
             </a>
           </template>
         </div>
@@ -59,12 +59,25 @@
           <div class="modal-body">
             <!-- Formulário para adicionar prontuário -->
             <form>
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <label for="nomeProntuarioInput" class="form-label">Nome do Prontuário:</label>
-                <input type="text" class="form-control" id="nomeProntuarioInput"
+                <input type="text" class="form-control col-6" id="nomeProntuario"
                   placeholder="Digite o nome do prontuário">
+              </div> -->
+              <div class="mb-3">
+                <label for="selectOpcoes" class="form-label">Selecione uma opção:</label>
+                <select class="form-select" id="nomeProntuario">
+                  <option value="Prontuario">Prontuário</option>
+                  <option value="Retorno">Retorno</option>
+                </select>
               </div>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Criar</button>
+              <!-- <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="retorno">
+                <label class="form-check-label" for="retorno">
+                  Copiar respostas do último prontuário
+                </label>
+              </div> -->
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="criarProntuario()">Criar</button>
             </form>
           </div>
         </div>
@@ -103,20 +116,40 @@
 
 <script>
 import { IconFileFilled } from '@tabler/icons-vue';
+import DadosPessoais from '@/models/prontuario/DadosPessoais';
+import HistoriaPessoal from '@/models/prontuario/HistoriaPessoal';
+import HistoriaFamiliar from '@/models/prontuario/HistoriaFamiliar';
+import Medicamentos from "@/models/prontuario/Medicamentos";
+import Anamnese from "@/models/prontuario/Anamnese";
+import Refeicoes from "@/models/prontuario/Refeicoes";
+import Prontuario from '@/models/Prontuario';
+// import { getElement } from 'public/assets/libs/bootstrap/js/src/util';
 
 export default {
   name: "Paciente",
   components: {
     IconFileFilled,
   },
-  props: ["codPaciente"],
+  props: ["cod"],
   data() {
     return {
-      paciente: {}
+      paciente: {},
+      nome: "",
+      retorno: false,
+      //Criar um novo prontuáro
+      dadosPessoais: new DadosPessoais(),
+      historiaPessoal: new HistoriaPessoal(),
+      historiaFamiliar: new HistoriaFamiliar(),
+      medicamentos: new Medicamentos(),
+      anamnese: new Anamnese(),
+      refeicoes: new Refeicoes(),
+      prontuario: new Prontuario()
     }
   },
   mounted() {
-    this.carregarPaciente(this.codPaciente);
+    this.carregarPaciente(this.cod);
+    // this.retorno = document.getElementById("retorno").checked;
+    // alert("Retorno: ", this.retorno.value)
   },
   methods: {
     carregarPaciente(cod) {
@@ -130,6 +163,14 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.paciente = data;
+          this.nome = this.paciente.dadosPessoais.nomeCompleto;
+          if(this.paciente.prontuarios.length  > 0){
+            // this.retorno = document.getElementById("retorno").checked,
+            // this.retorno = true;
+            // console.log("Prontuários > 0");
+            // let retorno = document.getElementById("retorno").checked;
+            // alert("Retorno: ", retorno)
+          }
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);
@@ -142,9 +183,6 @@ export default {
       // Obtém o arquivo selecionado do input file
       const arquivoInput = document.getElementById('arquivo');
       const arquivo = arquivoInput.files[0];
-
-      // Obtém o código do paciente
-      // const codigoPaciente = document.getElementById('codigoPaciente').value;
 
       // Verifica se um arquivo foi selecionado
       if (!arquivo) {
@@ -175,6 +213,75 @@ export default {
         .catch(error => {
           console.error('Erro ao enviar arquivo:', error);
           // Lógica adicional em caso de erro de rede ou outro erro
+        });
+        // Atualiza a página
+        window.location.reload();
+    },
+    criarProntuario() {
+      let prontuario = {
+          cod: 0,
+          nome: document.getElementById('nomeProntuario').value,
+          codPaciente: this.paciente.cod,
+          dadosPessoais: this.paciente.dadosPessoais,
+          historiaPessoal: this.historiaPessoal,
+          historiaFamiliar: this.historiaFamiliar,
+          medicamentos: this.medicamentos,
+          anamnese: this.anamnese,
+          refeicoes: this.refeicoes,
+      };
+
+      if (prontuario.nome == "Retorno") {
+          fetch('http://localhost:3000/criarProntuarioRetorno', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ prontuario }),
+              mode: 'cors',
+          })
+          .then(response => response.json())
+          .then((data) => {
+            console.log(data.prontuarioRetorno);
+              this.atualizarProntuariosNoPaciente(data.prontuarioRetorno);
+              alert("Prontuário de retorno criado com sucesso!");
+          })
+          .catch(error => {
+              console.error('Erro ao enviar dados para o servidor:', error);
+          });
+      } else {
+          fetch('http://localhost:3000/criarNovoProntuario', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ prontuario }),
+              mode: 'cors',
+          })
+          .then(response => response.json())
+          .then((data) => {
+              this.atualizarProntuariosNoPaciente(data.prontuario);
+              alert("Prontuário criado com sucesso!");
+          })
+          .catch(error => {
+              console.error('Erro ao enviar dados para o servidor:', error);
+          });
+      }
+    },
+    atualizarProntuariosNoPaciente(prontuario){
+      fetch('http://localhost:3000/atualizarProntuariosNoPaciente', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prontuario }),
+        mode: 'cors',
+      })
+        .then(response => response.json())
+        .then(response => {
+          alert("Prontuários do paciente atualizos com sucesso!", response.data);
+        })
+        .catch(error => {
+          console.error('Erro ao enviar dados para o servidor:', error);
         });
         // Atualiza a página
         window.location.reload();

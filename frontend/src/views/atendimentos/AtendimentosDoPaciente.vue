@@ -7,7 +7,7 @@
       </div>
 
       <div class="col-12 mx-auto text-center">
-        <h2><b>Paciente: </b>{{ aluno.pacientes.nome }}</h2>
+        <h2><b>Paciente: </b>{{ nutricionista.pacientes.nome }}</h2>
       </div>
     </div>
 
@@ -17,7 +17,7 @@
 
         <div class="row col-8 mt-4">
           <h5 id="subtitulo" class="col-8 mt-2">CONSULTAS</h5>
-          <h6 class="text-end col"><router-link class="btn btn-warning" to="/cadastrar-aluno">Adicionar</router-link>
+          <h6 class="text-end col"><router-link class="btn btn-warning" to="/cadastrar-nutricionista">Adicionar</router-link>
           </h6>
 
           <div class="d-flex flex-wrap gap-2">
@@ -56,37 +56,7 @@
             </div>
           </div>
         </div>
-
-        <!-- <div class="row col-8 mt-4">
-          <h5 id="subtitulo" class="col-8 mt-2">ENTREGAS DE PLANOS</h5>
-          <h6 class="text-end col"><router-link class="btn btn-warning" to="">Adicionar</router-link></h6>
-
-          <div class="d-flex flex-wrap gap-2">
-            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
-              <IconFileFilled class="icon-user me-2" /> Plano Alimentar 1
-            </router-link>
-
-            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
-              <IconFileFilled class="icon-user me-2" /> Plano Alimentar 2
-            </router-link>
-          </div>
-        </div> -->
-
-        <!-- <div class="row col-8 mt-4">
-          <h5 id="subtitulo" class="col-8 mt-2">RETORNOS</h5>
-          <h6 class="text-end col"><router-link class="btn btn-warning" to="/cadastrar-aluno">Adicionar</router-link>
-          </h6>
-
-          <div class="d-flex flex-wrap gap-2">
-            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
-              <IconFileFilled class="icon-user me-2" /> Retorno 1
-            </router-link>
-
-            <router-link class="btn btn-outline-primary botao-navegacao" to="/paciente">
-              <IconFileFilled class="icon-user me-2" /> Retorno 2
-            </router-link>
-          </div>
-        </div> -->
+        
       </div>
 
     </div>

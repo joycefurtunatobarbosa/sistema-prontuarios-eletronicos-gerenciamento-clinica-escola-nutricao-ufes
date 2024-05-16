@@ -34,7 +34,7 @@
 
         <tr v-for="paciente in pacientes" :key="paciente.cod">
           <td>{{ paciente.cod }}</td>
-          <td>{{ paciente.nome }}</td>
+          <td>{{ paciente.dadosPessoais.nomeCompleto }}</td>
           <td>{{ paciente.motivo }}</td>
           <td>{{ paciente.status }}</td>
           <td>{{ paciente.projeto }}</td>

@@ -65,7 +65,6 @@ import AnamneseComponent from '@/components/prontuarios/AnamneseComponent.vue';
 import RefeicoesComponent from '@/components/prontuarios/RefeicoesComponent.vue';
 
 // Classes
-import Prontuario from '@/models/Prontuario';
 import DadosPessoais from '@/models/prontuario/DadosPessoais';
 import HistoriaPessoal from '@/models/prontuario/HistoriaPessoal';
 import HistoriaFamiliar from '@/models/prontuario/HistoriaFamiliar';
@@ -74,7 +73,7 @@ import Anamnese from "@/models/prontuario/Anamnese";
 import Refeicoes from "@/models/prontuario/Refeicoes";
 
 export default {
-  name: "Prontuario",
+  name: "AlunosFuncionarios",
   components: {
     DadosPessoaisComponent,
     HistoriaPessoalComponent,
@@ -83,7 +82,7 @@ export default {
     AnamneseComponent,
     RefeicoesComponent
   },
-  props: ["codPaciente"],
+  props:["cod"],
   data() {
     return {
       abas: [
@@ -94,7 +93,6 @@ export default {
         { label: 'Anamnese', id: 'anamnese', active: false },
         { label: 'Refeições', id: 'refeicoes', active: false },
       ],
-      prontuario: new Prontuario(),
       dadosPessoais: new DadosPessoais(),
       historiaPessoal: new HistoriaPessoal(),
       historiaFamiliar: new HistoriaFamiliar(),
@@ -104,29 +102,12 @@ export default {
     };
   },
   created() {
-    // this.carregarProntuarios();
+    // this.carregarProntuario(this.cod);
   },
   mounted(){
-    // this.carregarProntuario(this.codPaciente);
+    this.carregarProntuario(this.cod);
   },
   methods: {
-    carregarProntuario(cod) {
-      console.log("COD:", cod);
-      fetch(`http://localhost:3000/buscarProntuario/${cod}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.prontuario = data;
-        })
-        .catch((error) => {
-          console.error("Erro ao carregar prontuário do paciente:", error);
-        });
-    },
     topoPagina() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -151,6 +132,8 @@ export default {
     },
     salvarPreProntuario() {
       let preProntuario = {
+        cod: 1,
+        codPaciente: 1,
         dadosPessoais: this.dadosPessoais,
         historiaPessoal: this.historiaPessoal,
         historiaFamiliar: this.historiaFamiliar,
@@ -158,7 +141,6 @@ export default {
         anamnese: this.anamnese,
         refeicoes: this.refeicoes,
       };
-      console.log("Pré-prontuário:", preProntuario);
       fetch('http://localhost:3000/salvarProntuario', {
         method: 'POST',
         headers: {
@@ -191,6 +173,29 @@ export default {
           this.medicamentos = Object.assign(new Medicamentos(), data.prontuarios[0].medicamentos);
           this.anamnese = Object.assign(new Anamnese(), data.prontuarios[0].anamnese);
           this.refeicoes = Object.assign(new Refeicoes(), data.prontuarios[0].refeicoes);
+        })
+        .catch((error) => {
+          console.error("Erro ao carregar dados dos prontuários:", error);
+        });
+    },
+    carregarProntuario(cod) {
+      fetch(`http://localhost:3000/buscarProntuario/${cod}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Copiar os campos do servidor para o objeto existente
+          // console.log(data.prontuario.dadosPessoais);
+          Object.assign(this.dadosPessoais, data.prontuario.dadosPessoais);
+          Object.assign(this.historiaPessoal, data.prontuario.historiaPessoal);
+          Object.assign(this.historiaFamiliar, data.prontuario.historiaFamiliar);
+          Object.assign(this.medicamentos, data.prontuario.medicamentos);
+          Object.assign(this.anamnese, data.prontuario.anamnese);
+          Object.assign(this.refeicoes, data.prontuario.refeicoes);
         })
         .catch((error) => {
           console.error("Erro ao carregar dados dos prontuários:", error);

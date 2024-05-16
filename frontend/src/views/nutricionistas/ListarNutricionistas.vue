@@ -1,17 +1,17 @@
 <template>
   <div class="container-fluid">
-    <h2 class="text-center"><b>Todos os alunos</b></h2>
+    <h2 class="text-center"><b>Todos os nutricionistas</b></h2>
 
     <div class="row my-4">
       <div class="col d-flex justify-content-start">
-        <router-link class="btn btn-primary" to="/cadastrar-aluno">Novo aluno</router-link>
+        <router-link class="btn btn-primary" to="/cadastrar-nutricionista">Novo nutricionista</router-link>
       </div>
 
       <div class="col-3 d-flex align-items-center">
         <label for="filtro" class="me-2">Exibir:</label>
         <select class="form-select" id="filtro" v-model="filtro">
           <option value="Todos os Projetos" selected>Todos os Projetos</option>
-          <option value="Alunos e Funcionários">Alunos e Funcionários</option>
+          <option value="Nutricionistas e Funcionários">Nutricionistas e Funcionários</option>
           <option value="Cardiovascular">Cardiovascular</option>
           <option value="Materno Infantil">Materno Infantil</option>
           <option value="Obesidade">Obesidade</option>
@@ -23,7 +23,7 @@
       <thead>
         <tr>
           <th>Nº</th>
-          <th>Aluno</th>
+          <th>Nutricionista</th>
           <th>Matrícula</th>
           <th>Email</th>
           <th>Celular</th>
@@ -33,16 +33,16 @@
       </thead>
       <tbody>
 
-        <tr v-for="aluno in alunosFiltro" :key="aluno._id">
-          <td>{{ aluno.cod }}</td>
-          <td>{{ aluno.nome }}</td>
-          <td>{{ aluno.matricula }}</td>
-          <td>{{ aluno.email }}</td>
-          <td>{{ aluno.celular }}</td>
-          <td>{{ aluno.projeto }}</td>
+        <tr v-for="nutricionista in nutricionistasFiltro" :key="nutricionista._id">
+          <td>{{ nutricionista.cod }}</td>
+          <td>{{ nutricionista.nome }}</td>
+          <td>{{ nutricionista.matricula }}</td>
+          <td>{{ nutricionista.email }}</td>
+          <td>{{ nutricionista.celular }}</td>
+          <td>{{ nutricionista.projeto }}</td>
           <td>
-            <button @click="editarAluno(aluno._id)" class="btn btn-warning me-1"> Editar </button>
-            <button @click="excluirAluno(aluno._id)" class="btn btn-danger"> Excluir </button>
+            <button @click="editarNutricionista(nutricionista._id)" class="btn btn-warning me-1"> Editar </button>
+            <button @click="excluirNutricionista(nutricionista._id)" class="btn btn-danger"> Excluir </button>
           </td>
         </tr>
 
@@ -53,28 +53,28 @@
 
 <script>
 export default {
-  name: "ListarAlunos",
+  name: "ListarNutricionistas",
   data() {
     return {
-      alunos: [],
+      nutricionistas: [],
       filtro: "Todos os Projetos"
     };
   },
   computed: {
-    alunosFiltro() {
+    nutricionistasFiltro() {
       if (this.filtro === "Todos os Projetos") {
-        return this.alunos;
+        return this.nutricionistas;
       } else {
-        return this.alunos.filter(aluno => aluno.projeto === this.filtro);
+        return this.nutricionistas.filter(nutricionista => nutricionista.projeto === this.filtro);
       }
     },
   },
   mounted() {
-    this.carregarAlunos();
+    this.carregarNutricionistas();
   },
   methods: {
-    carregarAlunos() {
-      fetch("http://localhost:3000/listarAlunos", {
+    carregarNutricionistas() {
+      fetch("http://localhost:3000/listarNutricionistas", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -83,16 +83,16 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          this.alunos = data.alunos;
+          this.nutricionistas = data.nutricionistas;
         })
         .catch((error) => {
-          console.error("Erro ao carregar dados dos alunos:", error);
+          console.error("Erro ao carregar dados dos nutricionistas:", error);
         });
     },
-    excluirAluno(id) {
-      console.log("Editar aluno com ID:", id);
-      if (confirm("Deseja realmente excluir o aluno?")) {
-        fetch("http://localhost:3000/excluirAluno", {
+    excluirNutricionistas(id) {
+      console.log("Editar nutricionista com ID:", id);
+      if (confirm("Deseja realmente excluir o nutricionista?")) {
+        fetch("http://localhost:3000/excluirNutricionista", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -103,15 +103,15 @@ export default {
           .then((response) => response.json())
           .then((data) => {
             console.log("Resposta do servidor:", data);
-            this.carregarAlunos();
+            this.carregarNutricionistas();
           })
           .catch((error) => {
             console.error("Erro ao enviar dados para o servidor:", error);
           });
       }
     },
-    editarAluno(id) {
-      this.$router.push({ path: `/editar-aluno/${id}` });
+    editarNutricionista(id) {
+      this.$router.push({ path: `/editar-nutricionista/${id}` });
     },
   },
 };

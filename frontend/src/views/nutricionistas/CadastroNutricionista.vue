@@ -1,40 +1,40 @@
 <template>
   <div class="container-fluid col-6 mx-auto">
-    <h2 class="text-center mt-3"><b>Cadastrar um novo aluno</b></h2>
-    <form class="mt-5">
+    <h2 class="text-center mt-3 mb-5"><b>Cadastrar um novo nutricionista</b></h2>
+    <form>
       <div class="form-group mt-3 row">
         <label for="nome" class="col-2 col-form-label">Nome:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="nome" v-model="aluno.nome" />
+          <input type="text" class="form-control" name="nome" v-model="nutricionista.nome" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="matricula" class="col-2 col-form-label">Matrícula:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="matricula" v-model="aluno.matricula" />
+          <input type="text" class="form-control" name="matricula" v-model="nutricionista.matricula" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="email" class="col-2 col-form-label">Email:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="email" v-model="aluno.email" />
+          <input type="text" class="form-control" name="email" v-model="nutricionista.email" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="celular" class="col-2 col-form-label">Celular:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="celular" v-model="aluno.celular" />
+          <input type="text" class="form-control" name="celular" v-model="nutricionista.celular" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="projeto" class="col-2 col-form-label">Projeto:</label>
         <div class="col-10">
-          <select class="form-select" id="projeto" v-model="aluno.projeto">
-            <option value="Alunos e Funcionários">Alunos e Funcionários</option>
+          <select class="form-select" name="projeto" v-model="nutricionista.projeto">
+            <option value="Nutricionistas e Funcionários" selected>Nutricionistas e Funcionários</option>
             <option value="Cardiovascular">Cardiovascular</option>
             <option value="Materno Infantil">Materno Infantil</option>
             <option value="Obesidade">Obesidade</option>
@@ -43,8 +43,8 @@
       </div>
 
       <div class="form-group mt-3" style="text-align: end;">
-        <router-link  class="btn btn-outline-secondary me-1" to="/alunos-funcionarios">Cancelar</router-link>
-        <button type="button" class="btn btn-primary" @click="salvarAluno(aluno)"> Salvar </button>
+        <button type="button" class="btn btn-primary me-1" @click="salvarNutricionista(nutricionista)"> Salvar </button>
+        <router-link class="btn btn-outline-secondary" to="/nutricionistas-funcionarios">Cancelar</router-link>
       </div>
     </form>
   </div>
@@ -52,38 +52,34 @@
 
 
 <script>
-
 export default {
-  name: "CadastroAlunos",
+  name: "CadastroNutricionista",
   components: {},
   data() {
     return {
-      aluno: {
+      nutricionista: {
         cod: "",
         nome: "",
         matricula: "",
         email: "",
         celular: "",
-        projeto: "Alunos e Funcionários",
+        projeto: "",
       }
     };
   },
-  mounted() {
-
-  },
   methods: {
-    salvarAluno(aluno) {
-      fetch('http://localhost:3000/salvarAluno', {
+    salvarNutricionista(nutricionista) {
+      fetch('http://localhost:3000/salvarNutricionista', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ aluno }),
+        body: JSON.stringify({ nutricionista }),
         mode: 'cors',
       })
         .then(response => response.json())
         .then(response => {
-          this.$router.push("/", response.data);
+          this.$router.push("/nutricionistas", response.data);
         })
         .catch(error => {
           console.error('Erro ao enviar dados para o servidor:', error);
@@ -95,6 +91,4 @@ export default {
 
 </script>
 
-<style>
-
-</style>
+<style></style>

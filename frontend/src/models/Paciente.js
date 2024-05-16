@@ -1,11 +1,13 @@
+import DadosPessoais from "./prontuario/DadosPessoais";
+
 class Paciente {
     constructor() {
         this._id = "";
         this.cod = "";
-        this.nome = nome;
-        this.matricula = matricula;
-        this.email = email;
-        this.projeto = projeto;
+        this.nome = "";
+        this.motivo = "";
+        this.projeto = "";
+        this.dadosPessoais = new DadosPessoais;
     }
 }
 

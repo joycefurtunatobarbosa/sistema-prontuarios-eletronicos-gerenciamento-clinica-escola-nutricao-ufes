@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid text-center">
-    <h2 class="text-center"><b>Nutricionista: </b>{{ aluno.nome }}</h2>
+    <h2 class="text-center"><b>Nutricionista: </b>{{ nutricionista.nome }}</h2>
 
     <div class="d-flex justify-content-center flex-wrap">
       <div class="m-1">
         <h6 id="subtitulo" class="mt-4 mb-3">Pacientes</h6>
         <div class="d-flex flex-wrap gap-2">
           <!-- Loop para exibir os botões dos pacientes -->
-          <router-link v-for="(paciente, index) in aluno.pacientes" :key="index" :to="'/paciente/' + paciente.cod"
+          <router-link v-for="(paciente, index) in nutricionista.pacientes" :key="index" :to="'/paciente/' + paciente.cod"
             class="btn btn-outline-primary botao-navegacao">
             <IconUserFilled class="icon-user me-2" /> {{ paciente.nome }}
           </router-link>
@@ -21,23 +21,22 @@
 <script>
 import { IconUserFilled } from '@tabler/icons-vue';
 export default {
-  name: "AlunoPacientes",
+  name: "PacientesDoNutricionista",
   components: {
     IconUserFilled,
   },
-  props: ['codAluno'],
+  props: ['cod'],
   data() {
     return {
-      aluno: {}
+      nutricionista: {}
     }
   },
   mounted() {
-    this.carregarAluno(this.codAluno);
-    console.log(this.codAluno);
+    this.carregarNutricionista(this.cod);
   },
   methods: {
-    carregarAluno(cod) {
-      fetch(`http://localhost:3000/buscarAluno/${cod}`, {
+    carregarNutricionista(cod) {
+      fetch(`http://localhost:3000/buscarNutricionista/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -46,10 +45,10 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          this.aluno = data.aluno;
+          this.nutricionista = data.nutricionista;
         })
         .catch((error) => {
-          console.error("Erro ao carregar dados do aluno:", error);
+          console.error("Erro ao carregar dados do nutricionista:", error);
         });
     },
   }

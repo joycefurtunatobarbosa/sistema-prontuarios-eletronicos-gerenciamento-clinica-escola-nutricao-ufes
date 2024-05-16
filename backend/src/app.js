@@ -23,7 +23,7 @@ app.use((err, req, res, next) => {
 });
 
 // Chama os controllers e passa o servidor express e o banco mongo
-require('./controllers/alunoController.js')(app, mongo);
+require('./controllers/nutricionistaController.js')(app, mongo);
 require('./controllers/arquivoController.js')(app, mongo);
 require('./controllers/pacienteController.js')(app, mongo);
 require('./controllers/prontuarioController.js')(app, mongo);

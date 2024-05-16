@@ -40,6 +40,6 @@ module.exports = function (app, mongo) {
         } finally {
             await mongo.close();
         }
-        res.send('Arquivo recebido com sucesso.');
+        res.send('Arquivo salvo com sucesso.');
     });
 };

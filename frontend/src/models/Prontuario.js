@@ -7,14 +7,15 @@ import Refeicoes from "./prontuario/Refeicoes";
 
 class Prontuario {
     constructor() {
-        this._id = "";
+        // this._id = "";
         this.cod = "";
+        this.nome = "";
         this.codPaciente = "";
-        this.anamnese = new Anamnese(),
         this.dadosPessoais = new DadosPessoais(),
         this.historiaFamiliar = new HistoriaFamiliar(),
         this.historiaPessoal = new HistoriaPessoal(),
         this.medicamentos = new Medicamentos(),
+        this.anamnese = new Anamnese(),
         this.refeicoes = new Refeicoes()
     }
 }

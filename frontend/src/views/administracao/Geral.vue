@@ -1,14 +1,14 @@
 <template>
   <div class="container-fluid">
-    <h2 class="text-center"><b>Todos os nutricionistas</b></h2>
+    <h2 class="text-center"><b>Administração da clínica</b></h2>
 
     <div class="d-flex justify-content-center flex-wrap">
       <div class="m-1">
         <h6 class="mt-4 mb-3">Alunos e Funcionários</h6>
         <div class="d-flex flex-wrap gap-2">
-          <router-link v-for="(aluno, index) in alunos" :key="index" class="btn btn-outline-primary botao-navegacao"
-            :to="'/aluno-pacientes/' + aluno.cod">
-            <IconUserFilled class="icon-user me-2" /> {{ aluno.nome }}
+          <router-link v-for="(nutricionista, index) in nutricionistas" :key="index" class="btn btn-outline-primary botao-navegacao"
+            :to="'/pacientes-nutriciosta/' + nutricionista.cod">
+            <IconUserFilled class="icon-user me-2" /> {{ nutricionista.nome }}
           </router-link>
         </div>
       </div>
@@ -26,15 +26,15 @@ export default {
   },
   data() {
     return {
-      alunos: [],
+      nutricionistas: [],
     };
   },
   mounted() {
-    this.carregarAlunos();
+    this.carregarNutricionistas();
   },
   methods: {
-    carregarAlunos() {
-      fetch("http://localhost:3000/listarAlunos", {
+    carregarNutricionistas() {
+      fetch("http://localhost:3000/listarNutricionistas", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -43,10 +43,10 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          this.alunos = data.alunos;
+          this.nutricionistas = data.nutricionistas;
         })
         .catch((error) => {
-          console.error("Erro ao carregar dados dos alunos:", error);
+          console.error("Erro ao carregar dados dos nutricionistas:", error);
         });
     },
   }
@@ -55,16 +55,10 @@ export default {
 
 <style>
 h5 {
-  /*color: var(--dt-on-surface,#3c4043);*/
-  /* color: #5A6A85; */
   color: #3e4449;
 }
 
 .botao-navegacao {
-  /* color: var(--bs-heading-color, inherit); */
-  /* color: var(--dt-on-surface,rgb(60,64,67)); */
-  /* color: var(--bs-table-color); */
-  /* color: #32373b; */
   color: #32373b;
   font-size: 14px;
   background-color: #F0F4F9;
@@ -76,6 +70,5 @@ h5 {
 
 .icon-user {
   width: 18px;
-  /* margin-right: 10px; */
 }
 </style>

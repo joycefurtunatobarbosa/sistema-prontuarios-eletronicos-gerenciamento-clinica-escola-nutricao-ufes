@@ -6,6 +6,7 @@ module.exports = function (app, mongo) {
 
     app.get('/buscarPaciente/:cod', async (req, res) => {
         const codigoPaciente = parseInt(req.params.cod);
+        // console.log("Cod:", codigoPaciente)
 
         try {
             await mongo.connect();
@@ -38,7 +39,7 @@ module.exports = function (app, mongo) {
     });
 
     app.post('/atenderPaciente', async (req, res) => {
-        const codAluno = req.body.codAluno;
+        const codNutricionista = req.body.codNutricionista;
         const codPaciente = req.body.codPaciente;
     
         try {
@@ -49,7 +50,7 @@ module.exports = function (app, mongo) {
             const paciente = await pacientesColecao.updateOne(
                 { cod: codPaciente },
                 { $set: { 
-                    nutricionistasCod: codAluno,
+                    nutricionistasCod: codNutricionista,
                     status: "Em atendimento"
                  } }
             );
@@ -68,25 +69,25 @@ module.exports = function (app, mongo) {
         }
     });
     
-    app.post('/alunoAtenderPaciente', async (req, res) => {
-        const codAluno = req.body.codAluno;
+    app.post('/nutricionistaAtenderPaciente', async (req, res) => {
+        const codNutricionista = req.body.codNutricionista;
         const codPaciente = req.body.codPaciente;
         const nomePaciente = req.body.nomePaciente;
     
         try {
             await mongo.connect();
             const database = mongo.db('cen');
-            const alunosColecao = database.collection('alunos');
+            const nutricionistasColecao = database.collection('nutricionistas');
     
-            const aluno = await alunosColecao.updateOne(
-                { cod: codAluno },
+            const nutricionista = await nutricionistasColecao.updateOne(
+                { cod: codNutricionista },
                 { $addToSet: { pacientes: { cod: codPaciente, nome: nomePaciente } } }
             );
     
-            if (aluno.modifiedCount === 1) {
-                res.json({ message: 'O aluno está atendendo o paciente.' });
+            if (nutricionista.modifiedCount === 1) {
+                res.json({ message: 'O nutricionista está atendendo o paciente.' });
             } else {
-                res.status(404).json({ error: 'Aluno ou paciente não encontrados.' });
+                res.status(404).json({ error: 'Nutricionista ou paciente não encontrados.' });
             }
     
         } catch (error) {
