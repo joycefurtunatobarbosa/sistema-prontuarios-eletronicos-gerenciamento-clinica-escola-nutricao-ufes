@@ -65,7 +65,7 @@
                   placeholder="Digite o nome do prontuário">
               </div> -->
               <div class="mb-3">
-                <label for="selectOpcoes" class="form-label">Selecione uma opção:</label>
+                <label for="selectOpcoes" class="form-label">Selecione um tipo de prontuário:</label>
                 <select class="form-select" id="nomeProntuario">
                   <option value="Prontuario">Prontuário</option>
                   <option value="Retorno">Retorno</option>
@@ -241,7 +241,6 @@ export default {
           })
           .then(response => response.json())
           .then((data) => {
-            console.log(data.prontuarioRetorno);
               this.atualizarProntuariosNoPaciente(data.prontuarioRetorno);
               alert("Prontuário de retorno criado com sucesso!");
           })

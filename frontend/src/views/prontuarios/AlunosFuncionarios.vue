@@ -1,8 +1,9 @@
 <template>
-  <h2 class="text-center"><b>Pré-prontuário para Alunos e Funcionários</b></h2>
+  <h2 class="text-center"><b>Paciente: </b>{{ dadosPessoais.nomeCompleto }}</h2>
+  <h5 class="text-center"><b>Prontuário: </b>{{ prontuario.nome }}</h5>
 
   <!-- Abas -->
-  <div class="container-fluid col-8">
+  <div class="container-fluid mt-5 col-8">
     <div class="nav nav-tabs mt-3 text-center d-flex justify-content-center">
       <a class="nav-link" :class="{ 'active': abas[0].active }" @click="trocarAba(0)" href="#">Dados Pessoais</a>
       <a class="nav-link" :class="{ 'active': abas[1].active }" @click="trocarAba(1)" href="#">História Pessoal</a>
@@ -93,6 +94,7 @@ export default {
         { label: 'Anamnese', id: 'anamnese', active: false },
         { label: 'Refeições', id: 'refeicoes', active: false },
       ],
+      prontuario: {},
       dadosPessoais: new DadosPessoais(),
       historiaPessoal: new HistoriaPessoal(),
       historiaFamiliar: new HistoriaFamiliar(),
@@ -100,9 +102,6 @@ export default {
       anamnese: new Anamnese(),
       refeicoes: new Refeicoes(),
     };
-  },
-  created() {
-    // this.carregarProntuario(this.cod);
   },
   mounted(){
     this.carregarProntuario(this.cod);
@@ -157,27 +156,6 @@ export default {
           console.error('Erro ao enviar dados para o servidor:', error);
         });
     },
-    carregarProntuarios() {
-      fetch("http://localhost:3000/listarProntuarios", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.dadosPessoais = Object.assign(new DadosPessoais(), data.prontuarios[0].dadosPessoais);
-          this.historiaPessoal = Object.assign(new HistoriaPessoal(), data.prontuarios[0].historiaPessoal);
-          this.historiaFamiliar = Object.assign(new HistoriaFamiliar(), data.prontuarios[0].historiaFamiliar);
-          this.medicamentos = Object.assign(new Medicamentos(), data.prontuarios[0].medicamentos);
-          this.anamnese = Object.assign(new Anamnese(), data.prontuarios[0].anamnese);
-          this.refeicoes = Object.assign(new Refeicoes(), data.prontuarios[0].refeicoes);
-        })
-        .catch((error) => {
-          console.error("Erro ao carregar dados dos prontuários:", error);
-        });
-    },
     carregarProntuario(cod) {
       fetch(`http://localhost:3000/buscarProntuario/${cod}`, {
         method: "GET",
@@ -190,6 +168,7 @@ export default {
         .then((data) => {
           // Copiar os campos do servidor para o objeto existente
           // console.log(data.prontuario.dadosPessoais);
+          Object.assign(this.prontuario, data.prontuario);
           Object.assign(this.dadosPessoais, data.prontuario.dadosPessoais);
           Object.assign(this.historiaPessoal, data.prontuario.historiaPessoal);
           Object.assign(this.historiaFamiliar, data.prontuario.historiaFamiliar);

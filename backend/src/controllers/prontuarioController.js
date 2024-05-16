@@ -25,21 +25,25 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
 
-            // Consultar a coleção para obter o último código de prontuário
             const ultimoProntuarioSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
-    
-            // Se houver um último prontuário na coleção, incrementar o código
+
             if (ultimoProntuarioSalvo == null) {
                 prontuario.cod = 1;
             } else {
-                // Se não houver prontuários na coleção, começar a partir do código 1
                 prontuario.cod = ultimoProntuarioSalvo.cod + 1;
             }
+
+            let qtdProntuarioComum = await colecao.countDocuments({ tipo: "prontuario" });
+            qtdProntuarioComum++;
+
+            if (qtdProntuarioComum == null || 0) {
+                prontuario.nome = "Prontuário 1";
+            } else {
+                prontuario.nome = "Prontuário " + qtdProntuarioComum;
+            }
     
-            // Inserir o novo prontuário na coleção
             await colecao.insertOne(prontuario);
     
-            // res.json({ message: 'Dados salvos com sucesso!' });
             res.json({ prontuario });
         } catch (error) {
             console.error('Erro ao criar novo prontuário:', error);
@@ -58,7 +62,6 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
     
-            // Consultar a coleção para obter o último código de prontuário
             const ultimoProntuarioSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
             
             let prontuarioRetorno = {};
@@ -66,21 +69,25 @@ module.exports = function (app, mongo) {
             delete prontuarioRetorno._id;
     
             let novoCod;
-    
-            // Se houver um último prontuário na coleção, incrementar o código
+
             if (ultimoProntuarioSalvo == null) {
                 novoCod = 1;
             } else {
-                // Se não houver prontuários na coleção, começar a partir do código 1
                 novoCod = ultimoProntuarioSalvo.cod + 1;
             }
-    
-            prontuarioRetorno.nome = nome;
+            
             prontuarioRetorno.cod = novoCod;
 
-            // Inserir o novo prontuário na coleção
+            let qtdProntuarioRetorno = await colecao.countDocuments({ tipo: "retorno" });
+            qtdProntuarioRetorno++;
+
+            if (qtdProntuarioRetorno == null || 0) {
+                prontuarioRetorno.nome = "Retorno 1";
+            } else {
+                prontuarioRetorno.nome = "Retorno " + qtdProntuarioRetorno;
+            }
+
             await colecao.insertOne(prontuarioRetorno);
-    
             res.json({ prontuarioRetorno });
     
         } catch (error) {
@@ -111,7 +118,6 @@ module.exports = function (app, mongo) {
             );
     
             if (paciente.modifiedCount === 1) {
-                console.log("Prontuário adicionado com sucesso ao paciente de código:", codigoPaciente);
                 res.send('Prontuário salvo com sucesso.');
             } else {
                 console.log("Paciente não encontrado ou nenhum documento modificado.");
