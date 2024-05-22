@@ -1,6 +1,10 @@
 <template>
-  <h2 class="text-center"><b>Paciente: </b>{{ dadosPessoais.nomeCompleto }}</h2>
-  <h5 class="text-center"><b>Prontuário: </b>{{ prontuario.nome }}</h5>
+  <div class="titulo mb-5">
+    <h2 class="text-center"><b> {{ prontuario.nome }} </b></h2>
+    <h6 class="text-end" style="margin-top: -30px;"><b>Data de criação: </b>16/05/2024</h6>
+  </div>
+  <h5 class="text-center"><b>Paciente: </b>{{ dadosPessoais.nomeCompleto }}</h5>
+  <h5 class="text-center"><b>Nutricionista: </b>{{ nutricionista.nome }}</h5>
 
   <!-- Abas -->
   <div class="container-fluid mt-5 col-8">
@@ -95,6 +99,7 @@ export default {
         { label: 'Refeições', id: 'refeicoes', active: false },
       ],
       prontuario: {},
+      nutricionista: {},
       dadosPessoais: new DadosPessoais(),
       historiaPessoal: new HistoriaPessoal(),
       historiaFamiliar: new HistoriaFamiliar(),
@@ -169,6 +174,7 @@ export default {
           // Copiar os campos do servidor para o objeto existente
           // console.log(data.prontuario.dadosPessoais);
           Object.assign(this.prontuario, data.prontuario);
+          Object.assign(this.nutricionista, data.prontuario.nutricionista);
           Object.assign(this.dadosPessoais, data.prontuario.dadosPessoais);
           Object.assign(this.historiaPessoal, data.prontuario.historiaPessoal);
           Object.assign(this.historiaFamiliar, data.prontuario.historiaFamiliar);

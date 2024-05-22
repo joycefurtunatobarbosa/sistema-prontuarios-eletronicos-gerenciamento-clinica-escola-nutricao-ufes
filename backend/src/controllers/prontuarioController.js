@@ -33,12 +33,12 @@ module.exports = function (app, mongo) {
                 prontuario.cod = ultimoProntuarioSalvo.cod + 1;
             }
 
-            let qtdProntuarioComum = await colecao.countDocuments({ tipo: "prontuario" });
-            qtdProntuarioComum++;
+            let qtdProntuarioComum = parseInt(await colecao.countDocuments({ tipo: "prontuario" }));
 
             if (qtdProntuarioComum == null || 0) {
                 prontuario.nome = "Prontuário 1";
             } else {
+                qtdProntuarioComum++;
                 prontuario.nome = "Prontuário " + qtdProntuarioComum;
             }
     
@@ -78,15 +78,16 @@ module.exports = function (app, mongo) {
             
             prontuarioRetorno.cod = novoCod;
 
-            let qtdProntuarioRetorno = await colecao.countDocuments({ tipo: "retorno" });
-            qtdProntuarioRetorno++;
+            let qtdProntuarioRetorno = parseInt(await colecao.countDocuments({ tipo: "retorno" }));
 
             if (qtdProntuarioRetorno == null || 0) {
                 prontuarioRetorno.nome = "Retorno 1";
             } else {
+                qtdProntuarioRetorno++;
                 prontuarioRetorno.nome = "Retorno " + qtdProntuarioRetorno;
             }
 
+            prontuarioRetorno.tipo = "retorno";
             await colecao.insertOne(prontuarioRetorno);
             res.json({ prontuarioRetorno });
     

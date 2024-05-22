@@ -1,14 +1,18 @@
 const path = require("path");
 const multer = require("multer");
-var nomeArquivo;
+
+let arquivo = { 
+    nome: "",
+    localizacao: "",
+};
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "uploads/")
+        cb(null, "uploads/");
     },
     filename: function (req, file, cb) {
-        nomeArquivo = req.body.fileName + " - " + Date.now() + path.extname(file.originalname);
-        cb(null, nomeArquivo);
+        arquivo.localizacao = req.body.fileName + " - " + Date.now() + path.extname(file.originalname);
+        cb(null, arquivo.localizacao);
     }
 });
 
@@ -21,16 +25,17 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('pacientes');
 
-            const codigoPaciente = 1;
+            const codPaciente = req.body.cod;
+            arquivo.nome = req.body.fileName
 
             // Atualizar o documento do paciente com o nome do arquivo
             const paciente = await colecao.updateOne(
-                { cod: codigoPaciente }, // Critério de busca
-                { $push: { arquivos: nomeArquivo } } // Atualização
+                { cod: parseInt(codPaciente) }, // Critério de busca
+                { $push: { arquivos: { arquivo: arquivo } } } // Usando nomeArquivo na atualização
             );
 
             if (paciente.modifiedCount === 1) {
-                console.log("Nome do arquivo adicionado com sucesso ao paciente de código:", codigoPaciente);
+                console.log("Nome do arquivo adicionado com sucesso ao paciente de código:", codPaciente);
             } else {
                 console.log("Paciente não encontrado ou nenhum documento modificado.");
             }

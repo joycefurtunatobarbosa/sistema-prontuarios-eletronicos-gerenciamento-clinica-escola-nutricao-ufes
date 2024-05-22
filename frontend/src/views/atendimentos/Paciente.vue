@@ -1,6 +1,6 @@
 <template>
   <div class="titulo mb-5">
-    <h2 class="text-center"><b>Paciente: </b>{{ nome }}</h2>
+    <h2 class="text-center" v-if="paciente.dadosPessoais"><b>Paciente:</b> {{ paciente.dadosPessoais.nomeCompleto }}</h2>
     <h6 class="text-end" style="margin-top: -30px;"><b>Status: </b>{{ paciente.status }}</h6>
   </div>
 
@@ -37,12 +37,13 @@
       <div class="row">
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
-          <template v-for="arquivo in paciente.arquivos" :key="arquivo">
-            <a :href="`http://localhost:3000/uploads/${arquivo.nome}`" class="btn btn-outline-secondary botao-navegacao"
-              target="_blank">
-              <IconFileFilled class="icon-user me-2" /> {{ arquivo.nome }}
+          <template v-for="arquivo in paciente.arquivos" :key="arquivo.id">
+            <a v-if="arquivo.arquivo" :href="`http://localhost:3000/uploads/${arquivo.arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
+                target="_blank">
+                <IconFileFilled class="icon-user me-2" /> {{ arquivo.arquivo.nome }}
             </a>
-          </template>
+        </template>
+
         </div>
       </div>
     </div>
@@ -58,27 +59,14 @@
           </div>
           <div class="modal-body">
             <!-- Formulário para adicionar prontuário -->
-            <form>
-              <!-- <div class="mb-3">
-                <label for="nomeProntuarioInput" class="form-label">Nome do Prontuário:</label>
-                <input type="text" class="form-control col-6" id="nomeProntuario"
-                  placeholder="Digite o nome do prontuário">
-              </div> -->
               <div class="mb-3">
                 <label for="selectOpcoes" class="form-label">Selecione um tipo de prontuário:</label>
-                <select class="form-select" id="nomeProntuario">
-                  <option value="Prontuario">Prontuário</option>
-                  <option value="Retorno">Retorno</option>
+                <select class="form-select" id="tipoProntuario">
+                  <option value="prontuario">Prontuário</option>
+                  <option value="retorno">Retorno</option>
                 </select>
               </div>
-              <!-- <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" id="retorno">
-                <label class="form-check-label" for="retorno">
-                  Copiar respostas do último prontuário
-                </label>
-              </div> -->
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="criarProntuario()">Criar</button>
-            </form>
           </div>
         </div>
       </div>
@@ -94,7 +82,7 @@
           </div>
           <div class="modal-body">
             <!-- Formulário de upload de arquivos -->
-            <form>
+            <form action="post" enctype="multipart/form-data">
               <div class="mb-3">
                 <label for="fileNameInput" class="form-label">Nome do arquivo:</label>
                 <input type="text" class="form-control" id="nomeArquivo" name="fileName">
@@ -134,7 +122,6 @@ export default {
   data() {
     return {
       paciente: {},
-      nome: "",
       retorno: false,
       //Criar um novo prontuáro
       dadosPessoais: new DadosPessoais(),
@@ -148,8 +135,6 @@ export default {
   },
   mounted() {
     this.carregarPaciente(this.cod);
-    // this.retorno = document.getElementById("retorno").checked;
-    // alert("Retorno: ", this.retorno.value)
   },
   methods: {
     carregarPaciente(cod) {
@@ -163,14 +148,6 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.paciente = data;
-          this.nome = this.paciente.dadosPessoais.nomeCompleto;
-          if(this.paciente.prontuarios.length  > 0){
-            // this.retorno = document.getElementById("retorno").checked,
-            // this.retorno = true;
-            // console.log("Prontuários > 0");
-            // let retorno = document.getElementById("retorno").checked;
-            // alert("Retorno: ", retorno)
-          }
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);
@@ -192,19 +169,22 @@ export default {
       const formData = new FormData();
       formData.append('fileName', nomeArquivo);
       formData.append('file', arquivo);
-      formData.append('cod', 1); // Adiciona o código do paciente
+      formData.append('cod', this.paciente.cod); // Adiciona o código do paciente
 
       fetch('http://localhost:3000/salvarArquivo', {
         method: 'POST',
         body: formData
       })
         .then(response => {
+
           if (response.ok) {
             console.log('Arquivo enviado com sucesso.');
             // Limpa os campos do formulário
             document.getElementById('nomeArquivo').value = '';
             document.getElementById('arquivo').value = '';
-            document.getElementById('codigoPaciente').value = '';
+            // document.getElementById('codigoPaciente').value = '';
+            window.location.reload();
+            
           } else {
             console.error('Erro ao enviar arquivo:', response.statusText);
             // Lógica adicional em caso de erro no envio
@@ -215,12 +195,15 @@ export default {
           // Lógica adicional em caso de erro de rede ou outro erro
         });
         // Atualiza a página
-        window.location.reload();
+        // window.location.reload();
+
     },
     criarProntuario() {
+
       let prontuario = {
           cod: 0,
-          nome: document.getElementById('nomeProntuario').value,
+          tipo: document.getElementById('tipoProntuario').value,
+          nome: "",
           codPaciente: this.paciente.cod,
           dadosPessoais: this.paciente.dadosPessoais,
           historiaPessoal: this.historiaPessoal,
@@ -230,7 +213,8 @@ export default {
           refeicoes: this.refeicoes,
       };
 
-      if (prontuario.nome == "Retorno") {
+      if (prontuario.tipo == "retorno") {
+        // alert(prontuario.tipo)
           fetch('http://localhost:3000/criarProntuarioRetorno', {
               method: 'POST',
               headers: {
@@ -248,6 +232,7 @@ export default {
               console.error('Erro ao enviar dados para o servidor:', error);
           });
       } else {
+        // alert(prontuario.tipo)
           fetch('http://localhost:3000/criarNovoProntuario', {
               method: 'POST',
               headers: {

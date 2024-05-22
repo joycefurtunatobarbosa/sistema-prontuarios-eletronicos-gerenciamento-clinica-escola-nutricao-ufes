@@ -1,0 +1,29 @@
+[{
+  "_id": {
+    "$oid": "6621037a08ea3f6c46f00f52"
+  },
+  "cod": 1,
+  "nome": "Joyce Furtunato Barbosa",
+  "matricula": "",
+  "email": "",
+  "celular": "",
+  "projeto": "Alunos e Funcionários",
+  "pacientes": [
+    {
+      "cod": 1,
+      "nome": "Gabriel Namã Lopes do Nascimento"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "663e3759d228f280c71c1a22"
+  },
+  "cod": 2,
+  "nome": "Nandyala da Silva",
+  "matricula": "",
+  "email": "",
+  "celular": "",
+  "projeto": "Alunos e Funcionários",
+  "pacientes": []
+}]
