@@ -1,19 +1,23 @@
 <template>
   <div class="titulo mb-5">
     <h2 class="text-center" v-if="paciente.dadosPessoais"><b>Paciente:</b> {{ paciente.dadosPessoais.nomeCompleto }}</h2>
-    <h6 class="text-end" style="margin-top: -30px;"><b>Início: </b>10/05/2024</h6><br>
+    <h5 class="text-center"><b>Situação: </b>{{ paciente.situacao }}</h5>
   </div>
 
-  <div class="d-flex justify-content-center flex-column align-items-center" style="margin-top: -50px;">
-    <h5><b>Situação: </b>{{ paciente.situacao }}</h5>
+  <div class="d-flex justify-content-center flex-column align-items-center" style="margin-top: -50px">
     <div class="btn-group mt-3" role="group" aria-label="Alterar Situação">
-      <button v-if="paciente.status === 'em atendimento'" class="btn btn-warning" @click="alterarSituacao()">Alterar situação</button>
-      <button v-if="paciente.status === 'em atendimento'" class="btn btn-danger" @click="finalizarAtendimento()">Finalizar atendimento</button>
+      <button v-if="paciente.status === 'Em atendimento'" class="btn btn-warning" @click="alterarSituacao()">Alterar situação</button>
+      <button v-if="paciente.status === 'Em atendimento'" class="btn btn-danger" @click="finalizarAtendimento()">Finalizar atendimento</button>
     </div>
   </div>
 
-  <div class="container-fluid mt-5 col-10" id="container">
+  <div class="informacoes">
+    <h6 class="text-end" style="margin-top: "><b>Início do atendimento: </b>10/05/2024</h6>
+    <h6 class="text-end" style="margin-top: -5px;"><b>Última movimentação: </b>{{ paciente.dataSituacao }}</h6>
+    <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ nutricionista.nome }}</h6><br>
+  </div>
 
+  <div class="container-fluid col-10" id="container">
     <div class="m-1">
       <div class="row align-items-center">
         <h6 id="subtitulo" class="col">Prontuários</h6>
@@ -37,6 +41,7 @@
     </div>
 
     <div class="m-1 mt-4">
+      <!-- <hr> -->
       <div class="row align-items-center">
         <h6 id="subtitulo" class="col">Arquivos</h6>
         <h6 class="text-end col">
@@ -131,6 +136,7 @@ export default {
   data() {
     return {
       paciente: {},
+      nutricionista: {},
       retorno: false,
       //Criar um novo prontuáro
       dadosPessoais: new DadosPessoais(),
@@ -157,6 +163,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.paciente = data;
+          this.nutricionista = this.paciente.nutricionista;
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);

@@ -7,11 +7,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 /* ADMINISTRAÇÃO */
 import Geral from "./views/administracao/Geral.vue";
+import PacientesDoNutricionista from "./views/administracao/PacientesDoNutricionista.vue";
+import Paciente from "./views/administracao/Paciente.vue";
 
 /* ATENDIMENTOS */
-import PacientesDoNutricionista from "./views/atendimentos/PacientesDoNutricionista.vue";
-import Paciente from "./views/atendimentos/Paciente.vue";
+import EmAtendimento from "./views/atendimentos/EmAtendimento.vue";
 import FilaPacientes from "./views/atendimentos/FilaPacientes.vue";
+import Historico from "./views/atendimentos/Historico.vue";
 
 /* CLÍNICA */
 // Alunos
@@ -35,9 +37,9 @@ const router = createRouter({
         { path: "/", component: Geral },
 
         /* ATENDIMENTOS */
-        { path: "/andamento", component: FilaPacientes },
+        { path: "/andamento", component: EmAtendimento },
         { path: "/fila", component: FilaPacientes },
-        { path: "/historico", component: FilaPacientes },
+        { path: "/historico", component: Historico },
         
         /* CLÍNICA */
         // Nutricionistas

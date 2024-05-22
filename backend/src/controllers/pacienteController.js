@@ -42,8 +42,8 @@ module.exports = function (app, mongo) {
     });
 
     app.post('/atenderPaciente', async (req, res) => {
-        const codNutricionista = req.body.codNutricionista;
-        const codPaciente = req.body.codPaciente;
+        const nutricionista = req.body.nutricionista;
+        const paciente = req.body.paciente;
     
         try {
             await mongo.connect();
@@ -51,11 +51,13 @@ module.exports = function (app, mongo) {
             const pacientesColecao = database.collection('pacientes');
     
             const paciente = await pacientesColecao.updateOne(
-                { cod: codPaciente },
+                { cod: paciente.cod },
                 { $set: { 
-                    nutricionistasCod: codNutricionista,
-                    situacao: "Atendimento iniciado em " + dataFormatada,
-                    status: "em atendimento"
+                    nutricionista: {cod: nutricionista.cod, nome: nutricionista.nome},
+                    dataInicio: dataFormatada,
+                    situacao: "Atendimento iniciado",
+                    dataSituacao: dataFormatada,
+                    status: "Em atendimento",
                  } }
             );
     
@@ -86,6 +88,7 @@ module.exports = function (app, mongo) {
                 { cod: parseInt(codPaciente) },
                 { $set: { 
                     situacao: novaSituacao,
+                    dataSituacao: dataFormatada
                  } }
             );
     
@@ -114,8 +117,9 @@ module.exports = function (app, mongo) {
             const paciente = await pacientesColecao.updateOne(
                 { cod: parseInt(codPaciente) },
                 { $set: { 
-                    situacao: "Finalizado em " + dataFormatada,
-                    status: "finalizado"
+                    situacao: "Atendimento finalizado em " + dataFormatada,
+                    status: "Finalizado",
+                    dataSituacao: dataFormatada
                 } }
             );
     

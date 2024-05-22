@@ -2,11 +2,11 @@
   <div class="container-fluid">
     <h2 class="text-center"><b>Administração da clínica</b></h2>
 
-    <div class="d-flex justify-content-center flex-wrap">
+    <div class="container-fluid mt-5 col-10" id="container">
       <div class="m-1">
         <h6 class="mt-4 mb-3">Alunos e Funcionários</h6>
         <div class="d-flex flex-wrap gap-2">
-          <router-link v-for="(nutricionista, index) in nutricionistas" :key="index" class="btn btn-outline-primary botao-navegacao"
+          <router-link v-for="(nutricionista, index) in nutricionistas" :key="index" class="btn btn-outline-secondary botao-navegacao"
             :to="'/pacientes-nutriciosta/' + nutricionista.cod">
             <IconUserFilled class="icon-user me-2" /> {{ nutricionista.nome }}
           </router-link>

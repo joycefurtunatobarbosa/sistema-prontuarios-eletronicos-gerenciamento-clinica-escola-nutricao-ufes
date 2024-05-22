@@ -2,12 +2,12 @@
   <div class="container-fluid">
     <h2 class="text-center"><b>Todos os nutricionistas</b></h2>
 
-    <div class="row my-4">
-      <div class="col d-flex justify-content-start">
-        <router-link class="btn btn-primary" to="/cadastrar-nutricionista">Novo nutricionista</router-link>
+    <div class="row my-4 col-12">
+      <div class="col d-flex justify-content-end me-5">
+        <router-link class="btn btn-primary" to="/cadastrar-nutricionista">Criar novo</router-link>
       </div>
 
-      <div class="col-3 d-flex align-items-center">
+      <!-- <div class="col-3 d-flex align-items-center">
         <label for="filtro" class="me-2">Exibir:</label>
         <select class="form-select" id="filtro" v-model="filtro">
           <option value="Todos os Projetos" selected>Todos os Projetos</option>
@@ -16,7 +16,7 @@
           <option value="Materno Infantil">Materno Infantil</option>
           <option value="Obesidade">Obesidade</option>
         </select>
-      </div>
+      </div> -->
     </div>
 
     <table class="table">

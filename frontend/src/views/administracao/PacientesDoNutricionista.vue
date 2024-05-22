@@ -2,13 +2,13 @@
   <div class="container-fluid text-center">
     <h2 class="text-center"><b>Nutricionista: </b>{{ nutricionista.nome }}</h2>
 
-    <div class="d-flex justify-content-center flex-wrap">
+    <div class="container-fluid mt-5 col-10" id="container">
       <div class="m-1">
         <h6 id="subtitulo" class="mt-4 mb-3">Pacientes</h6>
         <div class="d-flex flex-wrap gap-2">
           <!-- Loop para exibir os botões dos pacientes -->
           <router-link v-for="(paciente, index) in nutricionista.pacientes" :key="index" :to="'/paciente/' + paciente.cod"
-            class="btn btn-outline-primary botao-navegacao">
+            class="btn btn-outline-secondary botao-navegacao">
             <IconUserFilled class="icon-user me-2" /> {{ paciente.nome }}
           </router-link>
         </div>

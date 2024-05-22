@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <h2 class="text-center"><b>Fila de espera</b></h2>
+    <h2 class="text-center"><b>Em andamento</b></h2>
 
     <div class="row my-4">
       <!-- <div class="col-3 d-flex align-items-center">
@@ -28,14 +28,15 @@
       </thead>
       <tbody>
 
-        <tr v-for="paciente in pacientesNaFila" :key="paciente.cod">
-          <td><b>{{ pacientesNaFila.indexOf(paciente) + 1 }}</b></td>
+        <tr v-for="paciente in pacientesEmAtendimento" :key="paciente.cod">
+          <td><b>{{ pacientesEmAtendimento.indexOf(paciente) + 1 }}</b></td>
           <td>{{ paciente.dadosPessoais.nomeCompleto }}</td>
           <td>{{ paciente.motivo }}</td>
           <td v-if="paciente.nutricionista">{{ paciente.nutricionista.nome }}</td>
           <td>{{ paciente.projeto }}</td>
+          
           <td>
-            <button @click="atenderPaciente(paciente.nutricionista.cod, paciente.cod, paciente.paciente.dadosPessoais.nomeCompleto)" class="btn btn-success me-1">Atender</button>
+            <a :href="`http://localhost:8081/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a>
           </td>
         </tr>
 
@@ -46,10 +47,11 @@
 
 <script>
 export default {
-  name: "FilaPacientes",
+  name: "EmAtendimento",
   data() {
     return {
       pacientes: [],
+      nutricionista: {},
       filtro: "Todos os Projetos",
       aluno: {}
     };
@@ -62,8 +64,8 @@ export default {
         return this.alunos.filter(paciente => paciente.projeto === this.filtro);
       }
     },
-    pacientesNaFila() {
-      return this.pacientes.filter(paciente => paciente.status === 'Na fila');
+    pacientesEmAtendimento() {
+      return this.pacientes.filter(paciente => paciente.status === 'Em atendimento');
     }
   },
   mounted() {
@@ -81,6 +83,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.aluno = data.aluno;
+          this.nutricionista = this.aluno.nutricionista;
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do aluno:", error);
