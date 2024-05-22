@@ -1,12 +1,15 @@
 const fs = require('fs');
 const opn = require('opn');
 const { ObjectId } = require('mongodb');
+const { param } = require('jquery');
+
+var dataAtual = new Date(Date.now());
+var dataFormatada = dataAtual.toLocaleDateString();
 
 module.exports = function (app, mongo) {
 
     app.get('/buscarPaciente/:cod', async (req, res) => {
         const codigoPaciente = parseInt(req.params.cod);
-        // console.log("Cod:", codigoPaciente)
 
         try {
             await mongo.connect();
@@ -51,7 +54,8 @@ module.exports = function (app, mongo) {
                 { cod: codPaciente },
                 { $set: { 
                     nutricionistasCod: codNutricionista,
-                    status: "Em atendimento"
+                    situacao: "Atendimento iniciado em " + dataFormatada,
+                    status: "em atendimento"
                  } }
             );
     
@@ -63,6 +67,66 @@ module.exports = function (app, mongo) {
     
         } catch (error) {
             console.error("Erro ao atender paciente:", error);
+            res.status(500).json({ error: "Erro interno do servidor" });
+        } finally {
+            await mongo.close();
+        }
+    });
+
+    app.post('/alterarSituacao', async (req, res) => {
+        const codPaciente = req.body.codPaciente;
+        const novaSituacao = req.body.novaSituacao;
+    
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const pacientesColecao = database.collection('pacientes');
+    
+            const paciente = await pacientesColecao.updateOne(
+                { cod: parseInt(codPaciente) },
+                { $set: { 
+                    situacao: novaSituacao,
+                 } }
+            );
+    
+            if (paciente.modifiedCount === 1) {
+                res.json({ message: 'O paciente começou a ser atendido.' });
+            } else {
+                res.status(404).json({ error: 'Paciente não encontrado.' });
+            }
+    
+        } catch (error) {
+            console.error("Erro ao atender paciente:", error);
+            res.status(500).json({ error: "Erro interno do servidor" });
+        } finally {
+            await mongo.close();
+        }
+    });
+
+    app.post('/finalizarAtendimento', async (req, res) => {
+        const codPaciente = req.body.cod;
+
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const pacientesColecao = database.collection('pacientes');
+    
+            const paciente = await pacientesColecao.updateOne(
+                { cod: parseInt(codPaciente) },
+                { $set: { 
+                    situacao: "Finalizado em " + dataFormatada,
+                    status: "finalizado"
+                } }
+            );
+    
+            if (paciente.modifiedCount === 1) {
+                res.json({ message: 'O atendimento do paciente foi finalizado.' });
+            } else {
+                res.status(404).json({ error: 'Paciente não encontrado.' });
+            }
+    
+        } catch (error) {
+            console.error("Erro ao finalizar atendimento do paciente:", error);
             res.status(500).json({ error: "Erro interno do servidor" });
         } finally {
             await mongo.close();

@@ -1,17 +1,26 @@
 <template>
   <div class="titulo mb-5">
     <h2 class="text-center" v-if="paciente.dadosPessoais"><b>Paciente:</b> {{ paciente.dadosPessoais.nomeCompleto }}</h2>
-    <h6 class="text-end" style="margin-top: -30px;"><b>Status: </b>{{ paciente.status }}</h6>
+    <h6 class="text-end" style="margin-top: -30px;"><b>Início: </b>10/05/2024</h6><br>
   </div>
 
-  <div class="container-fluid col-10" id="container">
+  <div class="d-flex justify-content-center flex-column align-items-center" style="margin-top: -50px;">
+    <h5><b>Situação: </b>{{ paciente.situacao }}</h5>
+    <div class="btn-group mt-3" role="group" aria-label="Alterar Situação">
+      <button v-if="paciente.status === 'em atendimento'" class="btn btn-warning" @click="alterarSituacao()">Alterar situação</button>
+      <button v-if="paciente.status === 'em atendimento'" class="btn btn-danger" @click="finalizarAtendimento()">Finalizar atendimento</button>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5 col-10" id="container">
 
     <div class="m-1">
       <div class="row align-items-center">
         <h6 id="subtitulo" class="col">Prontuários</h6>
-        <h6 class="text-end col ">
-          <button class="btn btn-warning" data-bs-toggle="modal"
-            data-bs-target="#adicionarProntuarioModal">Adicionar</button>
+        <h6 class="text-end col">
+          <button class="btn btn-success" data-bs-toggle="modal"
+            data-bs-target="#adicionarProntuarioModal">Adicionar
+          </button>
         </h6>
       </div>
       <div class="row">
@@ -31,7 +40,7 @@
       <div class="row align-items-center">
         <h6 id="subtitulo" class="col">Arquivos</h6>
         <h6 class="text-end col">
-          <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uploadArquivoModal">Adicionar</button>
+          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadArquivoModal">Adicionar</button>
         </h6>
       </div>
       <div class="row">
@@ -153,6 +162,61 @@ export default {
           console.error("Erro ao carregar dados do paciente:", error);
         });
     },
+    alterarSituacao() {
+    // Solicitar ao usuário que digite a nova situação
+    const novaSituacao = prompt("Digite a nova situação:");
+
+    // Verificar se o usuário inseriu algo e se clicou em "OK"
+    if (novaSituacao !== null) {
+        fetch("http://localhost:3000/alterarSituacao", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              codPaciente: this.cod,
+              novaSituacao: novaSituacao
+            }),
+        })
+        .then(response => {
+            if (response.ok) {
+                // alert("Atendimento finalizado com sucesso.");
+                window.location.reload();
+            } else {
+                console.error('Erro ao alterar situacao:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao alterar situacao:', error);
+        });
+        } else {
+            console.log('O usuário cancelou alteracao do atendimento.');
+        }
+    },
+    finalizarAtendimento() {
+      if (window.confirm('Tem certeza que deseja finalizar o atendimento?')) {
+          fetch("http://localhost:3000/finalizarAtendimento", {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ cod: this.cod })
+          })
+          .then(response => {
+              if (response.ok) {
+                  // alert("Atendimento finalizado com sucesso.");
+                  window.location.reload();
+              } else {
+                  console.error('Erro ao finalizar o atendimento:', response.statusText);
+              }
+          })
+          .catch(error => {
+              console.error('Erro ao finalizar o atendimento:', error);
+          });
+      } else {
+          console.log('O usuário cancelou o finalizar do atendimento.');
+      }
+    },
     enviarArquivo() {
       // Obtém o nome do arquivo do input de texto
       const nomeArquivo = document.getElementById('nomeArquivo').value;
@@ -199,7 +263,6 @@ export default {
 
     },
     criarProntuario() {
-
       let prontuario = {
           cod: 0,
           tipo: document.getElementById('tipoProntuario').value,
@@ -214,7 +277,6 @@ export default {
       };
 
       if (prontuario.tipo == "retorno") {
-        // alert(prontuario.tipo)
           fetch('http://localhost:3000/criarProntuarioRetorno', {
               method: 'POST',
               headers: {
@@ -226,7 +288,7 @@ export default {
           .then(response => response.json())
           .then((data) => {
               this.atualizarProntuariosNoPaciente(data.prontuarioRetorno);
-              alert("Prontuário de retorno criado com sucesso!");
+              alert("Prontuário de retorno criado com sucesso.");
           })
           .catch(error => {
               console.error('Erro ao enviar dados para o servidor:', error);
@@ -244,7 +306,7 @@ export default {
           .then(response => response.json())
           .then((data) => {
               this.atualizarProntuariosNoPaciente(data.prontuario);
-              alert("Prontuário criado com sucesso!");
+              alert("Prontuário criado com sucesso.");
           })
           .catch(error => {
               console.error('Erro ao enviar dados para o servidor:', error);
@@ -262,7 +324,7 @@ export default {
       })
         .then(response => response.json())
         .then(response => {
-          alert("Prontuários do paciente atualizos com sucesso!", response.data);
+          console.log("Prontuários do paciente atualizos com sucesso.", response.data);
         })
         .catch(error => {
           console.error('Erro ao enviar dados para o servidor:', error);

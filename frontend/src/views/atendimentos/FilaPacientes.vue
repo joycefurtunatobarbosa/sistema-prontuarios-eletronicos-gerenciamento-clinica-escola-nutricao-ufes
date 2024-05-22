@@ -3,9 +3,6 @@
     <h2 class="text-center"><b>Fila de espera</b></h2>
 
     <div class="row my-4">
-      <!-- <div class="col d-flex justify-content-start">
-        <router-link class="btn btn-primary" to="/cadastrar-paciente">Novo paciente</router-link>
-      </div> -->
 
       <div class="col-3 d-flex align-items-center">
         <label for="filtro" class="me-2">Exibir:</label>
@@ -26,7 +23,7 @@
           <th>Paciente</th>
           <th>Motivo</th>
           <th>Projeto</th>
-          <th>Status</th>
+          <th>Situação</th>
           <th>Opções</th>
         </tr>
       </thead>
@@ -37,7 +34,7 @@
           <td>{{ paciente.dadosPessoais.nomeCompleto }}</td>
           <td>{{ paciente.motivo }}</td>
           <td>{{ paciente.projeto }}</td>
-          <td>{{ paciente.status }}</td>
+          <td>{{ paciente.situacao }}</td>
           <td>
             <!-- <button @click="editarAluno(aluno._id)" class="btn btn-warning me-1"> Editar </button>
             <button @click="excluirAluno(aluno._id)" class="btn btn-danger"> Excluir </button> -->
@@ -106,30 +103,30 @@ export default {
         });
     },
     atenderPaciente(codAluno, codPaciente, nomePaciente) {
-        console.log("CodAluno:", codAluno);
-        console.log("CodPaciente:", codPaciente);
-        console.log("NomePaciente:", nomePaciente);
-        fetch("http://localhost:3000/atenderPaciente", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                codAluno: codAluno,
-                codPaciente: codPaciente,
-                nomePaciente: nomePaciente
-            }),
-            mode: "cors",
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            this.pacientes = data.pacientes;
-            // Se atenderPaciente for bem-sucedido, chama a função alunoAtenderPaciente
-            this.alunoAtenderPaciente(codAluno, codPaciente, nomePaciente);
-        })
-        .catch((error) => {
-            console.error("Erro ao atender paciente:", error);
-        });
+      if (window.confirm('Tem certeza que deseja atender este paciente?')) {
+          fetch("http://localhost:3000/atenderPaciente", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                  codAluno: codAluno,
+                  codPaciente: codPaciente,
+                  nomePaciente: nomePaciente
+              }),
+              mode: "cors",
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              this.pacientes = data.pacientes;
+              this.alunoAtenderPaciente(codAluno, codPaciente, nomePaciente);
+          })
+          .catch((error) => {
+              console.error("Erro ao atender paciente:", error);
+          });
+      } else {
+          console.log('O usuário cancelou o atendimento do paciente.');
+      }
     },
     alunoAtenderPaciente(codAluno, codPaciente, nomePaciente) {
         fetch("http://localhost:3000/alunoAtenderPaciente", {
@@ -152,6 +149,7 @@ export default {
         .catch((error) => {
             console.error("Erro ao atender paciente:", error);
         });
+        window.location.reload();
     },
     
   },
