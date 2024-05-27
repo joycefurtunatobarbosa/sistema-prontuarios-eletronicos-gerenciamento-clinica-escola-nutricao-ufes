@@ -56,8 +56,7 @@
                 target="_blank">
                 <IconFileFilled class="icon-user me-2" /> {{ arquivo.arquivo.nome }}
             </a>
-        </template>
-
+          </template>
         </div>
       </div>
     </div>
