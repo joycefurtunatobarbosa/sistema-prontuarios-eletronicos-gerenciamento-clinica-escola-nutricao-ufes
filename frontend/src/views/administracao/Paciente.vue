@@ -12,7 +12,7 @@
   </div>
 
   <div class="informacoes">
-    <h6 class="text-end" style="margin-top: "><b>Início do atendimento: </b>10/05/2024</h6>
+    <h6 class="text-end" style="margin-top: "><b>Início do atendimento: </b>[{{ paciente.dataInicio }}</h6>
     <h6 class="text-end" style="margin-top: -5px;"><b>Última movimentação: </b>{{ paciente.dataSituacao }}</h6>
     <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ nutricionista.nome }}</h6><br>
   </div>
@@ -51,10 +51,10 @@
       <div class="row">
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
-          <template v-for="arquivo in paciente.arquivos" :key="arquivo.id">
-            <a v-if="arquivo.arquivo" :href="`http://localhost:3000/uploads/${arquivo.arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
+          <template v-for="arquivo in paciente.arquivos" :key="arquivo.localizacao">
+            <a v-if="arquivo" :href="`http://localhost:3000/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
                 target="_blank">
-                <IconFileFilled class="icon-user me-2" /> {{ arquivo.arquivo.nome }}
+                <IconFileFilled class="icon-user me-2" /> {{ arquivo.nome }}
             </a>
           </template>
         </div>
@@ -226,6 +226,8 @@ export default {
     enviarArquivo() {
       // Obtém o nome do arquivo do input de texto
       const nomeArquivo = document.getElementById('nomeArquivo').value;
+
+      console.log("Nome do arquivo:", nomeArquivo)
 
       // Obtém o arquivo selecionado do input file
       const arquivoInput = document.getElementById('arquivo');

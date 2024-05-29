@@ -1,18 +1,21 @@
 const path = require("path");
 const multer = require("multer");
 
-let arquivo = { 
-    nome: "",
-    localizacao: "",
-};
+// let arquivo = { 
+//     nome: "",
+//     localizacao: "",
+// };
+
+let nome;
+let localizacao;
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "uploads/");
     },
     filename: function (req, file, cb) {
-        arquivo.localizacao = req.body.fileName + " - " + Date.now() + path.extname(file.originalname);
-        cb(null, arquivo.localizacao);
+        localizacao = req.body.fileName + " - " + Date.now() + path.extname(file.originalname);
+        cb(null, localizacao);
     }
 });
 
@@ -26,12 +29,12 @@ module.exports = function (app, mongo) {
             const colecao = database.collection('pacientes');
 
             const codPaciente = req.body.cod;
-            arquivo.nome = req.body.fileName
+            nome = req.body.fileName;
 
             // Atualizar o documento do paciente com o nome do arquivo
             const paciente = await colecao.updateOne(
                 { cod: parseInt(codPaciente) }, // Critério de busca
-                { $push: { arquivos: { arquivo: arquivo } } } // Usando nomeArquivo na atualização
+                { $push: { arquivos: { nome, localizacao } } } // Usando nomeArquivo na atualização
             );
 
             if (paciente.modifiedCount === 1) {
