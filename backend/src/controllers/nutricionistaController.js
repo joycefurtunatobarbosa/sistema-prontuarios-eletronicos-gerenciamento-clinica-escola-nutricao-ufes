@@ -6,14 +6,14 @@ const { param } = require('jquery');
 module.exports = function (app, mongo) {
 
     app.get('/buscarNutricionista/:cod', async (req, res) => {
-        const codigoNutricionista = parseInt(req.params.cod);
+        const codNutricionista = parseInt(req.params.cod);
 
         try {
             await mongo.connect();
             const database = mongo.db('cen');
             const colecao = database.collection('nutricionistas');
 
-            const nutricionista = await colecao.findOne({ cod: codigoNutricionista });
+            const nutricionista = await colecao.findOne({ cod: codNutricionista });
             
             res.json({ nutricionista });
 
@@ -22,10 +22,9 @@ module.exports = function (app, mongo) {
         }
     });
 
-    app.post('/atualizarNutricionistas', async (req, res) => {
+    app.post('/atualizarNutricionista', async (req, res) => {
         const nutricionista = req.body.nutricionista;
-        const nutricionistaID = nutricionista._id;
-        delete nutricionista._id;
+        console.log(nutricionista)
 
         try {
             await mongo.connect();

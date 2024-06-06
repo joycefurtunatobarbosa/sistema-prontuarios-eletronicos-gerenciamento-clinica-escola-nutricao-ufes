@@ -34,7 +34,7 @@
         <label for="projeto" class="col-2 col-form-label">Projeto:</label>
         <div class="col-10">
           <select class="form-select" id="projeto" v-model="nutricionista.projeto">
-            <option value="Nutricionistas e Funcionários">Nutricionistas e Funcionários</option>
+            <option value="Alunos e Funcionários">Alunos e Funcionários</option>
             <option value="Cardiovascular">Cardiovascular</option>
             <option value="Materno Infantil">Materno Infantil</option>
             <option value="Obesidade">Obesidade</option>
@@ -43,7 +43,7 @@
       </div>
 
       <div class="form-group mt-3" style="text-align: end;">
-        <button type="button" class="btn btn-primary me-1" @click="atualizarNutricionista(nutricionista)"> Salvar </button>
+        <button type="button" class="btn btn-primary me-1" @click="atualizarNutricionista()"> Salvar </button>
         <router-link class="btn btn-outline-secondary" to="/nutricionistas">Cancelar</router-link>
       </div>
     </form>
@@ -51,9 +51,13 @@
 </template>
 
 <script>
+// import { clone } from "lodash";
 import { cloneDeep, isEqual } from "lodash";
+// import { isEqual } from "lodash";
+
 export default {
   name: "EditarNutricionista",
+  props: ["cod"],
   data() {
     return {
       nutricionista: {},
@@ -61,16 +65,15 @@ export default {
     };
   },
   mounted() {
-    this.carregaNutricionista(this.$route.params.id);
+    this.carregaNutricionista(this.cod);
   },
   methods: {
-    carregarNutricionista(id) {
-      fetch("http://localhost:3000/buscaNutricionista", {
-        method: "POST",
+    carregaNutricionista(cod) {
+      fetch(`http://localhost:3000/buscarNutricionista/${cod}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }),
         mode: "cors",
       })
         .then((response) => response.json())
@@ -79,10 +82,11 @@ export default {
           this.nutricionistaOriginal = cloneDeep(this.nutricionista);
         })
         .catch((error) => {
-          console.error("Erro ao carregar dados dos nutricionistas:", error);
+          console.error("Erro ao carregar dados do paciente:", error);
         });
     },
-    atualizarNutricionista(nutricionista) {
+    atualizarNutricionista() {
+      const nutri = this.nutricionista;
       if (isEqual(this.nutricionista, this.nutricionistaOriginal)) {
         alert("Nenhuma alteração foi realizada.");
         return;
@@ -93,13 +97,13 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ nutricionista }),
+          body: JSON.stringify({ nutri }),
           mode: "cors",
         })
           .then((response) => response.json())
           .then((response) => {
             alert("Nutricionista atualizado com sucesso.");
-            this.$router.push("/nutricionistas-funcionarios", response.data);
+            this.$router.push("/nutricionistas", response.data);
           })
           .catch((error) => {
             console.error("Erro ao atualizar nutricionista:", error);

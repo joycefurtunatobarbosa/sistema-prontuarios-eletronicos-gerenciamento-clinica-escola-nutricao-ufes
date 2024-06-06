@@ -41,7 +41,11 @@
           <td>{{ nutricionista.celular }}</td>
           <td>{{ nutricionista.projeto }}</td>
           <td>
-            <button @click="editarNutricionista(nutricionista._id)" class="btn btn-warning me-1"> Editar </button>
+            <router-link :to="'/editar-nutricionista/' + nutricionista.cod">
+              <button class="btn btn-warning me-1">Editar</button>
+            </router-link>
+
+            <!-- <button @click="editarNutricionista(nutricionista._id)" class="btn btn-warning me-1"> Editar </button> -->
             <button @click="excluirNutricionista(nutricionista._id)" class="btn btn-danger"> Excluir </button>
           </td>
         </tr>
@@ -110,8 +114,25 @@ export default {
           });
       }
     },
-    editarNutricionista(id) {
-      this.$router.push({ path: `/editar-nutricionista/${id}` });
+    // editarNutricionista(id) {
+    //   this.$router.push({ path: `/editar-nutricionista/${id}` });
+    // },
+    editarNutricionista(cod) {
+      fetch(`http://localhost:8080/buscarNutricionista/${cod}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        // .then((data) => {
+        //   this.paciente = data;
+        //   this.nutricionista = this.paciente.nutricionista;
+        // })
+        .catch((error) => {
+          console.error("Erro ao carregar dados do paciente:", error);
+        });
     },
   },
 };

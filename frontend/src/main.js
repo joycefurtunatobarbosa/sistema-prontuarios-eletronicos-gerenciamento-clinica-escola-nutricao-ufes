@@ -45,7 +45,7 @@ const router = createRouter({
         // Nutricionistas
         { path: "/nutricionistas", component: ListarNutricionistas },
         { path: "/cadastrar-nutricionista", component: CadastroNutricionista },
-        { path: "/editar-nutricionista/:id", component: EditarNutricionista },
+        { path: "/editar-nutricionista/:cod", component: EditarNutricionista, props: true },
         { path: '/pacientes-nutriciosta/:cod', component: PacientesDoNutricionista, props: true },
 
         //Paciente
