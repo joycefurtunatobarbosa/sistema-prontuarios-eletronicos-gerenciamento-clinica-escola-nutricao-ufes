@@ -33,7 +33,7 @@
       <div class="form-group mt-3 row">
         <label for="projeto" class="col-2 col-form-label">Projeto:</label>
         <div class="col-10">
-          <select class="form-select" id="projeto" v-model="nutricionista.projeto">
+          <select class="form-select" id="projeto" v-model="nutricionista.projeto" disabled>
             <option value="Alunos e Funcionários">Alunos e Funcionários</option>
             <option value="Cardiovascular">Cardiovascular</option>
             <option value="Materno Infantil">Materno Infantil</option>
@@ -51,9 +51,7 @@
 </template>
 
 <script>
-// import { clone } from "lodash";
 import { cloneDeep, isEqual } from "lodash";
-// import { isEqual } from "lodash";
 
 export default {
   name: "EditarNutricionista",

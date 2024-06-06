@@ -26,10 +26,6 @@
     "celular": "(33) 99959-7936",
     "nomeCompleto": "Gabriel Namã Lopes do Nascimento"
   },
-  "nutricionistas": {
-    "cod": "1",
-    "nome": "Joyce Furtunato Barbosa"
-  },
   "prontuarios": [
     {
       "cod": 1,
@@ -51,11 +47,26 @@
   "arquivos": [
     {
       "nome": "Boimpedância",
-      "localizacao": "Boimpedância - 1715451536436.pdf"
+      "localizacao": "Boimpedância - 1716342956872.pdf"
     },
     {
-      "nome": "Plano Alimentar",
-      "localizacao": "Plano Alimentar - 1715451552510.pdf"
+      "nome": "Histórico BIA",
+      "localizacao": "Histórico BIA - 1716342971181.jpg"
+    },
+    {
+      "nome": "Teste",
+      "localizacao": "Teste - 1717000144831.pdf"
+    },
+    {
+      "nome": "ABCD",
+      "localizacao": "ABCD - 1717031355821.pdf"
     }
-  ]
+  ],
+  "nutricionista": {
+    "cod": "1",
+    "nome": "Joyce Furtunato Barbosa"
+  },
+  "dataSituacao": "29/05/2024",
+  "situacao": "Aguardando retorno",
+  "dataInicio": "10/05/2024"
 }]

@@ -33,8 +33,8 @@
       <div class="form-group mt-3 row">
         <label for="projeto" class="col-2 col-form-label">Projeto:</label>
         <div class="col-10">
-          <select class="form-select" name="projeto" v-model="nutricionista.projeto">
-            <option value="Nutricionistas e Funcionários" selected>Nutricionistas e Funcionários</option>
+          <select class="form-select" name="projeto" v-model="nutricionista.projeto" disabled>
+            <option value="Alunos e Funcionários">Alunos e Funcionários</option>
             <option value="Cardiovascular">Cardiovascular</option>
             <option value="Materno Infantil">Materno Infantil</option>
             <option value="Obesidade">Obesidade</option>
@@ -43,8 +43,8 @@
       </div>
 
       <div class="form-group mt-3" style="text-align: end;">
-        <button type="button" class="btn btn-primary me-1" @click="salvarNutricionista(nutricionista)"> Salvar </button>
-        <router-link class="btn btn-outline-secondary" to="/nutricionistas-funcionarios">Cancelar</router-link>
+        <button type="button" class="btn btn-primary me-1" @click="salvarNutricionista()"> Salvar </button>
+        <router-link class="btn btn-outline-secondary" to="/nutricionistas">Cancelar</router-link>
       </div>
     </form>
   </div>
@@ -58,23 +58,24 @@ export default {
   data() {
     return {
       nutricionista: {
-        cod: "",
+        cod: 0,
         nome: "",
         matricula: "",
         email: "",
         celular: "",
-        projeto: "",
+        projeto: "Alunos e Funcionários",
       }
     };
   },
   methods: {
-    salvarNutricionista(nutricionista) {
+    salvarNutricionista() {
+      const nutri = this.nutricionista;
       fetch('http://localhost:3000/salvarNutricionista', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nutricionista }),
+        body: JSON.stringify({ nutri }),
         mode: 'cors',
       })
         .then(response => response.json())

@@ -18,7 +18,7 @@ import Historico from "./views/atendimentos/Historico.vue";
 /* CLÍNICA */
 // Alunos
 import ListarNutricionistas from "./views/nutricionistas/ListarNutricionistas.vue";
-import CadastroNutricionista from "./views/nutricionistas/CadastroNutricionista.vue";
+import CadastrarNutricionista from "./views/nutricionistas/CadastrarNutricionista.vue";
 import EditarNutricionista from "./views/nutricionistas/EditarNutricionista.vue";
 
 // Pacientes
@@ -44,7 +44,7 @@ const router = createRouter({
         /* CLÍNICA */
         // Nutricionistas
         { path: "/nutricionistas", component: ListarNutricionistas },
-        { path: "/cadastrar-nutricionista", component: CadastroNutricionista },
+        { path: "/cadastrar-nutricionista", component: CadastrarNutricionista },
         { path: "/editar-nutricionista/:cod", component: EditarNutricionista, props: true },
         { path: '/pacientes-nutriciosta/:cod', component: PacientesDoNutricionista, props: true },
 

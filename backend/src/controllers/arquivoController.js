@@ -1,11 +1,6 @@
 const path = require("path");
 const multer = require("multer");
 
-// let arquivo = { 
-//     nome: "",
-//     localizacao: "",
-// };
-
 let nome;
 let localizacao;
 
@@ -31,17 +26,11 @@ module.exports = function (app, mongo) {
             const codPaciente = req.body.cod;
             nome = req.body.fileName;
 
-            // Atualizar o documento do paciente com o nome do arquivo
             const paciente = await colecao.updateOne(
-                { cod: parseInt(codPaciente) }, // Critério de busca
-                { $push: { arquivos: { nome, localizacao } } } // Usando nomeArquivo na atualização
+                { cod: parseInt(codPaciente) },
+                { $push: { arquivos: { nome, localizacao } } }
             );
-
-            if (paciente.modifiedCount === 1) {
-                console.log("Nome do arquivo adicionado com sucesso ao paciente de código:", codPaciente);
-            } else {
-                console.log("Paciente não encontrado ou nenhum documento modificado.");
-            }
+            
         } catch (error) {
             console.error("Erro ao adicionar nome do arquivo ao paciente:", error);
             res.status(500).send("Erro interno do servidor.");

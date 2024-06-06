@@ -3,7 +3,7 @@
     <h2 class="text-center"><b>Todos os nutricionistas</b></h2>
 
     <div class="row my-4 col-12">
-      <div class="col d-flex justify-content-end me-5">
+      <div class="col d-flex justify-content-start me-5">
         <router-link class="btn btn-primary" to="/cadastrar-nutricionista">Criar novo</router-link>
       </div>
 
@@ -44,9 +44,7 @@
             <router-link :to="'/editar-nutricionista/' + nutricionista.cod">
               <button class="btn btn-warning me-1">Editar</button>
             </router-link>
-
-            <!-- <button @click="editarNutricionista(nutricionista._id)" class="btn btn-warning me-1"> Editar </button> -->
-            <button @click="excluirNutricionista(nutricionista._id)" class="btn btn-danger"> Excluir </button>
+            <button @click="excluirNutricionista(nutricionista.cod)" class="btn btn-danger"> Excluir </button>
           </td>
         </tr>
 
@@ -93,30 +91,6 @@ export default {
           console.error("Erro ao carregar dados dos nutricionistas:", error);
         });
     },
-    excluirNutricionistas(id) {
-      console.log("Editar nutricionista com ID:", id);
-      if (confirm("Deseja realmente excluir o nutricionista?")) {
-        fetch("http://localhost:3000/excluirNutricionista", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id }),
-          mode: "cors",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Resposta do servidor:", data);
-            this.carregarNutricionistas();
-          })
-          .catch((error) => {
-            console.error("Erro ao enviar dados para o servidor:", error);
-          });
-      }
-    },
-    // editarNutricionista(id) {
-    //   this.$router.push({ path: `/editar-nutricionista/${id}` });
-    // },
     editarNutricionista(cod) {
       fetch(`http://localhost:8080/buscarNutricionista/${cod}`, {
         method: "GET",
@@ -126,13 +100,29 @@ export default {
         mode: "cors",
       })
         .then((response) => response.json())
-        // .then((data) => {
-        //   this.paciente = data;
-        //   this.nutricionista = this.paciente.nutricionista;
-        // })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);
         });
+    },
+    excluirNutricionista(cod) {
+      if (confirm("Deseja realmente excluir o nutricionista?")) {
+        fetch(`http://localhost:3000/excluirNutricionista/${cod}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "cors",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Resposta do servidor:", data);
+            
+          })
+          .catch((error) => {
+            console.error("Erro ao enviar dados para o servidor:", error);
+          });
+      }
+      window.location.reload();
     },
   },
 };
