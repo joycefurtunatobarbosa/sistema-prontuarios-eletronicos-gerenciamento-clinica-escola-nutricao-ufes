@@ -34,7 +34,7 @@
       <tbody>
 
         <tr v-for="nutricionista in nutricionistasFiltro" :key="nutricionista._id">
-          <td>{{ nutricionista.cod }}</td>
+          <td><b>{{ nutricionista.cod }}</b></td>
           <td>{{ nutricionista.nome }}</td>
           <td>{{ nutricionista.matricula }}</td>
           <td>{{ nutricionista.email }}</td>

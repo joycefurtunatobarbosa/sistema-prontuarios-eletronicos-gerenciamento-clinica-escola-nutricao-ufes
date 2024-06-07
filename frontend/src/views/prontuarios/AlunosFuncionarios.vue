@@ -1,10 +1,16 @@
 <template>
   <div class="titulo mb-5">
     <h2 class="text-center"><b> {{ prontuario.nome }} </b></h2>
-    <h6 class="text-end" style="margin-top: -30px;"><b>Data de criação: </b>16/05/2024</h6>
+    <h5 class="text-center"><b>Paciente: </b>{{ dadosPessoais.nomeCompleto }}</h5>
+    <!-- <h5 class="text-center"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h5> -->
   </div>
-  <h5 class="text-center"><b>Paciente: </b>{{ dadosPessoais.nomeCompleto }}</h5>
-  <h5 class="text-center"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h5>
+
+  <div class="informacoes">
+    <h6 class="text-end" style="margin-top: "><b>Data de criação: </b>{{ prontuario.dataCriacao }}</h6>
+    <h6 class="text-end" style="margin-top: -5px;"><b>Última movimentação: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
+    <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h6><br>
+  </div>
+  
 
   <!-- Abas -->
   <div class="container-fluid mt-5 col-8">

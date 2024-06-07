@@ -1,5 +1,7 @@
 // const opn = require('opn');
 const { ObjectId } = require('mongodb');
+var dataAtual = new Date(Date.now());
+var dataFormatada = dataAtual.toLocaleDateString();
 
 module.exports = function (app, mongo) {
 
@@ -18,8 +20,10 @@ module.exports = function (app, mongo) {
     });
 
     app.post('/criarNovoProntuario', async (req, res) => {
-        const prontuario = req.body.prontuario;
-    
+        var prontuario = req.body.prontuario;
+        prontuario.dataCriacao = dataFormatada;
+        prontuario.dataUltimaMovimentacao = dataFormatada;
+        
         try {
             await mongo.connect();
             const database = mongo.db('cen');
@@ -54,8 +58,10 @@ module.exports = function (app, mongo) {
     });
 
     app.post('/criarProntuarioRetorno', async (req, res) => {
-        const prontuario = req.body.prontuario;
+        var prontuario = req.body.prontuario;
         const nome = prontuario.nome;
+        prontuario.dataCriacao = dataFormatada;
+        prontuario.dataUltimaMovimentacao = dataFormatada;
     
         try {
             await mongo.connect();
@@ -132,8 +138,9 @@ module.exports = function (app, mongo) {
     }); 
 
     app.post('/salvarProntuario', async (req, res) => {
-        const prontuario = req.body.prontuario;
+        var prontuario = req.body.prontuario;
         const codProntuario = prontuario.cod;
+        prontuario.dataUltimaMovimentacao = dataFormatada;
 
         try {
             await mongo.connect();

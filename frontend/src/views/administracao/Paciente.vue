@@ -30,7 +30,7 @@
       <div class="row">
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
-          <template v-for="prontuario in paciente.prontuarios" :key="prontuario">
+          <template v-for="prontuario in prontuarios" :key="prontuario">
             <a :href="`/prontuario/${paciente.cod}/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
               target="_blank">
               <IconFileFilled class="icon-user me-2" /> {{ prontuario.nome }}
@@ -76,7 +76,7 @@
                 <label for="selectOpcoes" class="form-label">Selecione um tipo de prontuário:</label>
                 <select class="form-select" id="tipoProntuario">
                   <option value="prontuario">Prontuário</option>
-                  <option value="retorno">Retorno</option>
+                  <option value="retorno" v-if="retorno">Retorno</option>
                 </select>
               </div>
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="criarProntuario()">Criar</button>
@@ -98,14 +98,13 @@
             <form action="post" enctype="multipart/form-data">
               <div class="mb-3">
                 <label for="fileNameInput" class="form-label">Nome do arquivo:</label>
-                <input type="text" class="form-control" id="nomeArquivo" name="fileName">
+                <input type="text" class="form-control" id="nomeArquivo" name="fileName" required>
               </div>
               <div class="mb-3">
                 <label for="fileInput" class="form-label">Selecione o arquivo:</label>
-                <input type="file" class="form-control" id="arquivo" name="file">
+                <input type="file" class="form-control" id="arquivo" name="file" required>
               </div>
-              <button type="button" class="btn btn-primary" @click="enviarArquivo()"
-                data-bs-dismiss="modal">Enviar</button>
+              <button type="submit" class="btn btn-primary" @click="enviarArquivo()">Enviar</button>
             </form>
           </div>
         </div>
@@ -137,6 +136,7 @@ export default {
       paciente: {},
       nutricionista: {},
       retorno: false,
+      prontuarios: [],
       //Criar um novo prontuáro
       dadosPessoais: new DadosPessoais(),
       historiaPessoal: new HistoriaPessoal(),
@@ -144,7 +144,7 @@ export default {
       medicamentos: new Medicamentos(),
       anamnese: new Anamnese(),
       refeicoes: new Refeicoes(),
-      prontuario: new Prontuario()
+      prontuario: new Prontuario(),
     }
   },
   mounted() {
@@ -163,6 +163,12 @@ export default {
         .then((data) => {
           this.paciente = data;
           this.nutricionista = this.paciente.nutricionista;
+          this.prontuarios = this.paciente.prontuarios;
+
+          // Valida o prontuário de retorno
+          if(this.prontuarios.length > 0){
+            this.retorno = true;
+          }
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);
@@ -173,7 +179,7 @@ export default {
     const novaSituacao = prompt("Digite a nova situação:");
 
     // Verificar se o usuário inseriu algo e se clicou em "OK"
-    if (novaSituacao !== null) {
+    if (novaSituacao.length > 0) {
         fetch("http://localhost:3000/alterarSituacao", {
             method: 'POST',
             headers: {
@@ -195,9 +201,10 @@ export default {
         .catch(error => {
             console.error('Erro ao alterar situacao:', error);
         });
-        } else {
-            console.log('O usuário cancelou alteracao do atendimento.');
-        }
+      } 
+      else {
+        console.log('O usuário cancelou alteracao do atendimento.');
+      }
     },
     finalizarAtendimento() {
       if (window.confirm('Tem certeza que deseja finalizar o atendimento?')) {
@@ -227,8 +234,6 @@ export default {
       // Obtém o nome do arquivo do input de texto
       const nomeArquivo = document.getElementById('nomeArquivo').value;
 
-      console.log("Nome do arquivo:", nomeArquivo)
-
       // Obtém o arquivo selecionado do input file
       const arquivoInput = document.getElementById('arquivo');
       const arquivo = arquivoInput.files[0];
@@ -241,7 +246,7 @@ export default {
       const formData = new FormData();
       formData.append('fileName', nomeArquivo);
       formData.append('file', arquivo);
-      formData.append('cod', this.paciente.cod); // Adiciona o código do paciente
+      formData.append('cod', this.paciente.cod);
 
       fetch('http://localhost:3000/salvarArquivo', {
         method: 'POST',
@@ -266,15 +271,13 @@ export default {
           console.error('Erro ao enviar arquivo:', error);
           // Lógica adicional em caso de erro de rede ou outro erro
         });
-        // Atualiza a página
-        // window.location.reload();
-
     },
     criarProntuario() {
       let prontuario = {
           cod: 0,
           tipo: document.getElementById('tipoProntuario').value,
           nome: "",
+          nutricionista: this.nutricionista.nome,
           codPaciente: this.paciente.cod,
           dadosPessoais: this.paciente.dadosPessoais,
           historiaPessoal: this.historiaPessoal,

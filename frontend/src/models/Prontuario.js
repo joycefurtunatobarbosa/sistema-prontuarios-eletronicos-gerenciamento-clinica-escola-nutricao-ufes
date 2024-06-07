@@ -11,6 +11,8 @@ class Prontuario {
         this.cod = "";
         this.nome = "";
         this.codPaciente = "";
+        this.dataCriacao = "",
+        this.dataUltimaMovimentacao = "",
         this.dadosPessoais = new DadosPessoais(),
         this.historiaFamiliar = new HistoriaFamiliar(),
         this.historiaPessoal = new HistoriaPessoal(),
