@@ -4,7 +4,7 @@
     <h6 class="text-end" style="margin-top: -30px;"><b>Data de criação: </b>16/05/2024</h6>
   </div>
   <h5 class="text-center"><b>Paciente: </b>{{ dadosPessoais.nomeCompleto }}</h5>
-  <h5 class="text-center"><b>Nutricionista: </b>{{ nutricionista.nome }}</h5>
+  <h5 class="text-center"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h5>
 
   <!-- Abas -->
   <div class="container-fluid mt-5 col-8">
@@ -50,11 +50,12 @@
     <!-- Botões de navegação -->
     <div class="form-group mt-3 row">
       <div class="col d-flex justify-content-start">
+      <!-- <div class="col d-flex justify-content-end" v-if="abas[5].active"> -->
+        <button class="btn btn-success" @click="salvarProntuario()">Salvar</button>
+      </div>
+      <div class="col d-flex justify-content-end">
         <button type="button" class="btn btn-outline-secondary me-2" v-if="!abas[0].active" @click="anteriorAba">Anterior</button>
         <button type="button" class="btn btn-primary" v-if="!abas[5].active" @click="proximoAba">Próximo</button>
-      </div>
-      <div class="col d-flex justify-content-end" v-if="abas[5].active">
-        <button class="btn btn-success" @click="salvarPreProntuario()">Enviar</button>
       </div>
     </div>
   </div>
@@ -87,7 +88,7 @@ export default {
     AnamneseComponent,
     RefeicoesComponent
   },
-  props:["cod"],
+  props: ["cod", "codPaciente"],
   data() {
     return {
       abas: [
@@ -99,7 +100,7 @@ export default {
         { label: 'Refeições', id: 'refeicoes', active: false },
       ],
       prontuario: {},
-      nutricionista: {},
+      // nutricionista: {},
       dadosPessoais: new DadosPessoais(),
       historiaPessoal: new HistoriaPessoal(),
       historiaFamiliar: new HistoriaFamiliar(),
@@ -134,10 +135,11 @@ export default {
       this.topoPagina();
       this.trocarAba(newIndex);
     },
-    salvarPreProntuario() {
-      let preProntuario = {
-        cod: 1,
-        codPaciente: 1,
+    salvarProntuario() {
+      let prontuario = {
+        cod: parseInt(this.cod),
+        codPaciente: parseInt(this.codPaciente),
+        nutricionista: "",
         dadosPessoais: this.dadosPessoais,
         historiaPessoal: this.historiaPessoal,
         historiaFamiliar: this.historiaFamiliar,
@@ -150,7 +152,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ preProntuario }),
+        body: JSON.stringify({ prontuario }),
         mode: 'cors',
       })
         .then(response => response.json())
@@ -160,6 +162,7 @@ export default {
         .catch(error => {
           console.error('Erro ao enviar dados para o servidor:', error);
         });
+        window.location.reload();
     },
     carregarProntuario(cod) {
       fetch(`http://localhost:3000/buscarProntuario/${cod}`, {
@@ -172,9 +175,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           // Copiar os campos do servidor para o objeto existente
-          // console.log(data.prontuario.dadosPessoais);
           Object.assign(this.prontuario, data.prontuario);
-          Object.assign(this.nutricionista, data.prontuario.nutricionista);
           Object.assign(this.dadosPessoais, data.prontuario.dadosPessoais);
           Object.assign(this.historiaPessoal, data.prontuario.historiaPessoal);
           Object.assign(this.historiaFamiliar, data.prontuario.historiaFamiliar);

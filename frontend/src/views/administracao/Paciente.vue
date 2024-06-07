@@ -31,7 +31,7 @@
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="prontuario in paciente.prontuarios" :key="prontuario">
-            <a :href="`/prontuario/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
+            <a :href="`/prontuario/${paciente.cod}/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
               target="_blank">
               <IconFileFilled class="icon-user me-2" /> {{ prontuario.nome }}
             </a>
@@ -302,7 +302,6 @@ export default {
               console.error('Erro ao enviar dados para o servidor:', error);
           });
       } else {
-        // alert(prontuario.tipo)
           fetch('http://localhost:3000/criarNovoProntuario', {
               method: 'POST',
               headers: {

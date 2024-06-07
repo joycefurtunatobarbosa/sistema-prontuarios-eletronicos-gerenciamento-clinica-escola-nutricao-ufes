@@ -1,15 +1,15 @@
-const opn = require('opn');
+// const opn = require('opn');
 const { ObjectId } = require('mongodb');
 
 module.exports = function (app, mongo) {
 
     app.get('/buscarProntuario/:cod', async (req, res) => {
-        const codigoProntuario = parseInt(req.params.cod);
+        const codProntuario = parseInt(req.params.cod);
         try {
             await mongo.connect();
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
-            const prontuario = await colecao.findOne({ cod: codigoProntuario });
+            const prontuario = await colecao.findOne({ cod: codProntuario });
             res.json({ prontuario });
         } 
         finally {
@@ -62,8 +62,13 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
     
-            const ultimoProntuarioSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
+            // const ultimoProntuarioSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
             
+            const ultimoProntuarioSalvo = await colecao.findOne(
+                { tipo: "prontuario" },
+                { sort: { _id: -1 } }
+            );
+
             let prontuarioRetorno = {};
             Object.assign(prontuarioRetorno, ultimoProntuarioSalvo);
             delete prontuarioRetorno._id;
@@ -117,13 +122,7 @@ module.exports = function (app, mongo) {
                 { cod: codigoPaciente },
                 { $push: { prontuarios: prontuarioPaciente } }
             );
-    
-            if (paciente.modifiedCount === 1) {
-                res.send('Prontuário salvo com sucesso.');
-            } else {
-                console.log("Paciente não encontrado ou nenhum documento modificado.");
-                res.status(404).send('Paciente não encontrado.');
-            }
+            
         } catch (error) {
             console.error("Erro ao adicionar prontuário ao paciente:", error);
             res.status(500).send("Erro interno do servidor.");
@@ -134,13 +133,17 @@ module.exports = function (app, mongo) {
 
     app.post('/salvarProntuario', async (req, res) => {
         const prontuario = req.body.prontuario;
+        const codProntuario = prontuario.cod;
 
         try {
             await mongo.connect();
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
 
-            await colecao.insertOne(prontuario);
+            await colecao.updateOne(
+                { cod: codProntuario },
+                { $set: prontuario }
+            );
 
             res.json({ message: 'Dados salvos com sucesso!' });
 
