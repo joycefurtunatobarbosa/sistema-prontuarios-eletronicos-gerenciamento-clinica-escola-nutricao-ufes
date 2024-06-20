@@ -21,7 +21,6 @@
           <th>Nº</th>
           <th>Paciente</th>
           <th>Motivo</th>
-          <th>Nutricionista</th>
           <th>Projeto</th>
           <th>Opções</th>
         </tr>
@@ -32,10 +31,9 @@
           <td><b>{{ pacientesNaFila.indexOf(paciente) + 1 }}</b></td>
           <td>{{ paciente.dadosPessoais.nomeCompleto }}</td>
           <td>{{ paciente.motivo }}</td>
-          <td v-if="paciente.nutricionista">{{ paciente.nutricionista.nome }}</td>
           <td>{{ paciente.projeto }}</td>
           <td>
-            <button @click="atenderPaciente(paciente.nutricionista.cod, paciente.cod, paciente.paciente.dadosPessoais.nomeCompleto)" class="btn btn-success me-1">Atender</button>
+            <button @click="atenderPaciente(1, paciente.cod, paciente.dadosPessoais.nomeCompleto)" class="btn btn-success me-1">Atender</button>
           </td>
         </tr>
 
@@ -51,7 +49,7 @@ export default {
     return {
       pacientes: [],
       filtro: "Todos os Projetos",
-      aluno: {}
+      nutricionista: {}
     };
   },
   computed: {
@@ -59,7 +57,7 @@ export default {
       if (this.filtro === "Todos os Projetos") {
         return this.paciente;
       } else {
-        return this.alunos.filter(paciente => paciente.projeto === this.filtro);
+        return this.nutricionista.filter(paciente => paciente.projeto === this.filtro);
       }
     },
     pacientesNaFila() {
@@ -70,22 +68,22 @@ export default {
     this.carregarPacientes();
   },
   methods: {
-    carregarAluno(cod) {
-      fetch(`http://localhost:3000/buscarAluno/${cod}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.aluno = data.aluno;
-        })
-        .catch((error) => {
-          console.error("Erro ao carregar dados do aluno:", error);
-        });
-    },
+    // carregarNutricionista(cod) {
+    //   fetch(`http://localhost:3000/buscarNutricionista/${cod}`, {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     mode: "cors",
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       this.nutricionista = data.nutricionista;
+    //     })
+    //     .catch((error) => {
+    //       console.error("Erro ao carregar dados do aluno:", error);
+    //     });
+    // },
     carregarPacientes() {
       fetch("http://localhost:3000/listarPacientes", {
         method: "GET",
@@ -109,7 +107,7 @@ export default {
               headers: {
                   "Content-Type": "application/json",
               },
-              body: JSON.stringify({
+              body: JSON.stringify({ 
                   codAluno: codAluno,
                   codPaciente: codPaciente,
                   nomePaciente: nomePaciente
@@ -128,16 +126,16 @@ export default {
           console.log('O usuário cancelou o atendimento do paciente.');
       }
     },
-    alunoAtenderPaciente(codAluno, codPaciente, nomePaciente) {
-        fetch("http://localhost:3000/alunoAtenderPaciente", {
+    nutricionistaAtenderPaciente(codNutricionista, codPaciente, nomePaciente) {
+        fetch("http://localhost:3000/nutricionistaAtenderPaciente", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                codAluno: codAluno,
-                codPaciente: codPaciente,
-                nomePaciente: nomePaciente
+              codNutricionista: codNutricionista,
+              codPaciente: codPaciente,
+              nomePaciente: nomePaciente
             }),
             mode: "cors",
         })

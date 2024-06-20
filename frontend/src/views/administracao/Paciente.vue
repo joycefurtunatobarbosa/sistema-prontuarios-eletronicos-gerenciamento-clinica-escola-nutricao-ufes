@@ -13,7 +13,7 @@
 
   <div class="informacoes">
     <h6 class="text-end" style="margin-top: "><b>Início do atendimento: </b>{{ paciente.dataInicio }}</h6>
-    <h6 class="text-end" style="margin-top: -5px;"><b>Última movimentação: </b>{{ paciente.dataSituacao }}</h6>
+    <h6 class="text-end" style="margin-top: -5px;"><b>Última atualização: </b>{{ paciente.dataSituacao }}</h6>
     <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ nutricionista.nome }}</h6><br>
   </div>
 

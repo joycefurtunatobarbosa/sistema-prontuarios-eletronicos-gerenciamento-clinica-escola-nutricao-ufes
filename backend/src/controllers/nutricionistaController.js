@@ -96,6 +96,4 @@ module.exports = function (app, mongo) {
             // await mongo.close();
         }
     });
-    
-
 }

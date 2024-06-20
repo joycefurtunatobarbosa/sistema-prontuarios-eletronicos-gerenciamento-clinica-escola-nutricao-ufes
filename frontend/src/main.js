@@ -22,11 +22,14 @@ import CadastrarNutricionista from "./views/nutricionistas/CadastrarNutricionist
 import EditarNutricionista from "./views/nutricionistas/EditarNutricionista.vue";
 
 // Pacientes
-import Pacientes from "./views/pacientes/Pacientes.vue";
+import ListarPacientes from "./views/pacientes/ListarPacientes.vue";
+import CadastrarPaciente from './views/pacientes/CadastrarPaciente.vue';
+import EditarPaciente from './views/pacientes/EditarPaciente.vue';
 
 /* PRONTUÁRIOS */
 // Alunos e Funcionários
 import AlunosFuncionarios from "./views/prontuarios/AlunosFuncionarios.vue";
+
 
 // Roteamento das páginas
 const router = createRouter({
@@ -49,8 +52,10 @@ const router = createRouter({
         { path: '/pacientes-nutriciosta/:cod', component: PacientesDoNutricionista, props: true },
 
         //Paciente
-        { path: "/pacientes", component: Pacientes },
         { path: "/paciente/:cod", component: Paciente, props: true },
+        { path: "/pacientes", component: ListarPacientes },
+        { path: "/cadastrar-paciente", component: CadastrarPaciente },
+        { path: "/editar-paciente/:cod", component: EditarPaciente, props: true },
 
         /* PRONTUÁRIOS */
         // Alunos e Funcionários

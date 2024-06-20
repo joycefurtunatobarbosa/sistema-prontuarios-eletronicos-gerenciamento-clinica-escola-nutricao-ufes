@@ -42,7 +42,7 @@
           <td>{{ nutricionista.projeto }}</td>
           <td>
             <router-link :to="'/editar-nutricionista/' + nutricionista.cod">
-              <button class="btn btn-warning me-1">Editar</button>
+              <button class="btn btn-warning me-1" >Editar</button>
             </router-link>
             <button @click="excluirNutricionista(nutricionista.cod)" class="btn btn-danger"> Excluir </button>
           </td>

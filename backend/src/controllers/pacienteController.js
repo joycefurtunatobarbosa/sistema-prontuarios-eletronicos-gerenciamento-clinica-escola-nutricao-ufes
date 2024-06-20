@@ -8,39 +8,6 @@ var dataFormatada = dataAtual.toLocaleDateString();
 
 module.exports = function (app, mongo) {
 
-    app.get('/buscarPaciente/:cod', async (req, res) => {
-        const codigoPaciente = parseInt(req.params.cod);
-
-        try {
-            await mongo.connect();
-            const database = mongo.db('cen');
-            const colecao = database.collection('pacientes');
-
-            const paciente = await colecao.findOne({ cod: codigoPaciente });
-
-            res.json(paciente);
-
-        } catch (error) {
-            console.error("Erro ao buscar paciente:", error);
-            res.status(500).send("Erro interno do servidor.");
-        } finally {
-            await mongo.close();
-        }
-    });
-
-    app.get('/listarPacientes', async (req, res) => {
-        try {
-            await mongo.connect();
-            const database = mongo.db('cen');
-            const colecao = database.collection('pacientes');
-            const pacientes = await colecao.find().toArray();
-
-            res.json({ pacientes });
-        } finally {
-            await mongo.close();
-        }
-    });
-
     app.post('/atenderPaciente', async (req, res) => {
         const nutricionista = req.body.nutricionista;
         const paciente = req.body.paciente;
@@ -164,6 +131,106 @@ module.exports = function (app, mongo) {
         } finally {
             await mongo.close();
         }
-    });    
+    });
+
+    // CRUD
+
+    app.get('/buscarPaciente/:cod', async (req, res) => {
+        const codPaciente = parseInt(req.params.cod);
+
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('pacientes');
+
+            const paciente = await colecao.findOne({ cod: codPaciente });
+
+            res.json(paciente);
+
+        } catch (error) {
+            console.error("Erro ao buscar paciente:", error);
+            res.status(500).send("Erro interno do servidor.");
+        } finally {
+            await mongo.close();
+        }
+    });
+
+    app.get('/listarPacientes', async (req, res) => {
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('pacientes');
+            const pacientes = await colecao.find().toArray();
+
+            res.json({ pacientes });
+        } finally {
+            await mongo.close();
+        }
+    });
+
+    app.post('/atualizarPaciente', async (req, res) => {
+        const paciente = req.body.paciente;
+        const pacienteID = paciente._id;
+        delete paciente._id;
+
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('pacientes');
+
+            await colecao.updateOne(
+                { _id: new ObjectId(pacienteID) },
+                { $set: paciente }
+            );
+
+            res.json({ message: 'Dados atualizados e salvos com sucesso!' });
+
+        } finally {
+            await mongo.close();
+        }
+    });
+
+    app.post('/salvarPaciente', async (req, res) => {
+        const paciente = req.body.paciente;
+
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('pacientes');
+
+            const qtdPacientes = await colecao.countDocuments();
+
+            if (qtdPacientes == 0) {
+                paciente.cod = 1;
+            }
+            else {
+                paciente.cod = qtdPacientes + 1;
+            }
+
+            await colecao.insertOne(paciente);
+
+            res.json({ message: 'Dados salvos com sucesso!' });
+
+        } finally {
+            await mongo.close();
+        }
+    });
+
+    app.get('/excluirPaciente/:cod', async (req, res) => {
+        const codPaciente = parseInt(req.params.cod);
+    
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('pacientes');
+            await colecao.deleteOne({ cod: codPaciente });
+
+        } catch (error) {
+            console.error('Erro ao excluir paciente:', error);
+            res.status(500).json({ message: 'Erro ao excluir paciente' });
+        } finally {
+            // await mongo.close();
+        }
+    });
 
 }

@@ -4,10 +4,10 @@
 
     <div class="row my-4">
       <div class="col d-flex justify-content-start">
-        <router-link class="btn btn-primary" to="#">Novo paciente</router-link>
+      <router-link class="btn btn-primary" to="/cadastrar-paciente">Novo paciente</router-link>
       </div>
 
-      <div class="col-3 d-flex align-items-center">
+      <!-- <div class="col-3 d-flex align-items-center">
         <label for="filtro" class="me-2">Exibir:</label>
         <select class="form-select" id="filtro" v-model="filtro">
           <option value="Todos os Projetos" selected>Todos os Projetos</option>
@@ -16,7 +16,7 @@
           <option value="Materno Infantil">Materno Infantil</option>
           <option value="Obesidade">Obesidade</option>
         </select>
-      </div>
+      </div> -->
     </div>
 
     <table class="table">
@@ -36,12 +36,15 @@
           <td><b>{{ paciente.cod }}</b></td>
           <td>{{ paciente.dadosPessoais.nomeCompleto }}</td>
           <td>{{ paciente.motivo }}</td>
-          <td>{{ paciente.status }}</td>
           <td>{{ paciente.projeto }}</td>
+          <td>{{ paciente.status }}</td>
           <td>
-            <button class="btn btn-warning me-1"> Editar </button>
-            <button class="btn btn-danger"> Excluir </button>
-            </td>
+            <router-link :to="'/editar-paciente/' + paciente.cod">
+              <button class="btn btn-warning me-1" >Editar</button>
+            </router-link>
+            <!-- <button @click="editarPaciente(paciente.cod)" class="btn btn-warning me-1"> Editar </button> -->
+            <button @click="excluirPaciente(paciente.cod)" class="btn btn-danger"> Excluir </button>
+          </td>
         </tr>
 
       </tbody>
@@ -63,32 +66,16 @@ export default {
     pacienteFiltro() {
       if (this.filtro === "Todos os Projetos") {
         return this.paciente;
-      } else {
+      } 
+      else {
         return this.alunos.filter(paciente => paciente.projeto === this.filtro);
       }
     },
   },
   mounted() {
     this.carregarPacientes();
-    // this.carregarAluno(1);
   },
   methods: {
-    carregarAluno(cod) {
-      fetch(`http://localhost:3000/buscarAluno/${cod}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.aluno = data.aluno;
-        })
-        .catch((error) => {
-          console.error("Erro ao carregar dados do aluno:", error);
-        });
-    },
     carregarPacientes() {
       fetch("http://localhost:3000/listarPacientes", {
         method: "GET",
@@ -105,7 +92,39 @@ export default {
           console.error("Erro ao carregar dados dos pacientes:", error);
         });
     },
-
+    editarPaciente(cod) {
+      fetch(`http://localhost:8080/buscarPaciente/${cod}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .catch((error) => {
+          console.error("Erro ao carregar dados do paciente:", error);
+        });
+    },
+    excluirPaciente(cod) {
+      if (confirm("Deseja realmente excluir o nutricionista?")) {
+        fetch(`http://localhost:3000/excluirPaciente/${cod}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "cors",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Resposta do servidor:", data);
+            
+          })
+          .catch((error) => {
+            console.error("Erro ao enviar dados para o servidor:", error);
+          });
+      }
+      window.location.reload();
+    },
   },
 };
 </script>

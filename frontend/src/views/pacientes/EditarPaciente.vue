@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid col-6 mx-auto">
-    <h2 class="text-center mt-3 mb-5"><b>Editar um aluno</b></h2>
+    <h2 class="text-center mt-3 mb-5"><b>Editar um paciente</b></h2>
     <form>
       <div class="form-group mt-3 row">
         <label for="nome" class="col-2 col-form-label">Nome:</label>

@@ -1,6 +1,6 @@
 class Aluno {
     constructor() {
-        this._id = "";
+        // this._id = "";
         this.cod = "";
         this.nome = nome;
         this.matricula = matricula;

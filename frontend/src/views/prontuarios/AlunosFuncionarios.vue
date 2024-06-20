@@ -6,14 +6,13 @@
   </div>
 
   <div class="informacoes">
-    <h6 class="text-end" style="margin-top: "><b>Data de criação: </b>{{ prontuario.dataCriacao }}</h6>
-    <h6 class="text-end" style="margin-top: -5px;"><b>Última movimentação: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
+    <h6 class="text-end" style="margin-top: "><b>Início: </b>{{ prontuario.dataCriacao }}</h6>
+    <h6 class="text-end" style="margin-top: -5px;"><b>Última atualização: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
     <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h6><br>
   </div>
   
-
   <!-- Abas -->
-  <div class="container-fluid mt-5 col-8">
+  <div class="container-fluid col-8">
     <div class="nav nav-tabs mt-3 text-center d-flex justify-content-center">
       <a class="nav-link" :class="{ 'active': abas[0].active }" @click="trocarAba(0)" href="#">Dados Pessoais</a>
       <a class="nav-link" :class="{ 'active': abas[1].active }" @click="trocarAba(1)" href="#">História Pessoal</a>
