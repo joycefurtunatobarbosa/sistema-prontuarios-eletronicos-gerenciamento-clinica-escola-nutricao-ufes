@@ -33,7 +33,7 @@
           <td>{{ paciente.motivo }}</td>
           <td>{{ paciente.projeto }}</td>
           <td>
-            <button @click="atenderPaciente(1, paciente.cod, paciente.dadosPessoais.nomeCompleto)" class="btn btn-success me-1">Atender</button>
+            <button @click="atenderPaciente(nutricionista, paciente.cod, paciente.dadosPessoais.nomeCompleto)" class="btn btn-success me-1">Atender</button>
           </td>
         </tr>
 
@@ -49,7 +49,10 @@ export default {
     return {
       pacientes: [],
       filtro: "Todos os Projetos",
-      nutricionista: {}
+      nutricionista: {
+        cod: 1,
+        nome: "Joyce Furtunato Barbosa"
+      }
     };
   },
   computed: {
@@ -61,29 +64,16 @@ export default {
       }
     },
     pacientesNaFila() {
-      return this.pacientes.filter(paciente => paciente.status === 'Na fila');
+      if (this.pacientes) {
+        return this.pacientes.filter(paciente => paciente.status === 'Na fila');
+      }
+      return []; // Retornando um array vazio se this.pacientes for undefined ou null
     }
   },
   mounted() {
     this.carregarPacientes();
   },
   methods: {
-    // carregarNutricionista(cod) {
-    //   fetch(`http://localhost:3000/buscarNutricionista/${cod}`, {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     mode: "cors",
-    //   })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       this.nutricionista = data.nutricionista;
-    //     })
-    //     .catch((error) => {
-    //       console.error("Erro ao carregar dados do aluno:", error);
-    //     });
-    // },
     carregarPacientes() {
       fetch("http://localhost:3000/listarPacientes", {
         method: "GET",
@@ -100,7 +90,7 @@ export default {
           console.error("Erro ao carregar dados dos pacientes:", error);
         });
     },
-    atenderPaciente(codAluno, codPaciente, nomePaciente) {
+    atenderPaciente(nutricionista, codPaciente, nomePaciente) {
       if (window.confirm('Tem certeza que deseja atender este paciente?')) {
           fetch("http://localhost:3000/atenderPaciente", {
               method: "POST",
@@ -108,16 +98,16 @@ export default {
                   "Content-Type": "application/json",
               },
               body: JSON.stringify({ 
-                  codAluno: codAluno,
                   codPaciente: codPaciente,
-                  nomePaciente: nomePaciente
+                  nutricionista: nutricionista,
+                  // nomePaciente: nomePaciente
               }),
               mode: "cors",
           })
           .then((response) => response.json())
           .then((data) => {
               this.pacientes = data.pacientes;
-              this.alunoAtenderPaciente(codAluno, codPaciente, nomePaciente);
+              this.nutricionistaAtenderPaciente(nutricionista.cod, codPaciente, nomePaciente);
           })
           .catch((error) => {
               console.error("Erro ao atender paciente:", error);

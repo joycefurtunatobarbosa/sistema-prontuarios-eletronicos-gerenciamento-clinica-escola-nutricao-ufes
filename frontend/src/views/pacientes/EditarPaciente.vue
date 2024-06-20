@@ -5,36 +5,36 @@
       <div class="form-group mt-3 row">
         <label for="nome" class="col-2 col-form-label">Nome:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="nome" v-model="aluno.nome" />
+          <input type="text" class="form-control" name="nome" v-if="paciente.dadosPessoais" v-model="paciente.dadosPessoais.nomeCompleto" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
-        <label for="matricula" class="col-2 col-form-label">Matrícula:</label>
+        <label for="matricula" class="col-2 col-form-label">Motivo:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="matricula" v-model="aluno.matricula" />
+          <input type="text" class="form-control" name="matricula" v-model="paciente.motivo" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="email" class="col-2 col-form-label">Email:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="email" v-model="aluno.email" />
+          <input type="text" class="form-control" name="email" v-model="paciente.email" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="celular" class="col-2 col-form-label">Celular:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="celular" v-model="aluno.celular" />
+          <input type="text" class="form-control" name="celular" v-model="paciente.celular" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="projeto" class="col-2 col-form-label">Projeto:</label>
         <div class="col-10">
-          <select class="form-select" id="projeto" v-model="aluno.projeto">
-            <option value="Alunos e Funcionários">Alunos e Funcionários</option>
+          <select class="form-select" name="projeto" v-model="paciente.projeto" disabled>
+            <option value="Alunos e Funcionários" selected>Alunos e Funcionários</option>
             <option value="Cardiovascular">Cardiovascular</option>
             <option value="Materno Infantil">Materno Infantil</option>
             <option value="Obesidade">Obesidade</option>
@@ -43,8 +43,8 @@
       </div>
 
       <div class="form-group mt-3" style="text-align: end;">
-        <button type="button" class="btn btn-primary me-1" @click="atualizarAluno(aluno)"> Salvar </button>
-        <router-link class="btn btn-outline-secondary" to="/alunos-funcionarios">Cancelar</router-link>
+        <button type="button" class="btn btn-primary me-1" @click="atualizarAluno(paciente)"> Salvar </button>
+        <router-link class="btn btn-outline-secondary" to="/pacientes">Cancelar</router-link>
       </div>
     </form>
   </div>
@@ -54,52 +54,52 @@
 import { cloneDeep, isEqual } from "lodash";
 export default {
   name: "EditarPaciente",
+  props: ["cod"],
   data() {
     return {
-      aluno: {},
-      alunoOriginal: {},
+      paciente: {},
+      pacienteOriginal: {},
     };
   },
   mounted() {
-    this.carregarAluno(this.$route.params.id);
+    this.carregarPaciente(this.cod);
   },
   methods: {
-    carregarAluno(id) {
-      fetch("http://localhost:3000/buscarAluno", {
-        method: "POST",
+    carregarPaciente(cod) {
+      fetch(`http://localhost:3000/buscarPaciente/${cod}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }),
         mode: "cors",
       })
         .then((response) => response.json())
         .then((data) => {
-          this.aluno = data.aluno;
-          this.alunoOriginal = cloneDeep(this.aluno);
+          this.paciente = data.paciente;
+          this.pacienteOriginal = cloneDeep(this.paciente);
         })
         .catch((error) => {
-          console.error("Erro ao carregar dados dos alunos:", error);
+          console.error("Erro ao carregar dados do paciente:", error);
         });
     },
-    atualizarAluno(aluno) {
-      if (isEqual(this.aluno, this.alunoOriginal)) {
+    atualizarAluno(paciente) {
+      if (isEqual(this.paciente, this.pacienteOriginal)) {
         alert("Nenhuma alteração foi realizada.");
         return;
       }
       else {
-        fetch("http://localhost:3000/atualizarAluno", {
+        fetch("http://localhost:3000/atualizarPaciente", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ aluno }),
+          body: JSON.stringify({ paciente }),
           mode: "cors",
         })
           .then((response) => response.json())
           .then((response) => {
-            alert("Aluno atualizado com sucesso.");
-            this.$router.push("/alunos-funcionarios", response.data);
+            alert("Paciente atualizado com sucesso.");
+            this.$router.push("/pacientes", response.data);
           })
           .catch((error) => {
             console.error("Erro ao atualizar aluno:", error);

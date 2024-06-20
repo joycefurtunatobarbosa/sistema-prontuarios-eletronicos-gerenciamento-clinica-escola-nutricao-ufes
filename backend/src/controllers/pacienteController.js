@@ -1,8 +1,5 @@
-// const fs = require('fs');
-// const opn = require('opn');
-// const { ObjectId } = require('mongodb');
-const { param } = require('jquery');
-
+// const { param } = require('jquery');
+const { ObjectId } = require('mongodb');
 var dataAtual = new Date(Date.now());
 var dataFormatada = dataAtual.toLocaleDateString();
 
@@ -10,15 +7,15 @@ module.exports = function (app, mongo) {
 
     app.post('/atenderPaciente', async (req, res) => {
         const nutricionista = req.body.nutricionista;
-        const paciente = req.body.paciente;
+        const codPaciente = req.body.codPaciente;
     
         try {
             await mongo.connect();
             const database = mongo.db('cen');
             const pacientesColecao = database.collection('pacientes');
     
-            const paciente = await pacientesColecao.updateOne(
-                { cod: paciente.cod },
+            const pacienteNoBanco = await pacientesColecao.updateOne(
+                { cod: codPaciente },
                 { $set: { 
                     nutricionista: {cod: nutricionista.cod, nome: nutricionista.nome},
                     dataInicio: dataFormatada,
@@ -28,7 +25,7 @@ module.exports = function (app, mongo) {
                  } }
             );
     
-            if (paciente.modifiedCount === 1) {
+            if (pacienteNoBanco.modifiedCount === 1) {
                 res.json({ message: 'O paciente começou a ser atendido.' });
             } else {
                 res.status(404).json({ error: 'Paciente não encontrado.' });
@@ -144,12 +141,9 @@ module.exports = function (app, mongo) {
             const colecao = database.collection('pacientes');
 
             const paciente = await colecao.findOne({ cod: codPaciente });
+            
+            res.json({ paciente });
 
-            res.json(paciente);
-
-        } catch (error) {
-            console.error("Erro ao buscar paciente:", error);
-            res.status(500).send("Erro interno do servidor.");
         } finally {
             await mongo.close();
         }
@@ -232,5 +226,43 @@ module.exports = function (app, mongo) {
             // await mongo.close();
         }
     });
+
+    app.get('/excluirPacienteNoNutricionista/:codNutricionista/:codPaciente', async (req, res) => {
+        const codNutricionista = parseInt(req.params.codNutricionista);
+        const codPaciente = parseInt(req.params.codPaciente);
+    
+        try {
+            await mongo.connect();
+    
+            const database = mongo.db('cen');
+            const colecao = database.collection('nutricionistas');
+            const nutricionista = await colecao.findOne({ cod: codNutricionista });
+    
+            if (!nutricionista) {
+                return res.status(404).json({ message: 'Nutricionista não encontrado' });
+            }
+    
+            // Encontrar o índice do paciente dentro do array pacientes do nutricionista
+            const indicePaciente = nutricionista.pacientes.findIndex(paciente => paciente.cod === codPaciente);
+    
+            if (indicePaciente === -1) {
+                // Se não encontrar o paciente, retorna 404
+                return res.status(404).json({ message: 'Paciente não encontrado no nutricionista' });
+            }
+    
+            // Remover o paciente do array pacientes
+            nutricionista.pacientes.splice(indicePaciente, 1);
+    
+            await colecao.updateOne({ cod: codNutricionista }, { $set: { pacientes: nutricionista.pacientes } });
+    
+            res.status(200).json({ message: 'Paciente excluído do nutricionista com sucesso' });
+        } catch (error) {
+            console.error('Erro ao excluir paciente:', error);
+            res.status(500).json({ message: 'Erro ao excluir paciente do nutricionista' });
+        } finally {
+            await mongo.close();
+        }
+    });
+    
 
 }

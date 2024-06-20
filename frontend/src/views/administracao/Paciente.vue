@@ -161,49 +161,48 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          this.paciente = data;
+          this.paciente = data.paciente;
           this.nutricionista = this.paciente.nutricionista;
           this.prontuarios = this.paciente.prontuarios;
 
           // Valida o prontuário de retorno
-          if(this.prontuarios.length > 0){
+          if (this.prontuarios && this.prontuarios.length > 0) {
             this.retorno = true;
           }
+
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);
         });
     },
     alterarSituacao() {
-    // Solicitar ao usuário que digite a nova situação
-    const novaSituacao = prompt("Digite a nova situação:");
+      // Solicitar ao usuário que digite a nova situação
+      const novaSituacao = prompt("Digite a nova situação:");
 
-    // Verificar se o usuário inseriu algo e se clicou em "OK"
-    if (novaSituacao.length > 0) {
+      // Verificar se o usuário inseriu algo e se clicou em "OK"
+      if (novaSituacao && novaSituacao.length > 0) {
         fetch("http://localhost:3000/alterarSituacao", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              codPaciente: this.cod,
-              novaSituacao: novaSituacao
-            }),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            codPaciente: this.cod,
+            novaSituacao: novaSituacao
+          }),
         })
         .then(response => {
-            if (response.ok) {
-                // alert("Atendimento finalizado com sucesso.");
-                window.location.reload();
-            } else {
-                console.error('Erro ao alterar situacao:', response.statusText);
-            }
+          if (response.ok) {
+            window.location.reload();
+          } else {
+            console.error('Erro ao alterar situacao:', response.statusText);
+          }
         })
         .catch(error => {
-            console.error('Erro ao alterar situacao:', error);
+          console.error('Erro ao alterar situacao:', error);
         });
-      } 
-      else {
-        console.log('O usuário cancelou alteracao do atendimento.');
+      } else {
+        console.log('O usuário cancelou a alteração da situação ou não inseriu um valor válido.');
       }
     },
     finalizarAtendimento() {
@@ -276,7 +275,7 @@ export default {
       let prontuario = {
           cod: 0,
           tipo: document.getElementById('tipoProntuario').value,
-          nome: "",
+          // nome: "",
           nutricionista: this.nutricionista.nome,
           codPaciente: this.paciente.cod,
           dadosPessoais: this.paciente.dadosPessoais,

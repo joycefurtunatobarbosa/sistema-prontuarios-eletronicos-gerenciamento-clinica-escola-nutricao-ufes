@@ -123,6 +123,25 @@ export default {
             console.error("Erro ao enviar dados para o servidor:", error);
           });
       }
+      this.excluirPacienteNoNutricionista();
+      // window.location.reload();
+    },
+    excluirPacienteNoNutricionista(codNutricionista, codPaciente) {
+      fetch(`http://localhost:3000/excluirPacienteNoNutricionista/${codNutricionista}/${codPaciente}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Resposta do servidor:", data);
+          
+        })
+        .catch((error) => {
+          console.error("Erro ao enviar dados para o servidor:", error);
+        });
       window.location.reload();
     },
   },
