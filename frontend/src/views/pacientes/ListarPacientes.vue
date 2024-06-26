@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     carregarPacientes() {
-      fetch("http://localhost:3000/listarPacientes", {
+      fetch("http://cenufes.kinghost.net:21200/app/listarPacientes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default {
         });
     },
     editarPaciente(cod) {
-      fetch(`http://localhost:8080/buscarPaciente/${cod}`, {
+      fetch(`http://cenufes.kinghost.net:21200/app/buscarPaciente/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export default {
     },
     excluirPaciente(cod) {
       if (confirm("Deseja realmente excluir o nutricionista?")) {
-        fetch(`http://localhost:3000/excluirPaciente/${cod}`, {
+        fetch(`http://cenufes.kinghost.net:21200/excluirPaciente/${cod}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -127,7 +127,7 @@ export default {
       // window.location.reload();
     },
     excluirPacienteNoNutricionista(codNutricionista, codPaciente) {
-      fetch(`http://localhost:3000/excluirPacienteNoNutricionista/${codNutricionista}/${codPaciente}`, {
+      fetch(`http://cenufes.kinghost.net:21200/app/excluirPacienteNoNutricionista/${codNutricionista}/${codPaciente}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -67,7 +67,7 @@ export default {
   methods: {
     salvarPaciente() {
       const paciente = this.paciente;
-      fetch('http://localhost:3000/salvarPaciente', {
+      fetch('http://cenufes.kinghost.net:21200/app/salvarPaciente', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

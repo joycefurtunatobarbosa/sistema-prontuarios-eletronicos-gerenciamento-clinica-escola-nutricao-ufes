@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     carregarNutricionistas() {
-      fetch("http://localhost:3000/listarNutricionistas", {
+      fetch("http://cenufes.kinghost.net:21200/app/listarNutricionistas", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export default {
         });
     },
     editarNutricionista(cod) {
-      fetch(`http://localhost:8080/buscarNutricionista/${cod}`, {
+      fetch(`http://cenufes.kinghost.net:21200/buscarNutricionista/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export default {
     },
     excluirNutricionista(cod) {
       if (confirm("Deseja realmente excluir o nutricionista?")) {
-        fetch(`http://localhost:3000/excluirNutricionista/${cod}`, {
+        fetch(`http://cenufes.kinghost.net:21200/excluirNutricionista/${cod}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

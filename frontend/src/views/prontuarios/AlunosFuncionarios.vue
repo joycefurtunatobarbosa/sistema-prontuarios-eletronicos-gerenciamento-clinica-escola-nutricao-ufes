@@ -152,7 +152,7 @@ export default {
         anamnese: this.anamnese,
         refeicoes: this.refeicoes,
       };
-      fetch('http://localhost:3000/salvarProntuario', {
+      fetch('http://cenufes.kinghost.net:21200/app/salvarProntuario', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ export default {
         window.location.reload();
     },
     carregarProntuario(cod) {
-      fetch(`http://localhost:3000/buscarProntuario/${cod}`, {
+      fetch(`http://cenufes.kinghost.net:21200/app/buscarProntuario/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

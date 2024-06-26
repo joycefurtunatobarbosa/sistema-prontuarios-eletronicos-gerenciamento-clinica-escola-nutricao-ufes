@@ -2,10 +2,10 @@ const { ObjectId } = require('mongodb');
 
 module.exports = function (app, mongo) {
 
-    app.get('/listarNutricionistas', async (req, res) => {
+    app.get('/app/listarNutricionistas', async (req, res) => {
         try {
             await mongo.connect();
-            const database = mongo.db('cen');
+            const database = mongo.db('cenufes01');
             const colecao = database.collection('nutricionistas');
             const nutricionistas = await colecao.find().toArray();
 
@@ -15,12 +15,12 @@ module.exports = function (app, mongo) {
         }
     });
 
-    app.get('/buscarNutricionista/:cod', async (req, res) => {
+    app.get('/app/buscarNutricionista/:cod', async (req, res) => {
         const codNutricionista = parseInt(req.params.cod);
 
         try {
             await mongo.connect();
-            const database = mongo.db('cen');
+            const database = mongo.db('cenufes01');
             const colecao = database.collection('nutricionistas');
 
             const nutricionista = await colecao.findOne({ cod: codNutricionista });
@@ -32,14 +32,14 @@ module.exports = function (app, mongo) {
         }
     });
 
-    app.post('/atualizarNutricionista', async (req, res) => {
+    app.post('/app/atualizarNutricionista', async (req, res) => {
         const nutricionista = req.body.nutri;
         const nutricionistaID = nutricionista._id;
         delete nutricionista._id;
 
         try {
             await mongo.connect();
-            const database = mongo.db('cen');
+            const database = mongo.db('cenufes01');
             const colecao = database.collection('nutricionistas');
 
             await colecao.updateOne(
@@ -54,12 +54,12 @@ module.exports = function (app, mongo) {
         }
     });
 
-    app.post('/salvarNutricionista', async (req, res) => {
+    app.post('/app/salvarNutricionista', async (req, res) => {
         const nutricionista = req.body.nutri;
 
         try {
             await mongo.connect();
-            const database = mongo.db('cen');
+            const database = mongo.db('cenufes01');
             const colecao = database.collection('nutricionistas');
 
             const qtdNutricionistas = await colecao.countDocuments();
@@ -80,12 +80,12 @@ module.exports = function (app, mongo) {
         }
     });
 
-    app.get('/excluirNutricionista/:cod', async (req, res) => {
+    app.get('/app/excluirNutricionista/:cod', async (req, res) => {
         const codNutricionista = parseInt(req.params.cod);
     
         try {
             await mongo.connect();
-            const database = mongo.db('cen');
+            const database = mongo.db('cenufes01');
             const colecao = database.collection('nutricionistas');
             await colecao.deleteOne({ cod: codNutricionista });
 

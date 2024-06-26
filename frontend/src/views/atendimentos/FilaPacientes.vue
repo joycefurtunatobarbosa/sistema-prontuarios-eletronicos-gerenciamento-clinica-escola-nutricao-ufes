@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     carregarPacientes() {
-      fetch("http://localhost:3000/listarPacientes", {
+      fetch("http://cenufes.kinghost.net:21200/app/listarPacientes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export default {
     },
     atenderPaciente(nutricionista, codPaciente, nomePaciente) {
       if (window.confirm('Tem certeza que deseja atender este paciente?')) {
-          fetch("http://localhost:3000/atenderPaciente", {
+          fetch("http://cenufes.kinghost.net:21200/app/atenderPaciente", {
               method: "POST",
               headers: {
                   "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export default {
       }
     },
     nutricionistaAtenderPaciente(codNutricionista, codPaciente, nomePaciente) {
-        fetch("http://localhost:3000/nutricionistaAtenderPaciente", {
+        fetch("http://cenufes.kinghost.net:21200/app/nutricionistaAtenderPaciente", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
