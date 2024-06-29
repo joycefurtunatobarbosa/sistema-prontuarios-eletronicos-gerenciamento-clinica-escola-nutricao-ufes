@@ -70,7 +70,7 @@ export default {
   methods: {
     salvarNutricionista() {
       const nutri = this.nutricionista;
-      fetch('http://cenufes.kinghost.net:21200/salvarNutricionista', {
+      fetch('http://cenufes.kinghost.net/salvarNutricionista', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     carregaNutricionista(cod) {
-      fetch(`http://cenufes.kinghost.net:21200/app/buscarNutricionista/${cod}`, {
+      fetch(`http://cenufes.kinghost.net/app/buscarNutricionista/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export default {
         return;
       }
       else {
-        fetch("http://cenufes.kinghost.net:21200/app/atualizarNutricionista", {
+        fetch("http://cenufes.kinghost.net/app/atualizarNutricionista", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -35,7 +35,7 @@
           <td v-if="paciente.nutricionista">{{ paciente.nutricionista.nome }}</td>
           <td>{{ paciente.projeto }}</td>
           <td>
-            <a :href="`http://cenufes.kinghost.net:21200/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a>
+            <a :href="`http://cenufes.kinghost.net/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a>
           </td>
         </tr>
 
@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     carregarAluno(cod) {
-      fetch(`http://cenufes.kinghost.net:21200/app/buscarAluno/${cod}`, {
+      fetch(`http://cenufes.kinghost.net/app/buscarAluno/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default {
         });
     },
     carregarPacientes() {
-      fetch("http://cenufes.kinghost.net:21200/app/listarPacientes", {
+      fetch("http://cenufes.kinghost.net/app/listarPacientes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ export default {
     },
     atenderPaciente(codAluno, codPaciente, nomePaciente) {
       if (window.confirm('Tem certeza que deseja atender este paciente?')) {
-          fetch("http://cenufes.kinghost.net:21200/app/atenderPaciente", {
+          fetch("http://cenufes.kinghost.net/app/atenderPaciente", {
               method: "POST",
               headers: {
                   "Content-Type": "application/json",
@@ -129,7 +129,7 @@ export default {
       }
     },
     alunoAtenderPaciente(codAluno, codPaciente, nomePaciente) {
-        fetch("http://cenufes.kinghost.net:21200/app/alunoAtenderPaciente", {
+        fetch("http://cenufes.kinghost.net/app/alunoAtenderPaciente", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
