@@ -52,7 +52,7 @@
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="arquivo in paciente.arquivos" :key="arquivo.localizacao">
-            <a v-if="arquivo" :href="`http://cenufes.kinghost.net/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
+            <a v-if="arquivo" :href="`http://cenufes.kinghost.net:21200/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
                 target="_blank">
                 <IconFileFilled class="icon-user me-2" /> {{ arquivo.nome }}
             </a>
