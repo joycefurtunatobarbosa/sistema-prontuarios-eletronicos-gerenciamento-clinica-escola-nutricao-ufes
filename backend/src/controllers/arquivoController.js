@@ -35,7 +35,7 @@ module.exports = function (app, mongo) {
             console.error("Erro ao adicionar nome do arquivo ao paciente:", error);
             res.status(500).send("Erro interno do servidor.");
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
         res.send('Arquivo salvo com sucesso.');
     });

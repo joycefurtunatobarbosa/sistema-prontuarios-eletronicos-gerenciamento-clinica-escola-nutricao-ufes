@@ -1,20 +1,22 @@
 <template>
   <div class="titulo mb-5">
-    <h2 class="text-center" v-if="paciente.dadosPessoais"><b>Paciente:</b> {{ paciente.dadosPessoais.nomeCompleto }}</h2>
-    <h5 class="text-center"><b>Situação: </b>{{ paciente.situacao }}</h5>
+    <h2 class="text-center" v-if="paciente && paciente.dadosPessoais.nomeCompleto"><b>Paciente:</b> {{ paciente.dadosPessoais.nomeCompleto }}</h2>
+    <h5 class="text-center" v-if="paciente && paciente.situacao">
+      <b>Situação: </b>{{ paciente.situacao }}
+    </h5>
   </div>
 
   <div class="d-flex justify-content-center flex-column align-items-center" style="margin-top: -50px">
     <div class="btn-group mt-3" role="group" aria-label="Alterar Situação">
-      <button v-if="paciente.status === 'Em atendimento'" class="btn btn-warning" @click="alterarSituacao()">Alterar situação</button>
-      <button v-if="paciente.status === 'Em atendimento'" class="btn btn-danger" @click="finalizarAtendimento()">Finalizar atendimento</button>
+      <button v-if="paciente && paciente.status === 'Em atendimento'" class="btn btn-warning" @click="alterarSituacao()">Alterar situação</button>
+      <button v-if="paciente && paciente.status === 'Em atendimento'" class="btn btn-danger" @click="finalizarAtendimento()">Finalizar atendimento</button>
     </div>
   </div>
 
   <div class="informacoes">
-    <h6 class="text-end" style="margin-top: "><b>Início do atendimento: </b>{{ paciente.dataInicio }}</h6>
-    <h6 class="text-end" style="margin-top: -5px;"><b>Última atualização: </b>{{ paciente.dataSituacao }}</h6>
-    <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ nutricionista.nome }}</h6><br>
+    <h6 class="text-end" v-if="paciente && paciente.dataInicio" style="margin-top: "><b>Início do atendimento: </b>{{ paciente.dataInicio }}</h6>
+    <h6 class="text-end" v-if="paciente && paciente.dataSituacao" style="margin-top: -5px;"><b>Última atualização: </b>{{ paciente.dataSituacao }}</h6>
+    <h6 class="text-end" v-if="nutricionista && nutricionista.nome" style="margin-top: -5px"><b>Nutricionista: </b>{{ nutricionista.nome }}</h6><br>
   </div>
 
   <div class="container-fluid col-10" id="container">
@@ -23,7 +25,7 @@
         <h6 id="subtitulo" class="col">Prontuários</h6>
         <h6 class="text-end col">
           <button class="btn btn-success" data-bs-toggle="modal"
-            data-bs-target="#adicionarProntuarioModal">Adicionar
+            data-bs-target="#adicionarProntuarioModal" v-if="paciente && paciente.status == 'Em atendimento'">Adicionar
           </button>
         </h6>
       </div>
@@ -31,7 +33,7 @@
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="prontuario in prontuarios" :key="prontuario">
-            <a :href="`/prontuario/${paciente.cod}/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
+            <a :href="`/prontuario/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
               target="_blank">
               <IconFileFilled class="icon-user me-2" /> {{ prontuario.nome }}
             </a>
@@ -45,11 +47,11 @@
       <div class="row align-items-center">
         <h6 id="subtitulo" class="col">Arquivos</h6>
         <h6 class="text-end col">
-          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadArquivoModal">Adicionar</button>
+          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadArquivoModal" v-if="paciente && paciente.status == 'Em atendimento'">Adicionar</button>
         </h6>
       </div>
       <div class="row">
-        <div class="d-flex flex-wrap gap-2">
+        <div class="d-flex flex-wrap gap-2" v-if="paciente && paciente.arquivos">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="arquivo in paciente.arquivos" :key="arquivo.localizacao">
             <a v-if="arquivo" :href="`http://localhost:3000/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
@@ -104,7 +106,7 @@
                 <label for="fileInput" class="form-label">Selecione o arquivo:</label>
                 <input type="file" class="form-control" id="arquivo" name="file" required>
               </div>
-              <button type="submit" class="btn btn-primary" @click="enviarArquivo()">Enviar</button>
+              <button type="button" class="btn btn-primary" @click="enviarArquivo()">Enviar</button>
             </form>
           </div>
         </div>
@@ -133,8 +135,12 @@ export default {
   props: ["cod"],
   data() {
     return {
-      paciente: {},
-      nutricionista: {},
+      // paciente: {},
+      paciente: null,
+      // nomeCompleto: "",
+      // situacao: "",
+      // status: "",
+      nutricionista: null,
       retorno: false,
       prontuarios: [],
       //Criar um novo prontuáro
@@ -162,18 +168,24 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.paciente = data.paciente;
+          // this.nomeCompleto = this.paciente.dadosPessoais.nomeCompleto;
+          // this.situacao = this.paciente.situacao;
+          // this.status = this.paciente.status;
           this.nutricionista = this.paciente.nutricionista;
-          this.prontuarios = this.paciente.prontuarios;
-
+          if(this.paciente.prontuarios){
+            this.prontuarios = this.paciente.prontuarios;
+          }
+          
           // Valida o prontuário de retorno
           if (this.prontuarios && this.prontuarios.length > 0) {
             this.retorno = true;
           }
-
+          
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);
         });
+        // window.location.reload();
     },
     alterarSituacao() {
       // Solicitar ao usuário que digite a nova situação
@@ -254,15 +266,18 @@ export default {
         .then(response => {
 
           if (response.ok) {
-            console.log('Arquivo enviado com sucesso.');
+            alert('Arquivo enviado com sucesso.');
+            // document.getElementById('codigoPaciente').value = '';
+
+            window.location.reload(true);
+
             // Limpa os campos do formulário
             document.getElementById('nomeArquivo').value = '';
             document.getElementById('arquivo').value = '';
-            // document.getElementById('codigoPaciente').value = '';
-            window.location.reload();
             
           } else {
             console.error('Erro ao enviar arquivo:', response.statusText);
+            window.location.reload(true);
             // Lógica adicional em caso de erro no envio
           }
         })

@@ -93,7 +93,8 @@ export default {
     AnamneseComponent,
     RefeicoesComponent
   },
-  props: ["cod", "codPaciente"],
+  // props: ["codPaciente", "cod"],
+  props: ["cod"],
   data() {
     return {
       abas: [

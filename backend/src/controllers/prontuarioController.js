@@ -29,22 +29,28 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
 
-            const ultimoProntuarioSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
+            // Busca a quantidade total de prontuários
+            var qtdProntuarios = await colecao.countDocuments({});
 
-            if (ultimoProntuarioSalvo == null) {
+            // Busca o último prontuário salvo para o paciente e tipo específicos
+            var ultimoProntuarioSalvo = await colecao.countDocuments({ codPaciente: parseInt(prontuario.codPaciente), tipo: prontuario.tipo });
+
+            if (qtdProntuarios === 0) {
                 prontuario.cod = 1;
             } else {
-                prontuario.cod = ultimoProntuarioSalvo.cod + 1;
+                prontuario.cod = qtdProntuarios + 1;
             }
 
-            let qtdProntuarioComum = parseInt(await colecao.countDocuments({ tipo: "prontuario" }));
+            prontuario.nome = "Prontuário " + (ultimoProntuarioSalvo + 1);
 
-            if (qtdProntuarioComum == null || 0) {
-                prontuario.nome = "Prontuário 1";
-            } else {
-                qtdProntuarioComum++;
-                prontuario.nome = "Prontuário " + qtdProntuarioComum;
-            }
+            // let qtdProntuarioComum = parseInt(await colecao.countDocuments({ tipo: "prontuario" }));
+
+            // if (ultimoProntuarioSalvo == null || ultimoProntuarioSalvo == 0) {
+            //     prontuario.nome = "Prontuário 1";
+            // } else {
+            //     ultimoProntuarioSalvo++;
+            //     prontuario.nome = "Prontuário " + ultimoProntuarioSalvo;
+            // }
     
             await colecao.insertOne(prontuario);
     
@@ -71,7 +77,7 @@ module.exports = function (app, mongo) {
             // const ultimoProntuarioSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
             
             const ultimoProntuarioSalvo = await colecao.findOne(
-                { tipo: "prontuario" },
+                { tipo: "prontuario", codPaciente: parseInt(prontuario.codPaciente) },
                 { sort: { _id: -1 } }
             );
 
@@ -80,18 +86,26 @@ module.exports = function (app, mongo) {
             delete prontuarioRetorno._id;
     
             let novoCod;
+            // Busca a quantidade total de prontuários
+            var qtdProntuarios = await colecao.countDocuments({});
 
-            if (ultimoProntuarioSalvo == null) {
+            if (qtdProntuarios == 0) {
                 novoCod = 1;
             } else {
-                novoCod = ultimoProntuarioSalvo.cod + 1;
+                novoCod = qtdProntuarios + 1;
             }
+
+            // if (ultimoProntuarioSalvo == null) {
+            //     novoCod = 1;
+            // } else {
+            //     novoCod = ultimoProntuarioSalvo.cod + 1;
+            // }
             
             prontuarioRetorno.cod = novoCod;
 
-            let qtdProntuarioRetorno = parseInt(await colecao.countDocuments({ tipo: "retorno" }));
+            let qtdProntuarioRetorno = parseInt(await colecao.countDocuments({ tipo: "retorno", codPaciente: parseInt(prontuario.codPaciente) }));
 
-            if (qtdProntuarioRetorno == null || 0) {
+            if (qtdProntuarioRetorno == null || qtdProntuarioRetorno == 0) {
                 prontuarioRetorno.nome = "Retorno 1";
             } else {
                 qtdProntuarioRetorno++;

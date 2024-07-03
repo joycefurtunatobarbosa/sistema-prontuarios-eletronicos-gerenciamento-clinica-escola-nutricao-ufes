@@ -60,7 +60,7 @@ const router = createRouter({
         /* PRONTUÁRIOS */
         // Alunos e Funcionários
         { path: "/alunos-funcionarios", component: AlunosFuncionarios},
-        { path: "/prontuario/:codPaciente/:cod", component: AlunosFuncionarios,  props: true},
+        { path: "/prontuario/:cod", component: AlunosFuncionarios,  props: true},
     ]
 });
 

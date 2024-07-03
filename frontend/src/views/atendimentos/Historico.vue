@@ -21,8 +21,8 @@
           <th>Nº</th>
           <th>Paciente</th>
           <th>Motivo</th>
-          <th>Nutricionista</th>
           <th>Projeto</th>
+          <th>Nutricionista</th>
           <th>Opções</th>
         </tr>
       </thead>
@@ -32,8 +32,8 @@
           <td><b>{{ pacientesHistorico.indexOf(paciente) + 1 }}</b></td>
           <td>{{ paciente.dadosPessoais.nomeCompleto }}</td>
           <td>{{ paciente.motivo }}</td>
-          <td v-if="paciente.nutricionista">{{ paciente.nutricionista.nome }}</td>
           <td>{{ paciente.projeto }}</td>
+          <td v-if="paciente.nutricionista">{{ paciente.nutricionista.nome }}</td>
           <td>
             <a :href="`http://localhost:8081/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a>
           </td>

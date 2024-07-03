@@ -5,6 +5,8 @@ var dataFormatada = dataAtual.toLocaleDateString();
 
 module.exports = function (app, mongo) {
 
+    mongo.connect();
+
     app.post('/atenderPaciente', async (req, res) => {
         const nutricionista = req.body.nutricionista;
         const codPaciente = req.body.codPaciente;
@@ -35,7 +37,7 @@ module.exports = function (app, mongo) {
             console.error("Erro ao atender paciente:", error);
             res.status(500).json({ error: "Erro interno do servidor" });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -126,7 +128,7 @@ module.exports = function (app, mongo) {
             console.error("Erro ao atender paciente:", error);
             res.status(500).json({ error: "Erro interno do servidor" });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -145,11 +147,12 @@ module.exports = function (app, mongo) {
             res.json({ paciente });
 
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
     app.get('/listarPacientes', async (req, res) => {
+        mongo.connect();
         try {
             await mongo.connect();
             const database = mongo.db('cen');
@@ -158,7 +161,7 @@ module.exports = function (app, mongo) {
 
             res.json({ pacientes });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
