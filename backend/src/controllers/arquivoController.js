@@ -19,10 +19,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 module.exports = function (app, mongo) {
-    app.post('/salvarArquivo', upload.single("file"), async (req, res) => {
+    app.post('/app/salvarArquivo', upload.single("file"), async (req, res) => {
         try {
             await mongo.connect();
-            const database = mongo.db('cen');
+            const database = mongo.db('cenufes01');
             const colecao = database.collection('pacientes');
 
             const codPaciente = req.body.cod;

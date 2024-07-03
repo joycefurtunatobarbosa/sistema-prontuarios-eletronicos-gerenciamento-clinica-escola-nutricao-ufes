@@ -54,7 +54,7 @@
         <div class="d-flex flex-wrap gap-2" v-if="paciente && paciente.arquivos">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="arquivo in paciente.arquivos" :key="arquivo.localizacao">
-            <a v-if="arquivo" :href="`http://localhost:3000/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
+            <a v-if="arquivo" :href="`http://www.cenufes.kinghost.net:21200/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
                 target="_blank">
                 <IconFileFilled class="icon-user me-2" /> {{ arquivo.nome }}
             </a>
@@ -158,7 +158,7 @@ export default {
   },
   methods: {
     carregarPaciente(cod) {
-      fetch(`http://localhost:3000/buscarPaciente/${cod}`, {
+      fetch(`http://www.cenufes.kinghost.net/app/buscarPaciente/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -193,7 +193,7 @@ export default {
 
       // Verificar se o usuário inseriu algo e se clicou em "OK"
       if (novaSituacao && novaSituacao.length > 0) {
-        fetch("http://localhost:3000/alterarSituacao", {
+        fetch("http://www.cenufes.kinghost.net/app/alterarSituacao", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -219,7 +219,7 @@ export default {
     },
     finalizarAtendimento() {
       if (window.confirm('Tem certeza que deseja finalizar o atendimento?')) {
-          fetch("http://localhost:3000/finalizarAtendimento", {
+          fetch("http://www.cenufes.kinghost.net/app/finalizarAtendimento", {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'
@@ -259,7 +259,7 @@ export default {
       formData.append('file', arquivo);
       formData.append('cod', this.paciente.cod);
 
-      fetch('http://localhost:3000/salvarArquivo', {
+      fetch('http://www.cenufes.kinghost.net/app/salvarArquivo', {
         method: 'POST',
         body: formData
       })
@@ -269,7 +269,7 @@ export default {
             alert('Arquivo enviado com sucesso.');
             // document.getElementById('codigoPaciente').value = '';
 
-            window.location.reload(true);
+            // window.location.reload(true);
 
             // Limpa os campos do formulário
             document.getElementById('nomeArquivo').value = '';
@@ -277,9 +277,10 @@ export default {
             
           } else {
             console.error('Erro ao enviar arquivo:', response.statusText);
-            window.location.reload(true);
+            // window.location.reload(true);
             // Lógica adicional em caso de erro no envio
           }
+          window.location.reload(true);
         })
         .catch(error => {
           console.error('Erro ao enviar arquivo:', error);
@@ -302,7 +303,7 @@ export default {
       };
 
       if (prontuario.tipo == "retorno") {
-          fetch('http://localhost:3000/criarProntuarioRetorno', {
+          fetch('http://www.cenufes.kinghost.net/app/criarProntuarioRetorno', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -319,7 +320,7 @@ export default {
               console.error('Erro ao enviar dados para o servidor:', error);
           });
       } else {
-          fetch('http://localhost:3000/criarNovoProntuario', {
+          fetch('http://www.cenufes.kinghost.net/app/criarNovoProntuario', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -338,7 +339,7 @@ export default {
       }
     },
     atualizarProntuariosNoPaciente(prontuario){
-      fetch('http://localhost:3000/atualizarProntuariosNoPaciente', {
+      fetch('http://www.cenufes.kinghost.net/app/atualizarProntuariosNoPaciente', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

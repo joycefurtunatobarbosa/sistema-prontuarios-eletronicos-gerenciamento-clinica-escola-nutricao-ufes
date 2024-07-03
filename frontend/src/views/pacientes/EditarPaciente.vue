@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     carregarPaciente(cod) {
-      fetch(`http://localhost:3000/buscarPaciente/${cod}`, {
+      fetch(`http://www.cenufes.kinghost.net/app/buscarPaciente/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default {
         return;
       }
       else {
-        fetch("http://localhost:3000/atualizarPaciente", {
+        fetch("http://www.cenufes.kinghost.net/app/atualizarPaciente", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
