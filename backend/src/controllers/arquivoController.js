@@ -10,6 +10,8 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         localizacao = req.body.fileName + " - " + Date.now() + path.extname(file.originalname);
+        localizacao = localizacao.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
         cb(null, localizacao);
     }
 });

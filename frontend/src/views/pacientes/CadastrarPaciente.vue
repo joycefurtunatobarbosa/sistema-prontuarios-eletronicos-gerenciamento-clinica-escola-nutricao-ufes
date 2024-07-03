@@ -77,6 +77,7 @@ export default {
       })
       .then(response => response.json())
       .then(response => {
+        alert("Paciente criado com sucesso.");
         this.$router.push("/pacientes", response.data);
       })
       .catch(error => {

@@ -80,6 +80,7 @@ export default {
       })
         .then(response => response.json())
         .then(response => {
+          alert("Nutricionista criado com sucesso.");
           this.$router.push("/nutricionistas", response.data);
         })
         .catch(error => {
