@@ -1,7 +1,7 @@
 // const opn = require('opn');
 const { ObjectId } = require('mongodb');
 var dataAtual = new Date(Date.now());
-var dataFormatada = dataAtual.toLocaleDateString();
+var dataFormatada = dataAtual.toLocaleDateString('pt-BR');
 
 module.exports = function (app, mongo) {
 
@@ -13,9 +13,9 @@ module.exports = function (app, mongo) {
             const colecao = database.collection('prontuarios');
             const prontuario = await colecao.findOne({ cod: codProntuario });
             res.json({ prontuario });
-        } 
+        }
         finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -33,7 +33,7 @@ module.exports = function (app, mongo) {
             var qtdProntuarios = await colecao.countDocuments({});
 
             // Busca o último prontuário salvo para o paciente e tipo específicos
-            var ultimoProntuarioSalvo = await colecao.countDocuments({ codPaciente: parseInt(prontuario.codPaciente), tipo: prontuario.tipo });
+            var ultimoProntuarioSalvo = await colecao.countDocuments({ codPaciente: prontuario.codPaciente, tipo: prontuario.tipo });
 
             if (qtdProntuarios === 0) {
                 prontuario.cod = 1;
@@ -59,7 +59,7 @@ module.exports = function (app, mongo) {
             console.error('Erro ao criar novo prontuário:', error);
             res.status(500).json({ error: 'Erro interno do servidor' });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -120,7 +120,7 @@ module.exports = function (app, mongo) {
             console.error('Erro ao criar novo prontuário:', error);
             res.status(500).json({ error: 'Erro interno do servidor' });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });    
 
@@ -147,7 +147,7 @@ module.exports = function (app, mongo) {
             console.error("Erro ao adicionar prontuário ao paciente:", error);
             res.status(500).send("Erro interno do servidor.");
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     }); 
 
@@ -166,10 +166,20 @@ module.exports = function (app, mongo) {
                 { $set: prontuario }
             );
 
+            const pacientesColecao = database.collection('pacientes');
+    
+            await pacientesColecao.updateOne(
+                { cod: parseInt(codPaciente) },
+                { $set: { 
+                    dataSituacao: dataFormatada
+                 } }
+            );
+
             res.json({ message: 'Dados salvos com sucesso!' });
 
-        } finally {
-            await mongo.close();
+        }
+        finally {
+            // await mongo.close();
         }
     });
 
@@ -182,7 +192,7 @@ module.exports = function (app, mongo) {
 
             res.json({ prontuarios });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 

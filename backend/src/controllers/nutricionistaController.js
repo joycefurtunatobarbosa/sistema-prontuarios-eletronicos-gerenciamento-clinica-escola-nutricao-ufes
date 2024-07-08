@@ -11,7 +11,7 @@ module.exports = function (app, mongo) {
 
             res.json({ nutricionistas });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -28,7 +28,7 @@ module.exports = function (app, mongo) {
             res.json({ nutricionista });
 
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -50,7 +50,7 @@ module.exports = function (app, mongo) {
             res.json({ message: 'Dados atualizados e salvos com sucesso!' });
 
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -76,7 +76,7 @@ module.exports = function (app, mongo) {
             res.json({ message: 'Dados salvos com sucesso!' });
 
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 

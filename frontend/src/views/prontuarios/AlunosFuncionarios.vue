@@ -106,7 +106,8 @@ export default {
         { label: 'Refeições', id: 'refeicoes', active: false },
       ],
       prontuario: {},
-      // nutricionista: {},
+      nutricionista: "",
+      codPaciente: "",
       dadosPessoais: new DadosPessoais(),
       historiaPessoal: new HistoriaPessoal(),
       historiaFamiliar: new HistoriaFamiliar(),
@@ -144,8 +145,8 @@ export default {
     salvarProntuario() {
       let prontuario = {
         cod: parseInt(this.cod),
-        codPaciente: parseInt(this.codPaciente),
-        nutricionista: "",
+        codPaciente: parseInt(this.prontuario.codPaciente),
+        nutricionista: this.prontuario.nutricionista,
         dadosPessoais: this.dadosPessoais,
         historiaPessoal: this.historiaPessoal,
         historiaFamiliar: this.historiaFamiliar,
@@ -153,6 +154,7 @@ export default {
         anamnese: this.anamnese,
         refeicoes: this.refeicoes,
       };
+
       fetch('http://localhost:3000/salvarProntuario', {
         method: 'POST',
         headers: {
@@ -188,6 +190,8 @@ export default {
           Object.assign(this.medicamentos, data.prontuario.medicamentos);
           Object.assign(this.anamnese, data.prontuario.anamnese);
           Object.assign(this.refeicoes, data.prontuario.refeicoes);
+          this.prontuario.nutricionista = this.data.prontuario.nutricionista;
+          this.prontuario.codPaciente = this.data.prontuario.codPaciente;
         })
         .catch((error) => {
           console.error("Erro ao carregar dados dos prontuários:", error);

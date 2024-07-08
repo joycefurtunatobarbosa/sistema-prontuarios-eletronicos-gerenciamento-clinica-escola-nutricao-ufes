@@ -25,7 +25,7 @@
             </div>
 
             <div class="form-group mt-3">
-                <label for="cirurgias" class="col-form-label">Cirugias:</label>
+                <label for="cirurgias" class="col-form-label">Cirurgias:</label>
                 <textarea class="form-control" rows="3" id="cirurgias" v-model="historiaPessoal.cirurgias"></textarea>
             </div>
         </form>

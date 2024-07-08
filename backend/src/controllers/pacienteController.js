@@ -1,7 +1,7 @@
 // const { param } = require('jquery');
 const { ObjectId } = require('mongodb');
 var dataAtual = new Date(Date.now());
-var dataFormatada = dataAtual.toLocaleDateString();
+var dataFormatada = dataAtual.toLocaleDateString('pt-BR');
 
 module.exports = function (app, mongo) {
 
@@ -68,7 +68,7 @@ module.exports = function (app, mongo) {
             console.error("Erro ao atender paciente:", error);
             res.status(500).json({ error: "Erro interno do servidor" });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -99,7 +99,7 @@ module.exports = function (app, mongo) {
             console.error("Erro ao finalizar atendimento do paciente:", error);
             res.status(500).json({ error: "Erro interno do servidor" });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
     
@@ -183,7 +183,7 @@ module.exports = function (app, mongo) {
             res.json({ message: 'Dados atualizados e salvos com sucesso!' });
 
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -209,7 +209,7 @@ module.exports = function (app, mongo) {
             res.json({ message: 'Dados salvos com sucesso!' });
 
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
 
@@ -263,7 +263,7 @@ module.exports = function (app, mongo) {
             console.error('Erro ao excluir paciente:', error);
             res.status(500).json({ message: 'Erro ao excluir paciente do nutricionista' });
         } finally {
-            await mongo.close();
+            // await mongo.close();
         }
     });
     

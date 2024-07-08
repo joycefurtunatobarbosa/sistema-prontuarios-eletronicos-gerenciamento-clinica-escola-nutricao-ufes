@@ -157,7 +157,7 @@
             <div class="form-group d-flex">
                 <div class="row">
                     <div class="col d-flex align-items-center">
-                        <label class="col-form-label">Hipocolesterolemia (triglicerídeos alto):</label>
+                        <label class="col-form-label">Hipertrigliceridemia (triglicerídeos alto):</label>
 
                         <input class="form-check-input my-auto ms-2" type="checkbox" value="Irmãos"
                             id="irmaosHipocolesterolemia"
