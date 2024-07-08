@@ -169,7 +169,7 @@ module.exports = function (app, mongo) {
             const pacientesColecao = database.collection('pacientes');
     
             await pacientesColecao.updateOne(
-                { cod: parseInt(codPaciente) },
+                { cod: parseInt(prontuario.codPaciente) },
                 { $set: { 
                     dataSituacao: dataFormatada
                  } }
