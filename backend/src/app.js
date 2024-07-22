@@ -29,6 +29,7 @@ require('./controllers/nutricionistaController.js')(app, mongo);
 require('./controllers/arquivoController.js')(app, mongo);
 require('./controllers/pacienteController.js')(app, mongo);
 require('./controllers/prontuarioController.js')(app, mongo);
+require('./controllers/emailController.js')(app);
 
 app.listen(porta, () => {
     console.log(`Servidor Node.js está rodando em http://localhost:${porta}`);

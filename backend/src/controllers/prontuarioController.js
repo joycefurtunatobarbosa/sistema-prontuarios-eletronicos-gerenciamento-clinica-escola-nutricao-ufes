@@ -16,6 +16,7 @@ module.exports = function (app, mongo) {
         }
         finally {
             // await mongo.close();
+            limparData();
         }
     });
 
@@ -60,6 +61,7 @@ module.exports = function (app, mongo) {
             res.status(500).json({ error: 'Erro interno do servidor' });
         } finally {
             // await mongo.close();
+            limparData();
         }
     });
 
@@ -121,6 +123,7 @@ module.exports = function (app, mongo) {
             res.status(500).json({ error: 'Erro interno do servidor' });
         } finally {
             // await mongo.close();
+            limparData();
         }
     });    
 
@@ -148,6 +151,7 @@ module.exports = function (app, mongo) {
             res.status(500).send("Erro interno do servidor.");
         } finally {
             // await mongo.close();
+            limparData();
         }
     }); 
 
@@ -180,6 +184,7 @@ module.exports = function (app, mongo) {
         }
         finally {
             // await mongo.close();
+            limparData();
         }
     });
 
@@ -193,7 +198,14 @@ module.exports = function (app, mongo) {
             res.json({ prontuarios });
         } finally {
             // await mongo.close();
+            limparData();
         }
     });
 
+    function limparData() {
+        // Limpa as variáveis de data para corrigir o problema de repetição de data anterior no servidor
+        delete dataAtual;
+        delete dataFormatada;
+    }
+    
 }

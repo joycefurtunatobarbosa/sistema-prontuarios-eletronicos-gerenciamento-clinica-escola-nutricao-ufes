@@ -143,6 +143,12 @@ export default {
       nutricionista: null,
       retorno: false,
       prontuarios: [],
+      email: {
+        to: '',
+        subject: '',
+        text: '',
+        nutricionista: ''
+      },
       //Criar um novo prontuáro
       dadosPessoais: new DadosPessoais(),
       historiaPessoal: new HistoriaPessoal(),
@@ -205,6 +211,11 @@ export default {
         })
         .then(response => {
           if (response.ok) {
+            this.email.to = this.paciente.nutricionista.email;
+            this.email.subject = "CEN - Atualização de atendimento";
+            this.email.text = `A situa&ccedil;&atilde;o do paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi alterada para <strong>"${novaSituacao}"</strong>.`;
+            this.email.nutricionista = this.nutricionista;
+            this.enviarEmail();
             window.location.reload();
           } else {
             console.error('Erro ao alterar situacao:', response.statusText);
@@ -269,20 +280,28 @@ export default {
             alert('Arquivo enviado com sucesso.');
             // document.getElementById('codigoPaciente').value = '';
 
-            window.location.reload(true);
+            this.email.to = this.paciente.nutricionista.email;
+            this.email.subject = "CEN - Atualização de atendimento";
+            this.email.text = `Um novo arquivo foi salvo para o paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> pelo(a) nutricionista <strong>"${this.paciente.nutricionista.nome}"</strong>.`;
+            this.email.nutricionista = this.nutricionista;
+            this.enviarEmail();
 
             // Limpa os campos do formulário
             document.getElementById('nomeArquivo').value = '';
             document.getElementById('arquivo').value = '';
-            
+
+            window.location.reload();
+
           } else {
             console.error('Erro ao enviar arquivo:', response.statusText);
-            window.location.reload(true);
+            window.location.reload();
             // Lógica adicional em caso de erro no envio
           }
+
         })
         .catch(error => {
           console.error('Erro ao enviar arquivo:', error);
+          window.location.reload();
           // Lógica adicional em caso de erro de rede ou outro erro
         });
     },
@@ -314,6 +333,12 @@ export default {
           .then((data) => {
               this.atualizarProntuariosNoPaciente(data.prontuarioRetorno);
               alert("Prontuário de retorno criado com sucesso.");
+
+              this.email.to = this.paciente.nutricionista.email;
+              this.email.subject = "CEN - Atualização de atendimento";
+              this.email.text = `Um novo <b>prontuário</b> foi criado para o paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> pelo(a) nutricionista <strong>"${this.paciente.nutricionista}"</strong>.`;
+              this.email.nutricionista = this.nutricionista;
+              this.enviarEmail();
           })
           .catch(error => {
               console.error('Erro ao enviar dados para o servidor:', error);
@@ -329,6 +354,12 @@ export default {
           })
           .then(response => response.json())
           .then((data) => {
+              this.email.to = this.paciente.nutricionista.email;
+              this.email.subject = "CEN - Novo prontuário de retorno";
+              this.email.text = `Um novo <b>prontuário de retorno</b> foi criado para o paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> pelo(a) nutricionista <strong>"${this.paciente.nutricionista}"</strong>.`;
+              this.email.nutricionista = this.nutricionista;
+              this.enviarEmail();
+
               this.atualizarProntuariosNoPaciente(data.prontuario);
               alert("Prontuário criado com sucesso.");
           })
@@ -355,6 +386,22 @@ export default {
         });
         // Atualiza a página
         window.location.reload();
+    },
+    enviarEmail() {
+      fetch('http://localhost:3000/enviarEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.email),
+      })
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+        });
     }
   }
 };

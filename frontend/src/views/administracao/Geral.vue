@@ -27,6 +27,11 @@ export default {
   data() {
     return {
       nutricionistas: [],
+      email: {
+        to: '',
+        subject: '',
+        text: ''
+      }
     };
   },
   mounted() {
@@ -49,6 +54,22 @@ export default {
           console.error("Erro ao carregar dados dos nutricionistas:", error);
         });
     },
+    enviarEmail() {
+      fetch('http://localhost:3000/enviarEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.email)
+      })
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+        });
+    }
   }
 };
 </script>
