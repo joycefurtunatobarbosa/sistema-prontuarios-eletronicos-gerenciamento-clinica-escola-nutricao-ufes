@@ -239,7 +239,12 @@ export default {
           })
           .then(response => {
               if (response.ok) {
-                  // alert("Atendimento finalizado com sucesso.");
+                  // Enviar email
+                  this.email.to = this.paciente.nutricionista.email;
+                  this.email.subject = "CEN - Finalização de atendimento";
+                  this.email.text = `O atendimento do paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi finalizado.`;
+                  this.email.nutricionista = this.nutricionista;
+                  this.enviarEmail();
                   window.location.reload();
               } else {
                   console.error('Erro ao finalizar o atendimento:', response.statusText);
@@ -282,7 +287,7 @@ export default {
 
             this.email.to = this.paciente.nutricionista.email;
             this.email.subject = "CEN - Atualização de atendimento";
-            this.email.text = `Um novo arquivo foi salvo para o paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> pelo(a) nutricionista <strong>"${this.paciente.nutricionista.nome}"</strong>.`;
+            this.email.text = `Um novo arquivo foi salvo para o paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
             this.email.nutricionista = this.nutricionista;
             this.enviarEmail();
 
@@ -396,9 +401,9 @@ export default {
         body: JSON.stringify(this.email),
       })
         .then(response => response.text())
-        .then(data => {
-          alert(data);
-        })
+        // .then(data => {
+        //   alert(data);
+        // })
         .catch(error => {
           console.error('Erro:', error);
         });

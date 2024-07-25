@@ -1,13 +1,20 @@
 <template>
     <!-- Aba de Anamnese -->
     <div class="tab-pane fade show active" id="anamnese">
-        <h5 class="text mt-5 text-primary"><b>7. ANAMNESE</b></h5>
+        <h5 class="text mt-5 text-primary"><b>8. ANAMNESE</b></h5>
         <form>
 
             <!-- Sobre o paciente -->
             <h6 class="mt-4 mb-3"><b>● Sobre o paciente</b></h6>
 
-            <div class="form-group mt-3 d-flex">
+            <div class="form-group mt-3 row">
+                <div class="col-12">
+                    <label for="resumoRotina" class="col-form-label">Resumo da rotina:</label>
+                    <textarea class="form-control" id="resumoRotina" rows="5" v-model="anamnese.sobrePaciente.resumoRotina"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group mt-5 d-flex">
                 <div class="row">
                     <div class="col d-flex align-items-center">
                         <label class="col-form-label">Tentativa anterior de dieta:</label>
@@ -64,6 +71,60 @@
                             <label class="form-check-label" for="naoAlteracoesCorporais">Não</label>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Aspecto emocional -->
+            <h6 class="mt-5 mb-3"><b>● Aspecto emocional</b></h6>
+
+            <div class="form-group d-flex">
+                <div class="row">
+                    <div class="col d-flex align-items-center">
+                        <label class="col-form-label">Continua comendo a sua comida preferida, mesmo depois de cheio(a)?</label>
+                        <div class="form-check form-check-inline ms-2">
+                            <input class="form-check-input" type="radio" id="simDescontroleSaciedade" value="Sim"
+                                v-model="anamnese.aspectoEmocional.descontroleSaciedade" />
+                            <label class="form-check-label" for="simDescontroleSaciedade">Sim</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="naoDescontroleSaciedade" value="Não"
+                                v-model="anamnese.sobrePaciente.descontroleSaciedade" />
+                            <label class="form-check-label" for="naoDescontroleSaciedade">Não</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                        <label for="compulsaoRecusaAlimentar" class="col-form-label">Compulsão ou recusa alimentar:</label>
+                        <input type="text" class="form-control" id="compulsaoRecusaAlimentar" placeholder="Nome do alimento" v-model="anamnese.aspectoEmocional.compulsaoRecusaAlimentar" />
+                    </div>
+            </div>
+            
+
+            <!-- Ciclo menstrual -->
+            <h6 class="mt-5 mb-3"><b>● Ciclo menstrual</b></h6>
+
+            <div class="form-group mt-3 row">
+                <div class="col-4">
+                    <label for="dataUltimaMenstruacao" class="col-form-label">Início da última menstruação:</label>
+                    <input type="date" class="form-control" id="date" name="dataUltimaMenstruacao" v-model="anamnese.cicloMenstrual.dataUltimaMenstruacao">
+                </div>
+
+                <div class="col">
+                    <label for="diasMenstruacao" class="col-form-label">Dias:</label>
+                    <input type="text" class="form-control" id="diasUltimaMenstruacao" v-model="anamnese.cicloMenstrual.diasUltimaMenstruacao" />
+                </div>
+
+                <div class="col">
+                    <label for="fluxoMenstruacao" class="col-form-label">Fluxo:</label>
+                    <select class="form-select" name="fluxoUltimaMenstruacao" v-model="anamnese.cicloMenstrual.fluxoUltimaMenstruacao">
+                        <option value="Pouco">Pouco </option>
+                        <option value="Médio">Médio </option>
+                        <option value="Intenso">Intenso </option>
+                    </select>
                 </div>
             </div>
 

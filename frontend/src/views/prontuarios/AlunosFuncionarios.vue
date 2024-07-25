@@ -7,9 +7,9 @@
 
   <div class="informacoes">
     <h6 class="text-end" style="margin-top: "><b>Início: </b>{{ prontuario.dataCriacao }}</h6>
-    <h6 class="text-end" style="margin-top: -5px;"><b>Última atualização: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
+    <h6 class="text-end" style="margin-top: -5px"><b>Última atualização: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
     <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h6><br>
-  </div>
+  </div> 
   
   <!-- Abas -->
   <div class="container-fluid col-8">
@@ -18,8 +18,9 @@
       <a class="nav-link" :class="{ 'active': abas[1].active }" @click="trocarAba(1)" href="#">História Pessoal</a>
       <a class="nav-link" :class="{ 'active': abas[2].active }" @click="trocarAba(2)" href="#">História Familiar</a>
       <a class="nav-link" :class="{ 'active': abas[3].active }" @click="trocarAba(3)" href="#">Medicamentos</a>
-      <a class="nav-link" :class="{ 'active': abas[4].active }" @click="trocarAba(4)" href="#">Anamnese</a>
-      <a class="nav-link" :class="{ 'active': abas[5].active }" @click="trocarAba(5)" href="#">Refeições</a>
+      <a class="nav-link" :class="{ 'active': abas[4].active }" @click="trocarAba(4)" href="#">Exames Clínicos</a>
+      <a class="nav-link" :class="{ 'active': abas[5].active }" @click="trocarAba(5)" href="#">Anamnese</a>
+      <a class="nav-link" :class="{ 'active': abas[6].active }" @click="trocarAba(6)" href="#">Refeições</a>
     </div>
   </div>
 
@@ -42,12 +43,16 @@
       <div v-if="abas[3].active" class="show active">
         <MedicamentosComponent :medicamentosProps="medicamentos" ref="medicamentosForm" />
       </div>
-      <!-- Componente de Anamnese -->
+      <!-- Componente de Exames Clínicos -->
       <div v-if="abas[4].active" class="show active">
+        <ExamesClinicosComponent :examesClinicosProps="examesClinicos" ref="examesClinicosForm"/>
+      </div>
+      <!-- Componente de Anamnese -->
+      <div v-if="abas[5].active" class="show active">
         <AnamneseComponent :anamneseProps="anamnese" ref="anamneseForm" />
       </div>
       <!-- Componente de Refeições -->
-      <div v-if="abas[5].active" class="show active">
+      <div v-if="abas[6].active" class="show active">
         <RefeicoesComponent :refeicoesProps="refeicoes" ref="refeicoesForm" />
       </div>
     </form>
@@ -72,6 +77,7 @@ import DadosPessoaisComponent from '@/components/prontuarios/DadosPessoaisCompon
 import HistoriaPessoalComponent from '@/components/prontuarios/HistoriaPessoalComponent.vue';
 import HistoriaFamiliarComponent from '@/components/prontuarios/HistoriaFamiliarComponent.vue';
 import MedicamentosComponent from '@/components/prontuarios/MedicamentosComponent.vue';
+import ExamesClinicosComponent from '@/components/prontuarios/ExamesClinicosComponent.vue';
 import AnamneseComponent from '@/components/prontuarios/AnamneseComponent.vue';
 import RefeicoesComponent from '@/components/prontuarios/RefeicoesComponent.vue';
 
@@ -80,6 +86,7 @@ import DadosPessoais from '@/models/prontuario/DadosPessoais';
 import HistoriaPessoal from '@/models/prontuario/HistoriaPessoal';
 import HistoriaFamiliar from '@/models/prontuario/HistoriaFamiliar';
 import Medicamentos from "@/models/prontuario/Medicamentos";
+import ExamesClinicos from "@/models/prontuario/ExamesClinicos";
 import Anamnese from "@/models/prontuario/Anamnese";
 import Refeicoes from "@/models/prontuario/Refeicoes";
 
@@ -90,6 +97,7 @@ export default {
     HistoriaPessoalComponent,
     HistoriaFamiliarComponent,
     MedicamentosComponent,
+    ExamesClinicosComponent,
     AnamneseComponent,
     RefeicoesComponent
   },
@@ -102,6 +110,7 @@ export default {
         { label: 'História Pessoal', id: 'historiaPessoal', active: false },
         { label: 'História Familiar', id: 'historiaFamiliar', active: false },
         { label: 'Medicamentos', id: 'medicamentos', active: false },
+        { label: 'Exames Clínicos', id: 'examesClinicos', active: false },
         { label: 'Anamnese', id: 'anamnese', active: false },
         { label: 'Refeições', id: 'refeicoes', active: false },
       ],
@@ -112,6 +121,7 @@ export default {
       historiaPessoal: new HistoriaPessoal(),
       historiaFamiliar: new HistoriaFamiliar(),
       medicamentos: new Medicamentos(),
+      examesClinicos: new ExamesClinicos(),
       anamnese: new Anamnese(),
       refeicoes: new Refeicoes(),
     };
@@ -151,6 +161,7 @@ export default {
         historiaPessoal: this.historiaPessoal,
         historiaFamiliar: this.historiaFamiliar,
         medicamentos: this.medicamentos,
+        examesClinicos: this.examesClinicos,
         anamnese: this.anamnese,
         refeicoes: this.refeicoes,
       };
@@ -164,13 +175,16 @@ export default {
         mode: 'cors',
       })
         .then(response => response.json())
-        .then(response => {
-          alert("Prontuário salvo com sucesso!", response.data);
-        })
+        // .then(response => {
+        //   alert("Prontuário salvo com sucesso!", response.data);
+        //   alert('Arquivo enviado com sucesso.');
+        // })
         .catch(error => {
           console.error('Erro ao enviar dados para o servidor:', error);
         });
+        alert("Prontuário salvo com sucesso!");
         window.location.reload();
+        this.topoPagina();
     },
     carregarProntuario(cod) {
       fetch(`http://localhost:3000/buscarProntuario/${cod}`, {
@@ -188,9 +202,11 @@ export default {
           Object.assign(this.historiaPessoal, data.prontuario.historiaPessoal);
           Object.assign(this.historiaFamiliar, data.prontuario.historiaFamiliar);
           Object.assign(this.medicamentos, data.prontuario.medicamentos);
+          Object.assign(this.examesClinicos, data.prontuario.examesClinicos);
           Object.assign(this.anamnese, data.prontuario.anamnese);
           Object.assign(this.refeicoes, data.prontuario.refeicoes);
           this.prontuario.nutricionista = this.data.prontuario.nutricionista;
+          this.nutricionista = this.data.prontuario.nutricionista;
           this.prontuario.codPaciente = this.data.prontuario.codPaciente;
         })
         .catch((error) => {

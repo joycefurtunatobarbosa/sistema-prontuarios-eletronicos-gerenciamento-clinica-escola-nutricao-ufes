@@ -1,12 +1,12 @@
 class Refeicoes{
     constructor(){
         this.qtdRefeicoes = "";
-        this.cafeManha = { local: "", preparador: "", oleoGordura: "" };
-        this.lancheManha = { local: "", preparador: "", oleoGordura: "" };
-        this.almoco = { local: "", preparador: "", oleoGordura: "" };
-        this.lancheTarde = { local: "", preparador: "", oleoGordura: "" };
-        this.jantar = { local: "", preparador: "", oleoGordura: "" };
-        this.ceia = { local: "", preparador: "", oleoGordura: "" };
+        this.cafeManha = { realiza: false, local: "", horario: "", preparador: "", oleoGordura: "" };
+        this.lancheManha = { realiza: false, local: "", horario: "", preparador: "", oleoGordura: "" };
+        this.almoco = { realiza: false, local: "", horario: "", preparador: "", oleoGordura: "" };
+        this.lancheTarde = { realiza: false, local: "", horario: "", preparador: "", oleoGordura: "" };
+        this.jantar = { realiza: false, local: "", horario: "", preparador: "", oleoGordura: "" };
+        this.ceia = { realiza: false, local: "", horario: "", preparador: "", oleoGordura: "" };
     }
 }
 

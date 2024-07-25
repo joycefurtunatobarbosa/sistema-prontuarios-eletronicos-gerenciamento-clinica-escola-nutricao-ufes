@@ -1,9 +1,21 @@
 class Anamnese {
     constructor() {
         this.sobrePaciente = {
+            resumoRotina: "",
             tentativaDieta: "",
             usoMedicamentos: "",
             alteracoesCorporais: "",
+        };
+
+        this.aspectoEmocional = {
+            descontroleSaciedade: "",
+            compulsaoRecusaAlimentar: "",
+        };
+
+        this.cicloMenstrual = {
+            dataUltimaMenstruacao: "",
+            diasUltimaMenstruacao: "",
+            fluxoUltimaMenstruacao: "",
         };
 
         this.preferenciasAlimentares = {

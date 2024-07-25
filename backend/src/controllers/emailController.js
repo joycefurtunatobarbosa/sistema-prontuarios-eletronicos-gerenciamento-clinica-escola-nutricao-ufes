@@ -1,19 +1,31 @@
 var dataAtual = new Date(Date.now());
 var dataFormatada = dataAtual.toLocaleDateString('pt-BR');
 
+// require('dotenv').config();
+require('dotenv').config({ path: '/.env' });
+// require('dotenv').config({ path: '../../.env' });
 const nodemailer = require('nodemailer');
+
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     user: process.env.GMAIL_USER,
+//     pass: process.env.GMAIL_PASS
+//   }
+// });
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'gabrielnama2@gmail.com',
-    pass: 'drnsrubdgmxbfxub'
+    user: "gabrielnama2",
+    pass: "drnsrubdgmxbfxub"
   }
 });
 
 module.exports = function (app) {
 
   const sendEmail = (to, subject, html) => {
+    console.log("Chegou aqui")
     const mailOptions = {
       from: 'gabrielnama2@gmail.com',
       to: to,
@@ -44,7 +56,7 @@ module.exports = function (app) {
                     <div><strong>Nutricionista:</strong> ${req.body.nutricionista.nome}</div>
                     <div><strong>Data da atualiza&ccedil;&atilde;o:</strong> ${dataFormatada}</div>
                     <div>&nbsp;</div>
-                    <div style="text-align: center;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.canva.com/design/DAFztYqMzFQ/Y8S3YWAnvqExaQUOQ8JfpQ/viewhttps://onedrive.live.com/embed?resid=40C2B5524225E68E%2125370&amp;authkey=!AJsa0eEkoi42vnM" alt="" /><img style="display: block; margin-left: auto; margin-right: auto;" src="https://onedrive.live.com/embed?resid=40C2B5524225E68E%2125371&amp;authkey=%21AM-IYHLTrV4wXFI&amp;width=256&amp;height=256" alt="" width="128" height="128" /><strong>Cl&iacute;nica Escola de Nutri&ccedil;&atilde;o</strong></div>
+                    <div style="text-align: center;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://onedrive.live.com/embed?resid=40C2B5524225E68E%2125371&authkey=%21AM-IYHLTrV4wXFI&width=256&height=256" alt="" width="128" height="128" /><strong>Cl&iacute;nica Escola de Nutri&ccedil;&atilde;o</strong></div>
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
                     </div>

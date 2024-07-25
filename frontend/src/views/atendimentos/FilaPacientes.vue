@@ -51,8 +51,15 @@ export default {
       filtro: "Todos os Projetos",
       nutricionista: {
         cod: 1,
-        nome: "Joyce Furtunato Barbosa"
-      }
+        nome: "Joyce Furtunato Barbosa",
+        email: "joycefurtunatobarbosa@gmail.com"
+      },
+       email: {
+        to: '',
+        subject: '',
+        text: '',
+        nutricionista: ''
+      },
     };
   },
   computed: {
@@ -107,8 +114,30 @@ export default {
           .then((response) => response.json())
           .then((data) => {
               this.pacientes = data.pacientes;
+             
+              console.log("Chegou no email");
+
+              // Enviar email
+              this.email.to = this.nutricionista.email;
+              this.email.subject = "CEN - Novo atendimento";
+              this.email.text = `O paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> começou a ser atendido.`;
+              this.email.nutricionista = this.nutricionista.email;
+              alert(this.email)
+              this.enviarEmail();
               this.nutricionistaAtenderPaciente(nutricionista.cod, codPaciente, nomePaciente);
+              // window.location.reload();
           })
+          // .then(response => {
+          //     if (response.ok) {
+          //         // Enviar email
+          //         this.email.to = this.paciente.nutricionista.email;
+          //         this.email.subject = "CEN - Novo atendimento";
+          //         this.email.text = `O paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> começou a ser atendido.`;
+          //         this.email.nutricionista = this.nutricionista;
+          //         this.enviarEmail();
+          //         window.location.reload();
+          //     }
+          // })
           .catch((error) => {
               console.error("Erro ao atender paciente:", error);
           });
@@ -139,6 +168,22 @@ export default {
         });
         window.location.reload();
     },
+    enviarEmail() {
+      fetch('http://localhost:3000/enviarEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.email),
+      })
+        .then(response => response.text())
+        // .then(data => {
+        //   alert(data);
+        // })
+        .catch(error => {
+          console.error('Erro:', error);
+        });
+    }
     
   },
 };
