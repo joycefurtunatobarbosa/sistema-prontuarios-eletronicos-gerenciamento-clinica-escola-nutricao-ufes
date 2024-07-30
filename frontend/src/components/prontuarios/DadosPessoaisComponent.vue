@@ -102,6 +102,18 @@
                 </div>
             </div>
 
+            <!-- Termo de autorização -->
+            <h5 class="text mt-5 text-primary"><b>3. TERMO DE AUTORIZAÇÃO</b></h5>
+            <div class="form-group mt-4 row">
+                <div class="col">
+                    <label for="aceiteTermoAutorizacao" class="">Eu confirmo todas as informações relatadas e comprometo-me a informar sobre qualquer mudança das mesmas. Estou ciente de que as informações contidas neste prontuário, assim como todas as informações sobre o tratamento e diagnóstico poderão ser utilizadas para fins didáticos e científicos, resguardando sempre o anonimato.</label>
+                    
+                    <input class="mt-4 form-check-input my-auto ms-2" type="checkbox" value="Irmãos" id="aceiteTermoAutorizacao"
+                        v-model="dadosPessoais.aceiteTermoAutorizacao">
+                    <label class="mt-4 form-check-label ms-2" for="aceiteTermoAutorizacao"><b>Eu aceito.</b></label>
+                </div>
+            </div>
+
         </form>
     </div>
 </template>

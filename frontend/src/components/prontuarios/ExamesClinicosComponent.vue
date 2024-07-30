@@ -57,15 +57,7 @@
             <div class="form-group mt-3 row">
                 <div class="col-4">
                     <label for="bristol" class="col-form-label">Bristol:</label>
-                    <select class="form-select" name="bristol" v-model="examesClinicos.bristol">
-                        <option value="1">1 </option>
-                        <option value="2">2 </option>
-                        <option value="3">3 </option>
-                        <option value="4">4 </option>
-                        <option value="5">5 </option>
-                        <option value="6">6 </option>
-                        <option value="7">7 </option>
-                    </select>
+                    <input type="text" class="form-control" id="bristol" v-model="examesClinicos.bristol"/>
                 </div>
 
                 <div class="col-4">

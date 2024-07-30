@@ -52,17 +52,19 @@ module.exports = function (app, mongo) {
             //     ultimoProntuarioSalvo++;
             //     prontuario.nome = "Prontuário " + ultimoProntuarioSalvo;
             // }
-    
-            await colecao.insertOne(prontuario);
-    
-            res.json({ prontuario });
-        } catch (error) {
-            console.error('Erro ao criar novo prontuário:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        } finally {
-            // await mongo.close();
-            limparData();
-        }
+
+            if(prontuario.tipo == "prontuario") {
+                await colecao.insertOne(prontuario);
+                res.json({ prontuario });
+            }
+            
+            } catch (error) {
+                console.error('Erro ao criar novo prontuário:', error);
+                res.status(500).json({ error: 'Erro interno do servidor' });
+            } finally {
+                // await mongo.close();
+                limparData();
+            }
     });
 
     app.post('/criarProntuarioRetorno', async (req, res) => {
@@ -84,7 +86,8 @@ module.exports = function (app, mongo) {
             );
 
             let prontuarioRetorno = {};
-            Object.assign(prontuarioRetorno, ultimoProntuarioSalvo);
+            // Object.assign(prontuarioRetorno, ultimoProntuarioSalvo);
+            prontuarioRetorno = { ...prontuarioRetorno, ...ultimoProntuarioSalvo };
             delete prontuarioRetorno._id;
     
             let novoCod;
@@ -176,7 +179,7 @@ module.exports = function (app, mongo) {
                 { cod: parseInt(prontuario.codPaciente) },
                 { $set: { 
                     dataSituacao: dataFormatada
-                 } }
+                } }
             );
 
             res.json({ message: 'Dados salvos com sucesso!' });

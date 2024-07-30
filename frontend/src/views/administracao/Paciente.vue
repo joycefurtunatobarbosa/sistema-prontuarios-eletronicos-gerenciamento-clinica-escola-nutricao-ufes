@@ -213,8 +213,8 @@ export default {
           if (response.ok) {
             this.email.to = this.paciente.nutricionista.email;
             this.email.subject = "CEN - Atualização de atendimento";
-            this.email.text = `A situa&ccedil;&atilde;o do paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi alterada para <strong>"${novaSituacao}"</strong>.`;
-            this.email.nutricionista = this.nutricionista;
+            this.email.text = `A situa&ccedil;&atilde;o do(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi alterada para <strong>"${novaSituacao}"</strong>.`;
+            this.email.nutricionista = this.nutricionista.nome;
             this.enviarEmail();
             window.location.reload();
           } else {
@@ -242,8 +242,8 @@ export default {
                   // Enviar email
                   this.email.to = this.paciente.nutricionista.email;
                   this.email.subject = "CEN - Finalização de atendimento";
-                  this.email.text = `O atendimento do paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi finalizado.`;
-                  this.email.nutricionista = this.nutricionista;
+                  this.email.text = `O atendimento do(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi finalizado.`;
+                  this.email.nutricionista = this.nutricionista.nome;
                   this.enviarEmail();
                   window.location.reload();
               } else {
@@ -287,8 +287,8 @@ export default {
 
             this.email.to = this.paciente.nutricionista.email;
             this.email.subject = "CEN - Atualização de atendimento";
-            this.email.text = `Um novo arquivo foi salvo para o paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
-            this.email.nutricionista = this.nutricionista;
+            this.email.text = `Um novo arquivo foi salvo para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
+            this.email.nutricionista = this.nutricionista.nome;
             this.enviarEmail();
 
             // Limpa os campos do formulário
@@ -336,14 +336,15 @@ export default {
           })
           .then(response => response.json())
           .then((data) => {
-              this.atualizarProntuariosNoPaciente(data.prontuarioRetorno);
               alert("Prontuário de retorno criado com sucesso.");
 
               this.email.to = this.paciente.nutricionista.email;
-              this.email.subject = "CEN - Atualização de atendimento";
-              this.email.text = `Um novo <b>prontuário</b> foi criado para o paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> pelo(a) nutricionista <strong>"${this.paciente.nutricionista}"</strong>.`;
-              this.email.nutricionista = this.nutricionista;
+              this.email.subject = "CEN - Novo prontuário";
+              this.email.text = `Um novo <b>prontuário</b> foi criado para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}.`;
+              this.email.nutricionista = this.nutricionista.nome;
               this.enviarEmail();
+
+              this.atualizarProntuariosNoPaciente(data.prontuarioRetorno);
           })
           .catch(error => {
               console.error('Erro ao enviar dados para o servidor:', error);
@@ -359,14 +360,20 @@ export default {
           })
           .then(response => response.json())
           .then((data) => {
+              if (data.prontuario.tipo == "prontuario"){
+                alert("Prontuário criado com sucesso.");
+              }
+              else{
+                alert("Algo deu errado, tente novamente.");
+              }
+
               this.email.to = this.paciente.nutricionista.email;
               this.email.subject = "CEN - Novo prontuário de retorno";
-              this.email.text = `Um novo <b>prontuário de retorno</b> foi criado para o paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> pelo(a) nutricionista <strong>"${this.paciente.nutricionista}"</strong>.`;
-              this.email.nutricionista = this.nutricionista;
+              this.email.text = `Um novo <b>prontuário de retorno</b> foi criado para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}.`;
+              this.email.nutricionista = this.nutricionista.nome;
               this.enviarEmail();
 
               this.atualizarProntuariosNoPaciente(data.prontuario);
-              alert("Prontuário criado com sucesso.");
           })
           .catch(error => {
               console.error('Erro ao enviar dados para o servidor:', error);

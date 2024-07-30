@@ -18,27 +18,27 @@
                 <label class="col-form-label" for="realizaCafeManha">Café da manhã:</label>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.cafeManha.realiza">
                 <div class="col">
                     <label for="localCafeManha" class="col-form-label">Local:</label>
-                    <input type="text" class="form-control" id="localCafeManha" v-model="refeicoes.cafeManha.local" :disabled="!refeicoes.cafeManha.realiza" />
+                    <input type="text" class="form-control" id="localCafeManha" v-model="refeicoes.cafeManha.local"/>
                 </div>
                 <div class="col">
                     <label for="horarioCafeManha" class="col-form-label">Horário:</label>
-                    <input type="text" class="form-control" id="horarioCafeManha" v-model="refeicoes.cafeManha.horario" :disabled="!refeicoes.cafeManha.realiza" />
+                    <input type="text" class="form-control" id="horarioCafeManha" v-model="refeicoes.cafeManha.horario" />
                 </div>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.cafeManha.realiza">
                 <div class="col">
                     <label for="preparadorCafeManha" class="col-form-label">Quem prepara:</label>
                     <input type="text" class="form-control" id="preparadorCafeManha"
-                        v-model="refeicoes.cafeManha.preparador" :disabled="!refeicoes.cafeManha.realiza"/>
+                        v-model="refeicoes.cafeManha.preparador"/>
                 </div>
                 <div class="col">
                     <label for="oleoGorduraCafeManha" class="col-form-label">Qual o óleo/gordura:</label>
                     <input type="text" class="form-control" id="oleoGorduraCafeManha"
-                        v-model="refeicoes.cafeManha.oleoGordura" :disabled="!refeicoes.cafeManha.realiza"/>
+                        v-model="refeicoes.cafeManha.oleoGordura"/>
                 </div>
             </div>
 
@@ -49,27 +49,27 @@
                 <label class="col-form-label" for="realizaLancheManha">Lanche da Manhã:</label>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.lancheManha.realiza">
                 <div class="col">
                     <label for="localLancheManha" class="col-form-label">Local:</label>
-                    <input type="text" class="form-control" id="localLancheManha" v-model="refeicoes.lancheManha.local" :disabled="!refeicoes.lancheManha.realiza"/>
+                    <input type="text" class="form-control" id="localLancheManha" v-model="refeicoes.lancheManha.local"/>
                 </div>
                 <div class="col">
                     <label for="horarioLancheManha" class="col-form-label">Horário:</label>
-                    <input type="text" class="form-control" id="horarioLancheManha" v-model="refeicoes.lancheManha.horario" :disabled="!refeicoes.lancheManha.realiza"/>
+                    <input type="text" class="form-control" id="horarioLancheManha" v-model="refeicoes.lancheManha.horario"/>
                 </div>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.lancheManha.realiza">
                 <div class="col">
                     <label for="preparadorLancheManha" class="col-form-label">Quem prepara:</label>
                     <input type="text" class="form-control" id="preparadorLancheManha"
-                        v-model="refeicoes.lancheManha.preparador" :disabled="!refeicoes.lancheManha.realiza"/>
+                        v-model="refeicoes.lancheManha.preparador"/>
                 </div>
                 <div class="col">
                     <label for="oleoGorduraLancheManha" class="col-form-label">Qual o óleo/gordura:</label>
                     <input type="text" class="form-control" id="oleoGorduraLancheManha"
-                        v-model="refeicoes.lancheManha.oleoGordura" :disabled="!refeicoes.lancheManha.realiza"/>
+                        v-model="refeicoes.lancheManha.oleoGordura"/>
                 </div>
             </div>
 
@@ -80,25 +80,25 @@
                 <label class="col-form-label" for="realizaAmoco">Almoço:</label>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.almoco.realiza">
                 <div class="col">
                     <label for="localAlmoco" class="col-form-label">Local:</label>
-                    <input type="text" class="form-control" id="localAlmoco" v-model="refeicoes.almoco.local" :disabled="!refeicoes.almoco.realiza"/>
+                    <input type="text" class="form-control" id="localAlmoco" v-model="refeicoes.almoco.local"/>
                 </div>
                 <div class="col">
                     <label for="horarioAlmoco" class="col-form-label">Horário:</label>
-                    <input type="text" class="form-control" id="horarioAlmoco" v-model="refeicoes.almoco.local" :disabled="!refeicoes.almoco.realiza"/>
+                    <input type="text" class="form-control" id="horarioAlmoco" v-model="refeicoes.almoco.local"/>
                 </div>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.almoco.realiza">
                 <div class="col">
                     <label for="preparadorAlmoco" class="col-form-label">Quem prepara:</label>
-                    <input type="text" class="form-control" id="preparadorAlmoco" v-model="refeicoes.almoco.preparador" :disabled="!refeicoes.almoco.realiza"/>
+                    <input type="text" class="form-control" id="preparadorAlmoco" v-model="refeicoes.almoco.preparador"/>
                 </div>
                 <div class="col">
                     <label for="oleoGorduraAlmoco" class="col-form-label">Qual o óleo/gordura:</label>
-                    <input type="text" class="form-control" id="oleoGorduraAlmoco" v-model="refeicoes.almoco.oleoGordura" :disabled="!refeicoes.almoco.realiza"/>
+                    <input type="text" class="form-control" id="oleoGorduraAlmoco" v-model="refeicoes.almoco.oleoGordura"/>
                 </div>
             </div>
 
@@ -109,27 +109,27 @@
                 <label class="col-form-label" for="realizaLancheTarde">Lanche da Tarde:</label>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.lancheTarde.realiza">
                 <div class="col">
                     <label for="localLancheTarde" class="col-form-label">Local:</label>
-                    <input type="text" class="form-control" id="localLancheTarde" v-model="refeicoes.lancheTarde.local" :disabled="!refeicoes.lancheTarde.realiza"/>
+                    <input type="text" class="form-control" id="localLancheTarde" v-model="refeicoes.lancheTarde.local"/>
                 </div>
                 <div class="col">
                     <label for="horarioLancheTarde" class="col-form-label">Horário:</label>
-                    <input type="text" class="form-control" id="horarioLancheTarde" v-model="refeicoes.lancheTarde.local" :disabled="!refeicoes.lancheTarde.realiza"/>
+                    <input type="text" class="form-control" id="horarioLancheTarde" v-model="refeicoes.lancheTarde.local"/>
                 </div>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.lancheTarde.realiza">
                 <div class="col">
                     <label for="preparadorLancheTarde" class="col-form-label">Quem prepara:</label>
                     <input type="text" class="form-control" id="preparadorLancheTarde"
-                        v-model="refeicoes.lancheTarde.preparador" :disabled="!refeicoes.lancheTarde.realiza"/>
+                        v-model="refeicoes.lancheTarde.preparador"/>
                 </div>
                 <div class="col">
                     <label for="oleoGorduraLancheTarde" class="col-form-label">Qual o óleo/gordura:</label>
                     <input type="text" class="form-control" id="oleoGorduraLancheTarde"
-                        v-model="refeicoes.lancheTarde.oleoGordura" :disabled="!refeicoes.lancheTarde.realiza"/>
+                        v-model="refeicoes.lancheTarde.oleoGordura"/>
                 </div>
             </div>
 
@@ -140,25 +140,25 @@
                 <label class="col-form-label" for="realizaJantar">Jantar:</label>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.jantar.realiza">
                 <div class="col">
                     <label for="localJantar" class="col-form-label">Local:</label>
-                    <input type="text" class="form-control" id="localJantar" v-model="refeicoes.jantar.local" :disabled="!refeicoes.jantar.realiza"/>
+                    <input type="text" class="form-control" id="localJantar" v-model="refeicoes.jantar.local"/>
                 </div>
                 <div class="col">
                     <label for="horarioJantar" class="col-form-label">Horário:</label>
-                    <input type="text" class="form-control" id="horarioJantar" v-model="refeicoes.jantar.local" :disabled="!refeicoes.jantar.realiza"/>
+                    <input type="text" class="form-control" id="horarioJantar" v-model="refeicoes.jantar.local"/>
                 </div>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.jantar.realiza">
                 <div class="col">
                     <label for="preparadorJantar" class="col-form-label">Quem prepara:</label>
-                    <input type="text" class="form-control" id="preparadorJantar" v-model="refeicoes.jantar.preparador" :disabled="!refeicoes.jantar.realiza"/>
+                    <input type="text" class="form-control" id="preparadorJantar" v-model="refeicoes.jantar.preparador"/>
                 </div>
                 <div class="col">
                     <label for="oleoGorduraJantar" class="col-form-label">Qual o óleo/gordura:</label>
-                    <input type="text" class="form-control" id="oleoGorduraJantar" v-model="refeicoes.jantar.oleoGordura" :disabled="!refeicoes.jantar.realiza"/>
+                    <input type="text" class="form-control" id="oleoGorduraJantar" v-model="refeicoes.jantar.oleoGordura"/>
                 </div>
             </div>
 
@@ -169,21 +169,21 @@
                 <label class="col-form-label" for="realizaCeia">Ceia:</label>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.ceia.realiza">
                 <div class="col">
                     <label for="localCeia" class="col-form-label">Local:</label>
-                    <input type="text" class="form-control" id="localCeia" v-model="refeicoes.ceia.local" :disabled="!refeicoes.ceia.realiza"/>
+                    <input type="text" class="form-control" id="localCeia" v-model="refeicoes.ceia.local"/>
                 </div>
                 <div class="col">
                     <label for="horarioCeia" class="col-form-label">Horário:</label>
-                    <input type="text" class="form-control" id="horarioCeia" v-model="refeicoes.ceia.local" :disabled="!refeicoes.ceia.realiza"/>
+                    <input type="text" class="form-control" id="horarioCeia" v-model="refeicoes.ceia.local"/>
                 </div>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row" v-show="refeicoes.ceia.realiza">
                 <div class="col">
                     <label for="preparadorCeia" class="col-form-label">Quem prepara:</label>
-                    <input type="text" class="form-control" id="preparadorCeia" v-model="refeicoes.ceia.preparador" :disabled="!refeicoes.ceia.realiza"/>
+                    <input type="text" class="form-control" id="preparadorCeia" v-model="refeicoes.ceia.preparador"/>
                 </div>
                 <div class="col">
                     <label for="oleoGorduraCeia" class="col-form-label">Qual o óleo/gordura:</label>

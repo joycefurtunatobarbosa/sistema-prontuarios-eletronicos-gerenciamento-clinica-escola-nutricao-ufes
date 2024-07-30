@@ -12,20 +12,23 @@
   </div> 
   
   <!-- Abas -->
-  <div class="container-fluid col-8">
+  <div class="container-fluid col-11">
     <div class="nav nav-tabs mt-3 text-center d-flex justify-content-center">
-      <a class="nav-link" :class="{ 'active': abas[0].active }" @click="trocarAba(0)" href="#">Dados Pessoais</a>
-      <a class="nav-link" :class="{ 'active': abas[1].active }" @click="trocarAba(1)" href="#">História Pessoal</a>
-      <a class="nav-link" :class="{ 'active': abas[2].active }" @click="trocarAba(2)" href="#">História Familiar</a>
-      <a class="nav-link" :class="{ 'active': abas[3].active }" @click="trocarAba(3)" href="#">Medicamentos</a>
-      <a class="nav-link" :class="{ 'active': abas[4].active }" @click="trocarAba(4)" href="#">Exames Clínicos</a>
-      <a class="nav-link" :class="{ 'active': abas[5].active }" @click="trocarAba(5)" href="#">Anamnese</a>
-      <a class="nav-link" :class="{ 'active': abas[6].active }" @click="trocarAba(6)" href="#">Refeições</a>
+      <a class="nav-link" :class="{ 'active': abas[0].active }" @click="trocarAba(0)" href="#"><b>1.</b> Dados Pessoais</a>
+      <a class="nav-link" :class="{ 'active': abas[1].active }" @click="trocarAba(1)" href="#"><b>2.</b> História Pessoal</a>
+      <a class="nav-link" :class="{ 'active': abas[2].active }" @click="trocarAba(2)" href="#"><b>3.</b> História Familiar</a>
+      <a class="nav-link" :class="{ 'active': abas[3].active }" @click="trocarAba(3)" href="#"><b>4.</b> Medicamentos</a>
+      <a class="nav-link" :class="{ 'active': abas[4].active }" @click="trocarAba(4)" href="#"><b>5.</b> Exames Clínicos</a>
+      <a class="nav-link" :class="{ 'active': abas[5].active }" @click="trocarAba(5)" href="#"><b>6.</b> Anamnese</a>
+      <a class="nav-link" :class="{ 'active': abas[6].active }" @click="trocarAba(6)" href="#"><b>7.</b> Refeições</a>
+      <a class="nav-link" :class="{ 'active': abas[7].active }" @click="trocarAba(7)" href="#"><b>8.</b> Exames Bioquímicos</a>
+      <a class="nav-link" :class="{ 'active': abas[8].active }" @click="trocarAba(8)" href="#"><b>9.</b> Dados Antropométricos</a>
+      <a class="nav-link" :class="{ 'active': abas[9].active }" @click="trocarAba(9)" href="#"><b>10.</b> Planejamento Nutricional</a>
     </div>
   </div>
 
   <!-- Conteúdo das abas -->
-  <div class="tab-content container-fluid col-8">
+  <div class="tab-content container-fluid col-10">
     <form>
       <!-- Componente de Dados Pessoais -->
       <div v-if="abas[0].active" class="show active">
@@ -55,17 +58,29 @@
       <div v-if="abas[6].active" class="show active">
         <RefeicoesComponent :refeicoesProps="refeicoes" ref="refeicoesForm" />
       </div>
+      <!-- Componente de Refeições -->
+      <div v-if="abas[7].active" class="show active">
+        <ExamesBioquimicosComponent :examesBioquimicosProps="examesBioquimicos" ref="examesBioquimicosForm" />
+      </div>
+      <!-- Componente de Refeições -->
+      <div v-if="abas[8].active" class="show active">
+        <DadosAntropometricosComponent :dadosAntropometricosProps="dadosAntropometricos" ref="dadosAntropometricosForm" />
+      </div>
+      <!-- Componente de Refeições -->
+      <div v-if="abas[9].active" class="show active">
+        <PlanejamentoNutricionalComponent :planejamentoNutricionalProps="planejamentoNutricional" ref="planejamentoNutricionalForm" />
+      </div>
     </form>
 
     <!-- Botões de navegação -->
-    <div class="form-group mt-3 row">
+    <div class="form-group mt-4 row">
       <div class="col d-flex justify-content-start">
       <!-- <div class="col d-flex justify-content-end" v-if="abas[5].active"> -->
         <button class="btn btn-success" @click="salvarProntuario()">Salvar</button>
       </div>
       <div class="col d-flex justify-content-end">
         <button type="button" class="btn btn-outline-secondary me-2" v-if="!abas[0].active" @click="anteriorAba">Anterior</button>
-        <button type="button" class="btn btn-primary" v-if="!abas[5].active" @click="proximoAba">Próximo</button>
+        <button type="button" class="btn btn-primary" v-if="!abas[9].active" @click="proximoAba">Próximo</button>
       </div>
     </div>
   </div>
@@ -80,6 +95,9 @@ import MedicamentosComponent from '@/components/prontuarios/MedicamentosComponen
 import ExamesClinicosComponent from '@/components/prontuarios/ExamesClinicosComponent.vue';
 import AnamneseComponent from '@/components/prontuarios/AnamneseComponent.vue';
 import RefeicoesComponent from '@/components/prontuarios/RefeicoesComponent.vue';
+import ExamesBioquimicosComponent from '@/components/prontuarios/ExamesBioquimicosComponent.vue';
+import DadosAntropometricosComponent from '@/components/prontuarios/DadosAntropometricosComponent.vue';
+import PlanejamentoNutricionalComponent from '@/components/prontuarios/PlanejamentoNutricionalComponent.vue';
 
 // Classes
 import DadosPessoais from '@/models/prontuario/DadosPessoais';
@@ -89,6 +107,9 @@ import Medicamentos from "@/models/prontuario/Medicamentos";
 import ExamesClinicos from "@/models/prontuario/ExamesClinicos";
 import Anamnese from "@/models/prontuario/Anamnese";
 import Refeicoes from "@/models/prontuario/Refeicoes";
+import ExamesBioquimicos from "@/models/prontuario/ExamesBioquimicos";
+import DadosAntropometricos from "@/models/prontuario/DadosAntropometricos";
+import PlanejamentoNutricional from "@/models/prontuario/PlanejamentoNutricional";
 
 export default {
   name: "AlunosFuncionarios",
@@ -99,7 +120,10 @@ export default {
     MedicamentosComponent,
     ExamesClinicosComponent,
     AnamneseComponent,
-    RefeicoesComponent
+    RefeicoesComponent,
+    ExamesBioquimicosComponent,
+    DadosAntropometricosComponent,
+    PlanejamentoNutricionalComponent,
   },
   // props: ["codPaciente", "cod"],
   props: ["cod"],
@@ -113,6 +137,9 @@ export default {
         { label: 'Exames Clínicos', id: 'examesClinicos', active: false },
         { label: 'Anamnese', id: 'anamnese', active: false },
         { label: 'Refeições', id: 'refeicoes', active: false },
+        { label: 'ExamesBioquimicos', id: 'examesBioquimicos', active: false },
+        { label: 'DadosAntropometricos', id: 'dadosAntropometricos', active: false },
+        { label: 'PlanejamentoNutricional', id: 'planejamentoNutricional', active: false },
       ],
       prontuario: {},
       nutricionista: "",
@@ -124,6 +151,9 @@ export default {
       examesClinicos: new ExamesClinicos(),
       anamnese: new Anamnese(),
       refeicoes: new Refeicoes(),
+      examesBioquimicos: new ExamesBioquimicos(),
+      dadosAntropometricos: new DadosAntropometricos(),
+      planejamentoNutricional: new PlanejamentoNutricional(),
     };
   },
   mounted(){
@@ -164,6 +194,9 @@ export default {
         examesClinicos: this.examesClinicos,
         anamnese: this.anamnese,
         refeicoes: this.refeicoes,
+        examesBioquimicos: this.examesBioquimicos,
+        dadosAntropometricos: this.dadosAntropometricos,
+        planejamentoNutricional: this.planejamentoNutricional,
       };
 
       fetch('http://localhost:3000/salvarProntuario', {
@@ -205,6 +238,10 @@ export default {
           Object.assign(this.examesClinicos, data.prontuario.examesClinicos);
           Object.assign(this.anamnese, data.prontuario.anamnese);
           Object.assign(this.refeicoes, data.prontuario.refeicoes);
+          Object.assign(this.examesBioquimicos, data.prontuario.examesBioquimicos);
+          Object.assign(this.dadosAntropometricos, data.prontuario.dadosAntropometricos);
+          Object.assign(this.planejamentoNutricional, data.prontuario.planejamentoNutricional);
+
           this.prontuario.nutricionista = this.data.prontuario.nutricionista;
           this.nutricionista = this.data.prontuario.nutricionista;
           this.prontuario.codPaciente = this.data.prontuario.codPaciente;

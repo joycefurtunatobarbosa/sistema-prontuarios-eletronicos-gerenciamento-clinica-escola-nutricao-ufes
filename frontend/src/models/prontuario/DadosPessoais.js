@@ -13,7 +13,8 @@ class DadosPessoais {
             estado: "",
             cidade: "",
             cep: "",
-        }
+        },
+        this.aceiteTermoAutorizacao = false;
     }
 }
 

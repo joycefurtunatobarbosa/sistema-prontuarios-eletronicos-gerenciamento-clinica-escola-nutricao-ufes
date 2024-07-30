@@ -25,7 +25,7 @@ const transporter = nodemailer.createTransport({
 module.exports = function (app) {
 
   const sendEmail = (to, subject, html) => {
-    console.log("Chegou aqui")
+    console.log("Enviando email...")
     const mailOptions = {
       from: 'gabrielnama2@gmail.com',
       to: to,
@@ -44,6 +44,7 @@ module.exports = function (app) {
 
   app.post('/enviarEmail', (req, res) => {
 
+    console.log(req.body);
     const { to, subject } = req.body;
     const html = `<!DOCTYPE html>
                     <html>
@@ -53,12 +54,10 @@ module.exports = function (app) {
                     <div>
                     <div>${req.body.text}</div>
                     <div>&nbsp;</div>
-                    <div><strong>Nutricionista:</strong> ${req.body.nutricionista.nome}</div>
+                    <div><strong>Nutricionista:</strong> ${req.body.nutricionista}</div>
                     <div><strong>Data da atualiza&ccedil;&atilde;o:</strong> ${dataFormatada}</div>
                     <div>&nbsp;</div>
-                    <div style="text-align: center;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://onedrive.live.com/embed?resid=40C2B5524225E68E%2125371&authkey=%21AM-IYHLTrV4wXFI&width=256&height=256" alt="" width="128" height="128" /><strong>Cl&iacute;nica Escola de Nutri&ccedil;&atilde;o</strong></div>
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
+                    <div style="text-align: center;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://onedrive.live.com/embed?resid=40C2B5524225E68E%2125384&authkey=%21ANefz4WMfb5jOyY&width=256" alt="Logo CEN" width="128" height="128" /><strong>Cl&iacute;nica Escola de Nutri&ccedil;&atilde;o</strong></div>
                     </div>
                     <div id="gtx-trans" style="position: absolute; left: 2px; top: 173.205px;">
                     <div class="gtx-trans-icon">&nbsp;</div>

@@ -114,30 +114,18 @@ export default {
           .then((response) => response.json())
           .then((data) => {
               this.pacientes = data.pacientes;
-             
-              console.log("Chegou no email");
 
               // Enviar email
               this.email.to = this.nutricionista.email;
               this.email.subject = "CEN - Novo atendimento";
-              this.email.text = `O paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> começou a ser atendido.`;
-              this.email.nutricionista = this.nutricionista.email;
-              alert(this.email)
+              this.email.text = `O(a) paciente <strong>"${nomePaciente}"</strong> começou a ser atendido(a).`;
+              this.email.nutricionista = nutricionista.nome;
+              console.log(this.email)
               this.enviarEmail();
+
               this.nutricionistaAtenderPaciente(nutricionista.cod, codPaciente, nomePaciente);
-              // window.location.reload();
+              window.location.reload();
           })
-          // .then(response => {
-          //     if (response.ok) {
-          //         // Enviar email
-          //         this.email.to = this.paciente.nutricionista.email;
-          //         this.email.subject = "CEN - Novo atendimento";
-          //         this.email.text = `O paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> começou a ser atendido.`;
-          //         this.email.nutricionista = this.nutricionista;
-          //         this.enviarEmail();
-          //         window.location.reload();
-          //     }
-          // })
           .catch((error) => {
               console.error("Erro ao atender paciente:", error);
           });
@@ -161,12 +149,15 @@ export default {
         .then((response) => response.json())
         .then((data) => {
             console.log(data.message);
-            window.location.reload();
+            // window.location.reload(true);  
+            // window.location.href = `/paciente/${codPaciente}`;
+            window.open(`/paciente/${codPaciente}`);
         })
         .catch((error) => {
             console.error("Erro ao atender paciente:", error);
         });
-        window.location.reload();
+        // window.location.reload(true);
+        window.open(`/paciente/${codPaciente}`);
     },
     enviarEmail() {
       fetch('http://localhost:3000/enviarEmail', {
