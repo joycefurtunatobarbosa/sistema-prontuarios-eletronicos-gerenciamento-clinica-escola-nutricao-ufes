@@ -25,7 +25,6 @@ const transporter = nodemailer.createTransport({
 module.exports = function (app) {
 
   const sendEmail = (to, subject, html) => {
-    console.log("Enviando email...")
     const mailOptions = {
       from: 'gabrielnama2@gmail.com',
       to: to,
@@ -38,13 +37,12 @@ module.exports = function (app) {
       if (error) {
         return console.log(error);
       }
-      console.log('Email sent: ' + info.response);
+      console.log('Email enviado: ' + info.response);
     });
   };
 
   app.post('/enviarEmail', (req, res) => {
 
-    console.log(req.body);
     const { to, subject } = req.body;
     const html = `<!DOCTYPE html>
                     <html>

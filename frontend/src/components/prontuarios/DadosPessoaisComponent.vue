@@ -15,7 +15,12 @@
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="dataNascimento" class="col-form-label">Data de nascimento:</label>
-                    <input type="text" class="form-control" id="dataNascimento" v-model="dadosPessoais.dataNascimento">
+                    <input type="date" class="form-control" id="dataNascimento" v-model="dadosPessoais.dataNascimento">
+                </div>
+
+                <div class="col">
+                    <label for="idade" class="col-form-label">Idade:</label>
+                    <input type="text" class="form-control" id="idade" v-model="dadosPessoais.idade" disabled>
                 </div>
 
                 <div class="col">
@@ -47,7 +52,14 @@
                 </div>
                 <div class="col">
                     <label for="escolaridade" class="col-form-label">Escolaridade:</label>
-                    <input type="text" class="form-control" id="escolaridade" v-model="dadosPessoais.escolaridade" />
+                    <select class="form-select" id="escolaridade" v-model="dadosPessoais.escolaridade">
+                        <option value="Fundamental Incompleto">Fundamental Incompleto</option>
+                        <option value="Fundamental Completo">Fundamental Completo</option>
+                        <option value="Médio Incompleto">Médio Incompleto</option>
+                        <option value="Médio Completo">Médio Completo</option>
+                        <option value="Superior Incompleto">Superior Incompleto</option>
+                        <option value="Superior Completo">Superior Completo</option>
+                    </select>
                 </div>
             </div>
 
@@ -108,7 +120,7 @@
                 <div class="col">
                     <label for="aceiteTermoAutorizacao" class="">Eu confirmo todas as informações relatadas e comprometo-me a informar sobre qualquer mudança das mesmas. Estou ciente de que as informações contidas neste prontuário, assim como todas as informações sobre o tratamento e diagnóstico poderão ser utilizadas para fins didáticos e científicos, resguardando sempre o anonimato.</label>
                     
-                    <input class="mt-4 form-check-input my-auto ms-2" type="checkbox" value="Irmãos" id="aceiteTermoAutorizacao"
+                    <input class="mt-4 form-check-input my-auto" type="checkbox" id="aceiteTermoAutorizacao"
                         v-model="dadosPessoais.aceiteTermoAutorizacao">
                     <label class="mt-4 form-check-label ms-2" for="aceiteTermoAutorizacao"><b>Eu aceito.</b></label>
                 </div>
@@ -131,6 +143,35 @@ export default {
         return {
             dadosPessoais: this.dadosPessoaisProps,
         };
+    },
+    updated() {
+        this.calcularIdade();
+    },
+    methods: {
+        calcularIdade() {
+            const hoje = new Date();
+            const dataNascimento = new Date(this.dadosPessoais.dataNascimento);
+
+            let anos = hoje.getFullYear() - dataNascimento.getFullYear();
+            let meses = hoje.getMonth() - dataNascimento.getMonth();
+            let dias = hoje.getDate() - dataNascimento.getDate();
+
+            if (dias < 0) {
+                meses--;
+                dias += new Date(hoje.getFullYear(), hoje.getMonth(), 0).getDate();
+            }
+
+            if (meses < 0) {
+                anos--;
+                meses += 12;
+            }
+
+            if(!isNaN(anos)){
+                this.dadosPessoais.idade = `${anos} anos, ${meses} meses e ${dias} dias`;
+            }
+            
+        }
+
     },
 };
 </script>

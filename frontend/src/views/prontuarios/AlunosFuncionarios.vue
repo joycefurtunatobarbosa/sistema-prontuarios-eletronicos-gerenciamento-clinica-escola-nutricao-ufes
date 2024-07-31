@@ -12,7 +12,7 @@
   </div> 
   
   <!-- Abas -->
-  <div class="container-fluid col-11">
+  <div class="container-fluid col-9">
     <div class="nav nav-tabs mt-3 text-center d-flex justify-content-center">
       <a class="nav-link" :class="{ 'active': abas[0].active }" @click="trocarAba(0)" href="#"><b>1.</b> Dados Pessoais</a>
       <a class="nav-link" :class="{ 'active': abas[1].active }" @click="trocarAba(1)" href="#"><b>2.</b> História Pessoal</a>
@@ -24,6 +24,7 @@
       <a class="nav-link" :class="{ 'active': abas[7].active }" @click="trocarAba(7)" href="#"><b>8.</b> Exames Bioquímicos</a>
       <a class="nav-link" :class="{ 'active': abas[8].active }" @click="trocarAba(8)" href="#"><b>9.</b> Dados Antropométricos</a>
       <a class="nav-link" :class="{ 'active': abas[9].active }" @click="trocarAba(9)" href="#"><b>10.</b> Planejamento Nutricional</a>
+      <a class="nav-link" :class="{ 'active': abas[10].active }" @click="trocarAba(10)" href="#"><b>11.</b> Orientações e Conduta</a>
     </div>
   </div>
 
@@ -58,17 +59,21 @@
       <div v-if="abas[6].active" class="show active">
         <RefeicoesComponent :refeicoesProps="refeicoes" ref="refeicoesForm" />
       </div>
-      <!-- Componente de Refeições -->
+      <!-- Componente de Exames Bioquímicos -->
       <div v-if="abas[7].active" class="show active">
         <ExamesBioquimicosComponent :examesBioquimicosProps="examesBioquimicos" ref="examesBioquimicosForm" />
       </div>
-      <!-- Componente de Refeições -->
+      <!-- Componente de Dados Antropométricos -->
       <div v-if="abas[8].active" class="show active">
         <DadosAntropometricosComponent :dadosAntropometricosProps="dadosAntropometricos" ref="dadosAntropometricosForm" />
       </div>
-      <!-- Componente de Refeições -->
+      <!-- Componente de Planejamento Nutricional -->
       <div v-if="abas[9].active" class="show active">
         <PlanejamentoNutricionalComponent :planejamentoNutricionalProps="planejamentoNutricional" ref="planejamentoNutricionalForm" />
+      </div>
+      <!-- Componente de Orientações e Conduta -->
+      <div v-if="abas[10].active" class="show active">
+        <OrientacoesCondutaComponent :orientacoesCondutaProps="orientacoesConduta" ref="orientacoesCondutaComponentForm" />
       </div>
     </form>
 
@@ -80,7 +85,7 @@
       </div>
       <div class="col d-flex justify-content-end">
         <button type="button" class="btn btn-outline-secondary me-2" v-if="!abas[0].active" @click="anteriorAba">Anterior</button>
-        <button type="button" class="btn btn-primary" v-if="!abas[9].active" @click="proximoAba">Próximo</button>
+        <button type="button" class="btn btn-primary" v-if="!abas[10].active" @click="proximoAba">Próximo</button>
       </div>
     </div>
   </div>
@@ -98,6 +103,7 @@ import RefeicoesComponent from '@/components/prontuarios/RefeicoesComponent.vue'
 import ExamesBioquimicosComponent from '@/components/prontuarios/ExamesBioquimicosComponent.vue';
 import DadosAntropometricosComponent from '@/components/prontuarios/DadosAntropometricosComponent.vue';
 import PlanejamentoNutricionalComponent from '@/components/prontuarios/PlanejamentoNutricionalComponent.vue';
+import OrientacoesCondutaComponent from '@/components/prontuarios/OrientacoesCondutaComponent.vue';
 
 // Classes
 import DadosPessoais from '@/models/prontuario/DadosPessoais';
@@ -110,6 +116,7 @@ import Refeicoes from "@/models/prontuario/Refeicoes";
 import ExamesBioquimicos from "@/models/prontuario/ExamesBioquimicos";
 import DadosAntropometricos from "@/models/prontuario/DadosAntropometricos";
 import PlanejamentoNutricional from "@/models/prontuario/PlanejamentoNutricional";
+import OrientacoesConduta from "@/models/prontuario/OrientacoesConduta";
 
 export default {
   name: "AlunosFuncionarios",
@@ -124,6 +131,7 @@ export default {
     ExamesBioquimicosComponent,
     DadosAntropometricosComponent,
     PlanejamentoNutricionalComponent,
+    OrientacoesCondutaComponent,
   },
   // props: ["codPaciente", "cod"],
   props: ["cod"],
@@ -140,6 +148,7 @@ export default {
         { label: 'ExamesBioquimicos', id: 'examesBioquimicos', active: false },
         { label: 'DadosAntropometricos', id: 'dadosAntropometricos', active: false },
         { label: 'PlanejamentoNutricional', id: 'planejamentoNutricional', active: false },
+        { label: 'OrientacoesConduta', id: 'orientacoesConduta', active: false },
       ],
       prontuario: {},
       nutricionista: "",
@@ -154,6 +163,7 @@ export default {
       examesBioquimicos: new ExamesBioquimicos(),
       dadosAntropometricos: new DadosAntropometricos(),
       planejamentoNutricional: new PlanejamentoNutricional(),
+      orientacoesConduta: new OrientacoesConduta(),
     };
   },
   mounted(){
@@ -197,6 +207,7 @@ export default {
         examesBioquimicos: this.examesBioquimicos,
         dadosAntropometricos: this.dadosAntropometricos,
         planejamentoNutricional: this.planejamentoNutricional,
+        orientacoesConduta: this.orientacoesConduta,
       };
 
       fetch('http://localhost:3000/salvarProntuario', {
@@ -216,8 +227,9 @@ export default {
           console.error('Erro ao enviar dados para o servidor:', error);
         });
         alert("Prontuário salvo com sucesso!");
-        window.location.reload();
+        // window.location.reload();
         this.topoPagina();
+        
     },
     carregarProntuario(cod) {
       fetch(`http://localhost:3000/buscarProntuario/${cod}`, {
@@ -241,10 +253,12 @@ export default {
           Object.assign(this.examesBioquimicos, data.prontuario.examesBioquimicos);
           Object.assign(this.dadosAntropometricos, data.prontuario.dadosAntropometricos);
           Object.assign(this.planejamentoNutricional, data.prontuario.planejamentoNutricional);
+          Object.assign(this.orientacoesConduta, data.prontuario.orientacoesConduta);
 
           this.prontuario.nutricionista = this.data.prontuario.nutricionista;
           this.nutricionista = this.data.prontuario.nutricionista;
           this.prontuario.codPaciente = this.data.prontuario.codPaciente;
+          this.topoPagina();
         })
         .catch((error) => {
           console.error("Erro ao carregar dados dos prontuários:", error);

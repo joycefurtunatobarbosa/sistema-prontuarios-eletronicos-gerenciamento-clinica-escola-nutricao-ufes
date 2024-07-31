@@ -4,6 +4,7 @@ class DadosPessoais {
         this.estadoCivil = "";
         this.email = "";
         this.dataNascimento = "";
+        this.idade = 0;
         this.sexo = "";
         this.endereco = {
             rua: "",
