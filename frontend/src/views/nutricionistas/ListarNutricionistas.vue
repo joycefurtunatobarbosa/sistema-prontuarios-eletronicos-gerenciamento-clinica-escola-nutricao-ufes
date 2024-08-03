@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import { server_backend_url } from "../../server_url.js";
+
 export default {
   name: "ListarNutricionistas",
   data() {
@@ -76,7 +78,7 @@ export default {
   },
   methods: {
     carregarNutricionistas() {
-      fetch("http://localhost:3000/listarNutricionistas", {
+      fetch(`${server_backend_url}/listarNutricionistas`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +94,7 @@ export default {
         });
     },
     editarNutricionista(cod) {
-      fetch(`http://localhost:8080/buscarNutricionista/${cod}`, {
+      fetch(`${server_backend_url}/buscarNutricionista/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +108,7 @@ export default {
     },
     excluirNutricionista(cod) {
       if (confirm("Deseja realmente excluir o nutricionista?")) {
-        fetch(`http://localhost:3000/excluirNutricionista/${cod}`, {
+        fetch(`${server_backend_url}/excluirNutricionista/${cod}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

@@ -66,6 +66,7 @@
 <script>
 // import { IconFilePlus } from '@tabler/icons-vue';
 import { IconFileFilled } from '@tabler/icons-vue';
+
 export default {
   name: "AtendimentosDoPaciente",
   components: {

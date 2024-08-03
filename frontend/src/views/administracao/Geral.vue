@@ -19,6 +19,8 @@
 
 <script>
 import { IconUserFilled } from '@tabler/icons-vue';
+import { server_backend_url } from "../../server_url.js";
+
 export default {
   name: "Atendimentos",
   components: {
@@ -39,7 +41,7 @@ export default {
   },
   methods: {
     carregarNutricionistas() {
-      fetch("http://localhost:3000/listarNutricionistas", {
+      fetch(`${server_backend_url}/listarNutricionistas`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +57,7 @@ export default {
         });
     },
     enviarEmail() {
-      fetch('http://localhost:3000/enviarEmail', {
+      fetch(`${this.server_backend}/enviarEmail`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

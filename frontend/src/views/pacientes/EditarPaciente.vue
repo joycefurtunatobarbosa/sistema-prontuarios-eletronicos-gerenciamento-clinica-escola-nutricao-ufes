@@ -52,6 +52,8 @@
 
 <script>
 import { cloneDeep, isEqual } from "lodash";
+import { server_backend_url } from "../../server_url.js";
+
 export default {
   name: "EditarPaciente",
   props: ["cod"],
@@ -66,7 +68,7 @@ export default {
   },
   methods: {
     carregarPaciente(cod) {
-      fetch(`http://localhost:3000/buscarPaciente/${cod}`, {
+      fetch(`${server_backend_url}/buscarPaciente/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +90,7 @@ export default {
         return;
       }
       else {
-        fetch("http://localhost:3000/atualizarPaciente", {
+        fetch(`${server_backend_url}/atualizarPaciente`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

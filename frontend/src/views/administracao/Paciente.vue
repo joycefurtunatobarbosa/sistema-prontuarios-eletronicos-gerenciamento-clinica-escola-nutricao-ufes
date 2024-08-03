@@ -32,7 +32,7 @@
       </div>
       <div class="row">
         <div class="d-flex flex-wrap gap-2">
-          <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
+          <!-- Iterar sobre os prontuários -->
           <template v-for="prontuario in prontuarios" :key="prontuario">
             <a v-if="prontuario.tipo === 'prontuario'" :href="`/prontuario/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao" target="_blank">
               <IconFileFilled class="icon-user me-2" /> {{ prontuario.nome }}
@@ -57,7 +57,7 @@
         <div class="d-flex flex-wrap gap-2" v-if="paciente && paciente.arquivos">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="arquivo in paciente.arquivos" :key="arquivo.localizacao">
-            <a v-if="arquivo" :href="`http://localhost:3000/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
+            <a v-if="arquivo" :href="`${this.server_backend_url}/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
                 target="_blank">
                 <IconFileFilled class="icon-user me-2" /> {{ arquivo.nome }}
             </a>
@@ -107,6 +107,7 @@
               </div>
               <div class="mb-3">
                 <label for="fileInput" class="form-label">Selecione o arquivo:</label>
+                <!-- <input type="file" class="form-control" id="arquivo" name="file" required> -->
                 <input type="file" class="form-control" id="arquivo" name="file" required>
               </div>
               <button type="button" class="btn btn-primary" @click="enviarArquivo()">Enviar</button>
@@ -127,6 +128,8 @@ import HistoriaFamiliar from '@/models/prontuario/HistoriaFamiliar';
 import Medicamentos from "@/models/prontuario/Medicamentos";
 import Anamnese from "@/models/prontuario/Anamnese";
 import Refeicoes from "@/models/prontuario/Refeicoes";
+import { server_backend_url } from "../../server_url.js";
+
 // import Prontuario from '@/models/Prontuario';
 // import { getElement } from 'public/assets/libs/bootstrap/js/src/util';
 
@@ -138,6 +141,7 @@ export default {
   props: ["cod"],
   data() {
     return {
+      server_backend_url: server_backend_url,
       // paciente: {},
       paciente: null,
       // nomeCompleto: "",
@@ -172,7 +176,7 @@ export default {
   },
   methods: {
     carregarPaciente(cod) {
-      fetch(`http://localhost:3000/buscarPaciente/${cod}`, {
+      fetch(`${server_backend_url}/buscarPaciente/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -212,7 +216,7 @@ export default {
 
       // Verificar se o usuário inseriu algo e se clicou em "OK"
       if (novaSituacao && novaSituacao.length > 0) {
-        fetch("http://localhost:3000/alterarSituacao", {
+        fetch(`${server_backend_url}/alterarSituacao`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -246,7 +250,7 @@ export default {
     },
     finalizarAtendimento() {
       if (window.confirm('Tem certeza que deseja finalizar o atendimento?')) {
-          fetch("http://localhost:3000/finalizarAtendimento", {
+          fetch(`${server_backend_url}/finalizarAtendimento`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'
@@ -288,12 +292,20 @@ export default {
         console.error('Nenhum arquivo selecionado.');
         return;
       }
+
+      const maxSize = 5 * 1024 * 1024; // Limite de tamanho em bytes (2 MB)
+      if (arquivo.size > maxSize) {
+        alert("O arquivo selecionado é muito grande! O tamanho máximo permitido é 2 MB.");
+        document.getElementById('arquivo').value = '';
+        return;
+      }
+
       const formData = new FormData();
       formData.append('fileName', nomeArquivo);
       formData.append('file', arquivo);
       formData.append('cod', this.paciente.cod);
 
-      fetch('http://localhost:3000/salvarArquivo', {
+      fetch(`${server_backend_url}/salvarArquivo`, {
         method: 'POST',
         body: formData
       })
@@ -372,7 +384,7 @@ export default {
       if (tipoProntuario == "retorno") {
           // this.prontuario = retornoProntuario;
           // Object.assign(this.prontuario, prontuarioRetorno);
-          fetch('http://localhost:3000/criarProntuarioRetorno', {
+          fetch(`${server_backend_url}/criarProntuarioRetorno`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -406,7 +418,7 @@ export default {
           });
       } else {
         console.log("Prontuário comum", prontuarioComum);
-          fetch('http://localhost:3000/criarNovoProntuario', {
+          fetch(`${server_backend_url}/criarNovoProntuario`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -461,7 +473,7 @@ export default {
     //     window.location.reload();
     // },
     enviarEmail() {
-      fetch('http://localhost:3000/enviarEmail', {
+      fetch(`${server_backend_url}/enviarEmail`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

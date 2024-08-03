@@ -52,11 +52,14 @@
 
 
 <script>
+import { server_backend_url } from "../../server_url.js";
+
 export default {
   name: "CadastroNutricionista",
   components: {},
   data() {
     return {
+      server_backend: "http://localhost:3000",
       nutricionista: {
         cod: 0,
         nome: "",
@@ -70,7 +73,7 @@ export default {
   methods: {
     salvarNutricionista() {
       const nutri = this.nutricionista;
-      fetch('http://localhost:3000/salvarNutricionista', {
+      fetch(`${server_backend_url}/salvarNutricionista`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -36,7 +36,7 @@
           <td v-if="paciente.nutricionista">{{ paciente.nutricionista.nome }}</td>
 
           <td>
-            <a :href="`http://localhost:8081/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a>
+            <a :href="`${server_frontend_url}/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a>
           </td>
         </tr>
 
@@ -46,10 +46,13 @@
 </template>
 
 <script>
+import { server_frontend_url, server_backend_url } from "../../server_url.js";
+
 export default {
   name: "EmAtendimento",
   data() {
     return {
+      server_frontend_url: server_frontend_url,
       pacientes: [],
       nutricionista: {},
       filtro: "Todos os Projetos",
@@ -73,7 +76,7 @@ export default {
   },
   methods: {
     carregarAluno(cod) {
-      fetch(`http://localhost:3000/buscarAluno/${cod}`, {
+      fetch(`${server_backend_url}/buscarAluno/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +93,7 @@ export default {
         });
     },
     carregarPacientes() {
-      fetch("http://localhost:3000/listarPacientes", {
+      fetch(`${server_backend_url}/listarPacientes`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +110,7 @@ export default {
     },
     atenderPaciente(codAluno, codPaciente, nomePaciente) {
       if (window.confirm('Tem certeza que deseja atender este paciente?')) {
-          fetch("http://localhost:3000/atenderPaciente", {
+          fetch(`${server_backend_url}/atenderPaciente`, {
               method: "POST",
               headers: {
                   "Content-Type": "application/json",
@@ -132,7 +135,7 @@ export default {
       }
     },
     alunoAtenderPaciente(codAluno, codPaciente, nomePaciente) {
-        fetch("http://localhost:3000/alunoAtenderPaciente", {
+        fetch(`${server_backend_url}/alunoAtenderPaciente`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

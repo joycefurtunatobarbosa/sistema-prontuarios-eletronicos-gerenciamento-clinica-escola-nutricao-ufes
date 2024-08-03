@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { server_frontend_url, server_backend_url } from "../../server_url.js";
+
 export default {
   name: "Pacientes",
   data() {
@@ -77,7 +79,7 @@ export default {
   },
   methods: {
     carregarPacientes() {
-      fetch("http://localhost:3000/listarPacientes", {
+      fetch(`${server_backend_url}/listarPacientes`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +95,7 @@ export default {
         });
     },
     editarPaciente(cod) {
-      fetch(`http://localhost:8080/buscarPaciente/${cod}`, {
+      fetch(`${server_frontend_url}/buscarPaciente/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +109,7 @@ export default {
     },
     excluirPaciente(cod) {
       if (confirm("Deseja realmente excluir o nutricionista?")) {
-        fetch(`http://localhost:3000/excluirPaciente/${cod}`, {
+        fetch(`${server_backend_url}/excluirPaciente/${cod}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -127,7 +129,7 @@ export default {
       // window.location.reload();
     },
     excluirPacienteNoNutricionista(codNutricionista, codPaciente) {
-      fetch(`http://localhost:3000/excluirPacienteNoNutricionista/${codNutricionista}/${codPaciente}`, {
+      fetch(`${server_backend_url}/excluirPacienteNoNutricionista/${codNutricionista}/${codPaciente}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

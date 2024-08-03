@@ -117,6 +117,7 @@ import ExamesBioquimicos from "@/models/prontuario/ExamesBioquimicos";
 import DadosAntropometricos from "@/models/prontuario/DadosAntropometricos";
 import PlanejamentoNutricional from "@/models/prontuario/PlanejamentoNutricional";
 import OrientacoesConduta from "@/models/prontuario/OrientacoesConduta";
+import { server_backend_url } from "../../server_url.js";
 
 export default {
   name: "AlunosFuncionarios",
@@ -210,7 +211,7 @@ export default {
         orientacoesConduta: this.orientacoesConduta,
       };
 
-      fetch('http://localhost:3000/salvarProntuario', {
+      fetch(`${server_backend_url}/salvarProntuario`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -232,7 +233,7 @@ export default {
         
     },
     carregarProntuario(cod) {
-      fetch(`http://localhost:3000/buscarProntuario/${cod}`, {
+      fetch(`${server_backend_url}/buscarProntuario/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

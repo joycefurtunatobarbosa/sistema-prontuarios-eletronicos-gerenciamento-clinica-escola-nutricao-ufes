@@ -51,7 +51,8 @@
 </template>
 
 <script>
-import Paciente from "../../models/Paciente.js"
+import Paciente from "../../models/Paciente.js";
+import { server_backend_url } from "../../server_url.js";
 
 export default {
   name: "CadastrarPaciente",
@@ -67,7 +68,7 @@ export default {
   methods: {
     salvarPaciente() {
       const paciente = this.paciente;
-      fetch('http://localhost:3000/salvarPaciente', {
+      fetch(`${server_backend_url}/salvarPaciente`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

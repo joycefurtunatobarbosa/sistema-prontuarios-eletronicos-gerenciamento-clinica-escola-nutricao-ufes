@@ -52,6 +52,7 @@
 
 <script>
 import { cloneDeep, isEqual } from "lodash";
+import { server_backend_url } from "../../server_url.js";
 
 export default {
   name: "EditarNutricionista",
@@ -67,7 +68,7 @@ export default {
   },
   methods: {
     carregaNutricionista(cod) {
-      fetch(`http://localhost:3000/buscarNutricionista/${cod}`, {
+      fetch(`${server_backend_url}/buscarNutricionista/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +91,7 @@ export default {
         return;
       }
       else {
-        fetch("http://localhost:3000/atualizarNutricionista", {
+        fetch(`${server_backend_url}/atualizarNutricionista`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 var dataAtual = new Date(Date.now());
 var dataFormatada = dataAtual.toLocaleDateString('pt-BR');
+const { server_frontend_url } = require('../../../frontend/src/server_url.js');
 
 // require('dotenv').config();
 require('dotenv').config({ path: '/.env' });
@@ -55,7 +56,7 @@ module.exports = function (app) {
                     <div><strong>Nutricionista:</strong> ${req.body.nutricionista}</div>
                     <div><strong>Data da atualiza&ccedil;&atilde;o:</strong> ${dataFormatada}</div>
                     <div>&nbsp;</div>
-                    <div><a href='http://localhost:8081/paciente/${req.body.paciente.cod}'>Abrir ficha do paciente</a></div>
+                    <div><a href='${server_frontend_url}/paciente/${req.body.paciente.cod}'>Abrir ficha do paciente</a></div>
                     <div>&nbsp;</div>
                     <div style="text-align: center;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://onedrive.live.com/embed?resid=40C2B5524225E68E%2125384&authkey=%21ANefz4WMfb5jOyY&width=256" alt="Logo CEN" width="128" height="128" /><strong>Cl&iacute;nica Escola de Nutri&ccedil;&atilde;o</strong></div>
                     </div>
