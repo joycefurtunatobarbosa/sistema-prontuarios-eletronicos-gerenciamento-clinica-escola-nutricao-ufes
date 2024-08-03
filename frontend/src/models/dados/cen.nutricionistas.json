@@ -5,36 +5,7 @@
   "cod": 1,
   "nome": "Joyce Furtunato Barbosa",
   "matricula": "12345",
-  "email": "gabrielnama2@gmail.com",
-  "celular": "(33) 99959-7936",
-  "projeto": "Alunos e Funcionários",
-  "pacientes": [
-    {
-      "cod": 1,
-      "nome": "Gabriel Namã Lopes do Nascimento"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "663e3759d228f280c71c1a22"
-  },
-  "cod": 2,
-  "nome": "Nandyala da Silva",
-  "matricula": "12345",
-  "email": "",
-  "celular": "",
-  "projeto": "Alunos e Funcionários",
-  "pacientes": []
-},
-{
-  "_id": {
-    "$oid": "666246576d78a02234af50af"
-  },
-  "cod": 3,
-  "nome": "Gabriel Namã",
-  "matricula": "",
-  "email": "",
-  "celular": "",
+  "email": "joycefurtunatobarbosa@gmail.com",
+  "celular": "(00) 00000-0000",
   "projeto": "Alunos e Funcionários"
 }]

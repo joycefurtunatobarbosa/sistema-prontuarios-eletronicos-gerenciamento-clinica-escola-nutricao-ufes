@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Medicamentos -->
     <div class="tab-pane fade show active" id="medicamentos">
-        <h5 class="text mt-5 text-primary"><b>6. MEDICAMENTOS</b></h5>
+        <h5 class="text mt-5 text-primary"><b>MEDICAMENTOS</b></h5>
         <form>
 
             <!-- Medicamento 1 -->

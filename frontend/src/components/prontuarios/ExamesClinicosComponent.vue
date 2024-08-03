@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Exames Clínicos -->
     <div class="tab-pane fade show active" id="medicamentos">
-        <h5 class="text mt-5 text-primary"><b>7. EXAMES CLÍNICOS</b></h5>
+        <h5 class="text mt-5 text-primary"><b>EXAMES CLÍNICOS</b></h5>
         <form>
 
             <div class="form-group mt-3 row">

@@ -2,7 +2,7 @@
     <!-- Aba de Dados Pessoais -->
     <div class="tab-pane fade show active" id="dadosPessoais">
         <!-- <div class="tab-pane fade" :class="{ 'show active': tabs[0].active }" id="dadosPessoais"> -->
-        <h5 class="text mt-5 text-primary"><b>1. PACIENTE</b></h5>
+        <h5 class="text mt-5 text-primary"><b>PACIENTE</b></h5>
         <form>
             <div class="form-group row">
                 <div class="col">
@@ -75,7 +75,7 @@
             </div>
 
             <!-- Dados de endereço -->
-            <h5 class="text mt-5 text-primary"><b>2. ENDEREÇO</b></h5>
+            <h5 class="text mt-5 text-primary"><b>ENDEREÇO</b></h5>
 
             <div class="form-group mt-4 row">
                 <div class="col">

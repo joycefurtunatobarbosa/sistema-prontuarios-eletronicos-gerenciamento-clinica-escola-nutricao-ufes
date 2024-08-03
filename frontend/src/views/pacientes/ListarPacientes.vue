@@ -21,7 +21,7 @@
 
     <table class="table">
       <thead>
-        <tr>
+        <tr class="col-12">
           <th>Nº</th>
           <th>Paciente</th>
           <th>Motivo</th>

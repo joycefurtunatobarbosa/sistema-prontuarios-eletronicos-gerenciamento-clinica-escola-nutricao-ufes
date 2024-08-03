@@ -20,7 +20,7 @@ module.exports = function (app, mongo) {
                 { cod: codPaciente },
                 {
                     $set: {
-                        nutricionista: { cod: nutricionista.cod, nome: nutricionista.nome },
+                        nutricionista: { cod: nutricionista.cod, nome: nutricionista.nome, email: nutricionista.email },
                         dataInicio: dataFormatada,
                         situacao: "Atendimento iniciado",
                         dataSituacao: dataFormatada,

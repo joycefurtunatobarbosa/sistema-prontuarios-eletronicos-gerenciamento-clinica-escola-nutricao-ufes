@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Planejamento Nutricional -->
     <div class="tab-pane fade show active" id="refeicoes">
-        <h5 class="text mt-5 text-primary"><b>12. PLANEJAMENTO NUTRICIONAL</b></h5>
+        <h5 class="text mt-5 text-primary"><b>PLANEJAMENTO NUTRICIONAL</b></h5>
         <form>
             <!-- Refeições -->
             <div class="form-group row mt-3">

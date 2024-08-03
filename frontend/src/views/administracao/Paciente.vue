@@ -13,10 +13,11 @@
     </div>
   </div>
 
-  <div class="informacoes">
-    <h6 class="text-end" v-if="paciente && paciente.dataInicio" style="margin-top: "><b>Início do atendimento: </b>{{ paciente.dataInicio }}</h6>
+  <div class="informacoes my-5">
+    <h6 class="text-end" v-if="nutricionista && nutricionista.nome" style="margin-top: "><b>Nutricionista: </b>{{ nutricionista.nome }}</h6>
+    <h6 class="text-end" v-if="paciente && paciente.dataInicio" style="margin-top: -5px"><b>Início do atendimento: </b>{{ paciente.dataInicio }}</h6>
     <h6 class="text-end" v-if="paciente && paciente.dataSituacao" style="margin-top: -5px;"><b>Última atualização: </b>{{ paciente.dataSituacao }}</h6>
-    <h6 class="text-end" v-if="nutricionista && nutricionista.nome" style="margin-top: -5px"><b>Nutricionista: </b>{{ nutricionista.nome }}</h6><br>
+    <!-- <h6 class="text-end" v-if="nutricionista && nutricionista.nome" style="margin-top: -5px"><b>Nutricionista: </b>{{ nutricionista.nome }}</h6> -->
   </div>
 
   <div class="container-fluid col-10" id="container">
@@ -33,8 +34,10 @@
         <div class="d-flex flex-wrap gap-2">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="prontuario in prontuarios" :key="prontuario">
-            <a :href="`/prontuario/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao"
-              target="_blank">
+            <a v-if="prontuario.tipo === 'prontuario'" :href="`/prontuario/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao" target="_blank">
+              <IconFileFilled class="icon-user me-2" /> {{ prontuario.nome }}
+            </a>
+            <a v-else-if="prontuario.tipo === 'retorno'" :href="`/retorno/${prontuario.cod}`" class="btn btn-outline-secondary botao-navegacao" target="_blank">
               <IconFileFilled class="icon-user me-2" /> {{ prontuario.nome }}
             </a>
           </template>
@@ -124,7 +127,7 @@ import HistoriaFamiliar from '@/models/prontuario/HistoriaFamiliar';
 import Medicamentos from "@/models/prontuario/Medicamentos";
 import Anamnese from "@/models/prontuario/Anamnese";
 import Refeicoes from "@/models/prontuario/Refeicoes";
-import Prontuario from '@/models/Prontuario';
+// import Prontuario from '@/models/Prontuario';
 // import { getElement } from 'public/assets/libs/bootstrap/js/src/util';
 
 export default {
@@ -147,7 +150,10 @@ export default {
         to: '',
         subject: '',
         text: '',
-        nutricionista: ''
+        nutricionista: '',
+        paciente: {
+          cod: 0
+        }
       },
       //Criar um novo prontuáro
       dadosPessoais: new DadosPessoais(),
@@ -156,7 +162,9 @@ export default {
       medicamentos: new Medicamentos(),
       anamnese: new Anamnese(),
       refeicoes: new Refeicoes(),
-      prontuario: new Prontuario(),
+      
+      // prontuario: {},
+      // prontuario: new Prontuario(),
     }
   },
   mounted() {
@@ -186,12 +194,17 @@ export default {
           if (this.prontuarios && this.prontuarios.length > 0) {
             this.retorno = true;
           }
-          
+
+          // Exibir os prontuários no console
+          // for (let i = 0; i < this.prontuarios.length; i++) {
+          //   console.log(this.prontuarios[i]);
+          // }
+
         })
         .catch((error) => {
           console.error("Erro ao carregar dados do paciente:", error);
         });
-        // window.location.reload();
+        
     },
     alterarSituacao() {
       // Solicitar ao usuário que digite a nova situação
@@ -211,12 +224,15 @@ export default {
         })
         .then(response => {
           if (response.ok) {
+            // Enviar email
             this.email.to = this.paciente.nutricionista.email;
             this.email.subject = "CEN - Atualização de atendimento";
             this.email.text = `A situa&ccedil;&atilde;o do(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi alterada para <strong>"${novaSituacao}"</strong>.`;
             this.email.nutricionista = this.nutricionista.nome;
+            this.email.paciente.cod = this.paciente.cod;
+
             this.enviarEmail();
-            window.location.reload();
+            // window.location.reload();
           } else {
             console.error('Erro ao alterar situacao:', response.statusText);
           }
@@ -244,8 +260,10 @@ export default {
                   this.email.subject = "CEN - Finalização de atendimento";
                   this.email.text = `O atendimento do(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi finalizado.`;
                   this.email.nutricionista = this.nutricionista.nome;
+                  this.email.paciente.cod = this.paciente.cod;
+
                   this.enviarEmail();
-                  window.location.reload();
+                  // window.location.reload();
               } else {
                   console.error('Erro ao finalizar o atendimento:', response.statusText);
               }
@@ -289,6 +307,8 @@ export default {
             this.email.subject = "CEN - Atualização de atendimento";
             this.email.text = `Um novo arquivo foi salvo para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
             this.email.nutricionista = this.nutricionista.nome;
+            this.email.paciente.cod = this.paciente.cod;
+
             this.enviarEmail();
 
             // Limpa os campos do formulário
@@ -311,9 +331,11 @@ export default {
         });
     },
     criarProntuario() {
-      let prontuario = {
+      let tipoProntuario = document.getElementById('tipoProntuario').value;
+      let prontuarioComum = {
           cod: 0,
           tipo: document.getElementById('tipoProntuario').value,
+          // tipo: "prontuario",
           // nome: "",
           nutricionista: this.nutricionista.nome,
           codPaciente: this.paciente.cod,
@@ -322,83 +344,122 @@ export default {
           historiaFamiliar: this.historiaFamiliar,
           medicamentos: this.medicamentos,
           anamnese: this.anamnese,
+          examesClinicos: this.examesClinicos,
           refeicoes: this.refeicoes,
+          dadosAntropometricos: this.dadosAntropometricos,
+          examesBioquimicos: this.examesBioquimicos,
+          planejamentoNutricional: this.planejamentoNutricional,
+          orientacoesConduta: this.orientacoesConduta
       };
 
-      if (prontuario.tipo == "retorno") {
+      let prontuarioRetorno = {
+          cod: 0,
+          tipo: document.getElementById('tipoProntuario').value,
+          // tipo: "retorno",
+          // nome: "",
+          nutricionista: this.nutricionista.nome,
+          codPaciente: this.paciente.cod,
+          dadosPessoais: this.paciente.dadosPessoais,
+          feedbackPaciente: this.feedbackPaciente,
+          medicamentos: this.medicamentos,
+          anamnese: this.anamnese,
+          dadosAntropometricos: this.dadosAntropometricos,
+          examesBioquimicos: this.examesBioquimicos,
+          planejamentoNutricional: this.planejamentoNutricional,
+          orientacoesConduta: this.orientacoesConduta
+      };
+
+      if (tipoProntuario == "retorno") {
+          // this.prontuario = retornoProntuario;
+          // Object.assign(this.prontuario, prontuarioRetorno);
           fetch('http://localhost:3000/criarProntuarioRetorno', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ prontuario }),
+              body: JSON.stringify({ prontuarioRetorno }),
               mode: 'cors',
           })
           .then(response => response.json())
           .then((data) => {
+              
+            if (data.prontuarioRetorno.tipo == "retorno"){
               alert("Prontuário de retorno criado com sucesso.");
+            }
+            else{
+              alert("Algo deu errado, tente novamente.");
+            }
 
-              this.email.to = this.paciente.nutricionista.email;
-              this.email.subject = "CEN - Novo prontuário";
-              this.email.text = `Um novo <b>prontuário</b> foi criado para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}.`;
-              this.email.nutricionista = this.nutricionista.nome;
-              this.enviarEmail();
+            this.email.to = this.paciente.nutricionista.email;
+            this.email.subject = "CEN - Novo prontuário de retorno";
+            this.email.text = `Um novo <b>prontuário de retorno</b> foi criado para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
+            this.email.nutricionista = this.nutricionista.nome;
+            this.email.paciente.cod = this.paciente.cod;
 
-              this.atualizarProntuariosNoPaciente(data.prontuarioRetorno);
+            this.enviarEmail();
+            // window.location.reload();
+            
+            // this.atualizarProntuariosNoPaciente(data.prontuarioRetorno);
           })
           .catch(error => {
               console.error('Erro ao enviar dados para o servidor:', error);
           });
       } else {
+        console.log("Prontuário comum", prontuarioComum);
           fetch('http://localhost:3000/criarNovoProntuario', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ prontuario }),
-              mode: 'cors',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prontuarioComum }),
+            mode: 'cors',
           })
           .then(response => response.json())
           .then((data) => {
-              if (data.prontuario.tipo == "prontuario"){
-                alert("Prontuário criado com sucesso.");
-              }
-              else{
-                alert("Algo deu errado, tente novamente.");
-              }
 
-              this.email.to = this.paciente.nutricionista.email;
-              this.email.subject = "CEN - Novo prontuário de retorno";
-              this.email.text = `Um novo <b>prontuário de retorno</b> foi criado para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}.`;
-              this.email.nutricionista = this.nutricionista.nome;
-              this.enviarEmail();
+            if (data.prontuario.tipo == "prontuario"){
+              alert("Prontuário criado com sucesso.");
+            }
+            else{
+              alert("Algo deu errado, tente novamente.");
+            }
 
-              this.atualizarProntuariosNoPaciente(data.prontuario);
+            this.email.to = this.paciente.nutricionista.email;
+            this.email.subject = "CEN - Novo prontuário";
+            this.email.text = `Um novo <b>prontuário </b> foi criado para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
+            this.email.nutricionista = this.nutricionista.nome;
+            this.email.paciente.cod = this.paciente.cod;
+
+            this.enviarEmail();
+
+            // window.location.reload();
+
+            // this.atualizarProntuariosNoPaciente(data.prontuario);
           })
           .catch(error => {
               console.error('Erro ao enviar dados para o servidor:', error);
           });
       }
     },
-    atualizarProntuariosNoPaciente(prontuario){
-      fetch('http://localhost:3000/atualizarProntuariosNoPaciente', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prontuario }),
-        mode: 'cors',
-      })
-        .then(response => response.json())
-        .then(response => {
-          console.log("Prontuários do paciente atualizos com sucesso.", response.data);
-        })
-        .catch(error => {
-          console.error('Erro ao enviar dados para o servidor:', error);
-        });
-        // Atualiza a página
-        window.location.reload();
-    },
+    // atualizarProntuariosNoPaciente(prontuario){
+    //   fetch('http://localhost:3000/atualizarProntuariosNoPaciente', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ prontuario }),
+    //     mode: 'cors',
+    //   })
+    //     .then(response => response.json())
+    //     .then(response => {
+    //       console.log("Prontuários do paciente atualizos com sucesso.", response.data);
+    //     })
+    //     .catch(error => {
+    //       console.error('Erro ao enviar dados para o servidor:', error);
+    //     });
+    //     // Atualiza a página
+    //     window.location.reload();
+    // },
     enviarEmail() {
       fetch('http://localhost:3000/enviarEmail', {
         method: 'POST',
@@ -414,6 +475,7 @@ export default {
         .catch(error => {
           console.error('Erro:', error);
         });
+        window.location.reload();
     }
   }
 };

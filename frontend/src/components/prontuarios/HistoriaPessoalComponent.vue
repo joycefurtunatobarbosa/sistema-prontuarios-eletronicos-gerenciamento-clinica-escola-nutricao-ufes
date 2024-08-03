@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Histórico -->
     <div class="tab-pane fade show active" id="historiaPessoal">
-        <h5 class="text mt-5 text-primary"><b>3. HISTÓRIA ATUAL</b></h5>
+        <h5 class="text mt-5 text-primary"><b>HISTÓRIA ATUAL</b></h5>
         <form>
             <!-- História Atual -->
             <div class="form-group mt-3 row">
@@ -13,7 +13,7 @@
             </div>
 
             <!-- História Pregressa - Doenças -->
-            <h5 class="text mt-5 text-primary"><b>4. HISTÓRIA PREGRESSA</b></h5>
+            <h5 class="text mt-5 text-primary"><b>HISTÓRIA PREGRESSA</b></h5>
             <div class="form-group mt-3">
                 <label for="doencas" class="col-form-label">Doenças:</label>
                 <textarea class="form-control" rows="3" id="doencas" v-model="historiaPessoal.doencas"></textarea>

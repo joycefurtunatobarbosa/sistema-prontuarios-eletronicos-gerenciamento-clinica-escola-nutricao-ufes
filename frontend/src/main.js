@@ -29,6 +29,7 @@ import EditarPaciente from './views/pacientes/EditarPaciente.vue';
 /* PRONTUÁRIOS */
 // Alunos e Funcionários
 import AlunosFuncionarios from "./views/prontuarios/AlunosFuncionarios.vue";
+import AlunosFuncionariosRetorno from "./views/prontuarios/AlunosFuncionariosRetorno.vue";
 
 
 // Roteamento das páginas
@@ -61,6 +62,7 @@ const router = createRouter({
         // Alunos e Funcionários
         { path: "/alunos-funcionarios", component: AlunosFuncionarios},
         { path: "/prontuario/:cod", component: AlunosFuncionarios,  props: true},
+        { path: "/retorno/:cod", component: AlunosFuncionariosRetorno, props: true },
     ]
 });
 

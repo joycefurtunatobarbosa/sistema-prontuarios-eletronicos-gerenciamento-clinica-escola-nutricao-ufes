@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Dados Antropométricos -->
     <div class="tab-pane fade show active" id="refeicoes">
-        <h5 class="text mt-5 text-primary"><b>11. DADOS ANTROPOMÉTRICOS</b></h5>
+        <h5 class="text mt-5 text-primary"><b>DADOS ANTROPOMÉTRICOS</b></h5>
         <form>
             <!-- Refeições -->
             <div class="form-group row">
@@ -17,23 +17,23 @@
                     <input type="text" class="form-control" id="cmb" v-model="dadosAntropometricos.cmb"/>
                 </div>
                 <div class="col">
-                    <label for="gcBia" class="col-form-label">GC BIA (%):</label>
-                    <input type="text" class="form-control" id="gcBia" v-model="dadosAntropometricos.gcBia" />
-                </div>
-                <div class="col">
-                    <label for="dum" class="col-form-label">DUM:</label>
-                    <input type="text" class="form-control" id="dum" v-model="dadosAntropometricos.dum" />
-                </div>
-            </div>
-
-            <div class="form-group mt-3 row" >
-                <div class="col">
                     <label for="interpretacao1" class="col-form-label">Interpretação:</label>
                     <input type="text" class="form-control" id="interpretacao1" v-model="dadosAntropometricos.interpretacao1"/>
                 </div>
                 <div class="col">
                     <label for="classificacao1" class="col-form-label">Classificação:</label>
                     <input type="text" class="form-control" id="classificacao1" v-model="dadosAntropometricos.classificacao1" />
+                </div>
+            </div>
+
+            <div class="form-group mt-3 row" >
+                <div class="col">
+                    <label for="gcBia" class="col-form-label">GC BIA (%):</label>
+                    <input type="text" class="form-control" id="gcBia" v-model="dadosAntropometricos.gcBia" />
+                </div>
+                <div class="col">
+                    <label for="dum" class="col-form-label">DUM:</label>
+                    <input type="text" class="form-control" id="dum" v-model="dadosAntropometricos.dum" />
                 </div>
                 <div class="col">
                     <label for="peso" class="col-form-label">Peso (Kg):</label>
@@ -58,21 +58,24 @@
 
             <div class="form-group mt-3 row" >
                 <div class="col">
-                    <label for="pcb" class="col-form-label">PCB(mm):</label>
-                    <input type="text" class="form-control" id="pcb" v-model="dadosAntropometricos.pcb"/>
-                </div>
-                <div class="col">
-                    <label for="massaMuscularEsqueletica" class="col-form-label">Massa Muscular Esquelética (Kg):</label>
-                    <input type="text" class="form-control" id="massaMuscularEsqueletica" v-model="dadosAntropometricos.massaMuscularEsqueletica" />
-                </div>
-                <div class="col">
                     <label for="imc" class="col-form-label">IMC (Kg/m2):</label>
                     <input type="text" class="form-control" id="imc" v-model="dadosAntropometricos.imc" />
+                </div>
+                <div class="col">
+                    <label for="classificacao2" class="col-form-label">Classificação:</label>
+                    <input type="text" class="form-control" id="classificacao2" v-model="dadosAntropometricos.classificacao2"/>
+                </div>
+                <div class="col">
+                    <label for="pcb" class="col-form-label">PCB(mm):</label>
+                    <input type="text" class="form-control" id="pcb" v-model="dadosAntropometricos.pcb"/>
                 </div>
             </div>
 
             <div class="form-group mt-3 row" >
-                
+                <div class="col">
+                    <label for="massaMuscularEsqueletica" class="col-form-label">Massa Muscular Esquelética (Kg):</label>
+                    <input type="text" class="form-control" id="massaMuscularEsqueletica" v-model="dadosAntropometricos.massaMuscularEsqueletica" />
+                </div>
                 <div class="col">
                     <label for="pcse" class="col-form-label">PCSE(mm):</label>
                     <input type="text" class="form-control" id="vldl" v-model="dadosAntropometricos.pcse" />
@@ -81,10 +84,7 @@
                     <label for="massaGordura" class="col-form-label">Massa de gordura (Kg):</label>
                     <input type="text" class="form-control" id="massaGordura" v-model="dadosAntropometricos.massaGordura" />
                 </div>
-                <div class="col">
-                    <label for="classificacao2" class="col-form-label">Classificação:</label>
-                    <input type="text" class="form-control" id="classificacao2" v-model="dadosAntropometricos.classificacao2"/>
-                </div>
+                
             </div>
 
             <div class="form-group mt-3 row" >
@@ -123,19 +123,19 @@
                     <input type="text" class="form-control" id="gc" v-model="dadosAntropometricos.gc" />
                 </div>
                 <div class="col">
-                    <label for="mineral" class="col-form-label">Mineral (Kg):</label>
-                    <input type="text" class="form-control" id="mineral" v-model="dadosAntropometricos.mineral" />
+                    <label for="classificacao" class="col-form-label">Classificação:</label>
+                    <input type="text" class="form-control" id="classificacao" v-model="dadosAntropometricos.classificacao" />
                 </div>
                 <div class="col">
-                    <label for="ccMercedia" class="col-form-label">RCE:</label>
-                    <input type="text" class="form-control" id="rce" v-model="dadosAntropometricos.rce"/>
+                    <label for="mineral" class="col-form-label">Mineral (Kg):</label>
+                    <input type="text" class="form-control" id="mineral" v-model="dadosAntropometricos.mineral" />
                 </div>
             </div>
 
             <div class="form-group mt-3 row" >
                 <div class="col">
-                    <label for="classificacao" class="col-form-label">Classificação:</label>
-                    <input type="text" class="form-control" id="classificacao" v-model="dadosAntropometricos.classificacao" />
+                    <label for="ccMercedia" class="col-form-label">RCE:</label>
+                    <input type="text" class="form-control" id="rce" v-model="dadosAntropometricos.rce"/>
                 </div>
                 <div class="col">
                     <label for="visceral" class="col-form-label">Visceral:</label>

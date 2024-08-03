@@ -21,7 +21,13 @@ module.exports = function (app, mongo) {
     });
 
     app.post('/criarNovoProntuario', async (req, res) => {
-        var prontuario = req.body.prontuario;
+        // var prontuario = req.body.prontuario;
+        var prontuario = {};
+
+        var prontuarioComum = req.body.prontuarioComum;
+
+        prontuario = prontuarioComum;
+
         prontuario.dataCriacao = dataFormatada;
         prontuario.dataUltimaMovimentacao = dataFormatada;
         
@@ -44,19 +50,12 @@ module.exports = function (app, mongo) {
 
             prontuario.nome = "Prontuário " + (ultimoProntuarioSalvo + 1);
 
-            // let qtdProntuarioComum = parseInt(await colecao.countDocuments({ tipo: "prontuario" }));
-
-            // if (ultimoProntuarioSalvo == null || ultimoProntuarioSalvo == 0) {
-            //     prontuario.nome = "Prontuário 1";
-            // } else {
-            //     ultimoProntuarioSalvo++;
-            //     prontuario.nome = "Prontuário " + ultimoProntuarioSalvo;
-            // }
-
             if(prontuario.tipo == "prontuario") {
                 await colecao.insertOne(prontuario);
                 res.json({ prontuario });
             }
+
+            atualizarProntuariosNoPaciente(prontuario);
             
             } catch (error) {
                 console.error('Erro ao criar novo prontuário:', error);
@@ -68,8 +67,14 @@ module.exports = function (app, mongo) {
     });
 
     app.post('/criarProntuarioRetorno', async (req, res) => {
-        var prontuario = req.body.prontuario;
-        const nome = prontuario.nome;
+        // var prontuario = req.body.prontuario;
+        var prontuario = {};
+
+        var prontuarioRetorno = req.body.prontuarioRetorno;
+
+        prontuario = prontuarioRetorno;
+
+        // const nome = prontuario.nome;
         prontuario.dataCriacao = dataFormatada;
         prontuario.dataUltimaMovimentacao = dataFormatada;
     
@@ -78,12 +83,28 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('prontuarios');
     
-            // const ultimoProntuarioSalvo = await colecao.findOne({}, { sort: { _id: -1 }, limit: 1 });
-            
-            const ultimoProntuarioSalvo = await colecao.findOne(
-                { tipo: "prontuario", codPaciente: parseInt(prontuario.codPaciente) },
+            // const ultimoProntuarioSalvo = await colecao.findOne(
+            //     { tipo: "prontuario", codPaciente: parseInt(prontuario.codPaciente) },
+            //     { sort: { _id: -1 } }
+            // );
+
+            var ultimoProntuarioSalvo = {};
+
+            ultimoProntuarioSalvo = await colecao.findOne(
+                { tipo: "retorno", codPaciente: parseInt(prontuario.codPaciente) },
                 { sort: { _id: -1 } }
             );
+
+            if (ultimoProntuarioSalvo == null) {
+                console.log("Prontuario original copiado");
+
+                ultimoProntuarioSalvo = await colecao.findOne(
+                    { tipo: "prontuario", codPaciente: parseInt(prontuario.codPaciente) },
+                    { sort: { _id: -1 } }
+                );
+            }
+
+            // console.log("ultimo Retorno Salvo: " + ultimoProntuarioSalvo.nome);
 
             let prontuarioRetorno = {};
             // Object.assign(prontuarioRetorno, ultimoProntuarioSalvo);
@@ -99,12 +120,6 @@ module.exports = function (app, mongo) {
             } else {
                 novoCod = qtdProntuarios + 1;
             }
-
-            // if (ultimoProntuarioSalvo == null) {
-            //     novoCod = 1;
-            // } else {
-            //     novoCod = ultimoProntuarioSalvo.cod + 1;
-            // }
             
             prontuarioRetorno.cod = novoCod;
 
@@ -119,6 +134,9 @@ module.exports = function (app, mongo) {
 
             prontuarioRetorno.tipo = "retorno";
             await colecao.insertOne(prontuarioRetorno);
+
+            atualizarProntuariosNoPaciente(prontuarioRetorno);
+
             res.json({ prontuarioRetorno });
     
         } catch (error) {
@@ -130,10 +148,13 @@ module.exports = function (app, mongo) {
         }
     });    
 
-    app.post('/atualizarProntuariosNoPaciente', async (req, res) => {
-        const prontuario = req.body.prontuario;
+    // app.post('/atualizarProntuariosNoPaciente', async (req, res) => {
+    function atualizarProntuariosNoPaciente(prontuario) {
+        // const prontuario = req.body.prontuario;
+
         try {
-            await mongo.connect();
+            // await mongo.connect();
+            mongo.connect();
             const database = mongo.db('cen');
             const colecao = database.collection('pacientes');
     
@@ -141,14 +162,20 @@ module.exports = function (app, mongo) {
 
             const prontuarioPaciente = {
                 cod: prontuario.cod,
-                nome: prontuario.nome
+                nome: prontuario.nome,
+                tipo: prontuario.tipo
             };
+
+            // console.log("atualizarProntuariosNoPaciente: " + prontuarioPaciente.nome);
     
-            const paciente = await colecao.updateOne(
-                { cod: codigoPaciente },
-                { $push: { prontuarios: prontuarioPaciente } }
-            );
-            
+            if (prontuarioPaciente !=  null) {
+                // const paciente = await colecao.updateOne(
+                const paciente = colecao.updateOne(
+                    { cod: codigoPaciente },
+                    { $push: { prontuarios: prontuarioPaciente } }
+                );
+            }
+
         } catch (error) {
             console.error("Erro ao adicionar prontuário ao paciente:", error);
             res.status(500).send("Erro interno do servidor.");
@@ -156,7 +183,8 @@ module.exports = function (app, mongo) {
             // await mongo.close();
             limparData();
         }
-    }); 
+    // });
+    }
 
     app.post('/salvarProntuario', async (req, res) => {
         var prontuario = req.body.prontuario;

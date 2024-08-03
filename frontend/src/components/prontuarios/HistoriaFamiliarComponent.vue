@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Histórico -->
     <div class="tab-pane fade show active" id="historiaFamiliar">
-        <h5 class="mt-5 text-primary"><b>5. HISTÓRIA FAMILIAR</b></h5>
+        <h5 class="mt-5 text-primary"><b>HISTÓRIA FAMILIAR</b></h5>
         <form>
             <!-- Doenças Cardiovasculares -->
             <h6 class="mt-4 mb-3"><b>● Doenças Cardiovasculares</b></h6>

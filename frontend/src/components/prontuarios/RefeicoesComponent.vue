@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Refeições -->
     <div class="tab-pane fade show active" id="refeicoes">
-        <h5 class="text mt-5 text-primary"><b>9. REFEIÇÕES</b></h5>
+        <h5 class="text mt-5 text-primary"><b>REFEIÇÕES</b></h5>
         <form>
             <!-- Refeições -->
             <div class="form-group row">

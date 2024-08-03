@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Anamnese -->
     <div class="tab-pane fade show active" id="anamnese">
-        <h5 class="text mt-5 text-primary"><b>8. ANAMNESE</b></h5>
+        <h5 class="text mt-5 text-primary"><b>ANAMNESE</b></h5>
         <form>
 
             <!-- Sobre o paciente -->

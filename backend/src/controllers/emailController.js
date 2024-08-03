@@ -37,7 +37,7 @@ module.exports = function (app) {
       if (error) {
         return console.log(error);
       }
-      console.log('Email enviado: ' + info.response);
+      // console.log('Email enviado: ' + info.response);
     });
   };
 
@@ -55,6 +55,8 @@ module.exports = function (app) {
                     <div><strong>Nutricionista:</strong> ${req.body.nutricionista}</div>
                     <div><strong>Data da atualiza&ccedil;&atilde;o:</strong> ${dataFormatada}</div>
                     <div>&nbsp;</div>
+                    <div><a href='http://localhost:8081/paciente/${req.body.paciente.cod}'>Abrir ficha do paciente</a></div>
+                    <div>&nbsp;</div>
                     <div style="text-align: center;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://onedrive.live.com/embed?resid=40C2B5524225E68E%2125384&authkey=%21ANefz4WMfb5jOyY&width=256" alt="Logo CEN" width="128" height="128" /><strong>Cl&iacute;nica Escola de Nutri&ccedil;&atilde;o</strong></div>
                     </div>
                     <div id="gtx-trans" style="position: absolute; left: 2px; top: 173.205px;">
@@ -66,6 +68,7 @@ module.exports = function (app) {
     // sendEmail("isabellaperoso@gmail.com", subject, html);
     sendEmail("gabrielnama2@gmail.com", subject, html);
     res.send('Email enviado com sucesso');
+    console.log('Email enviado: ' + subject);
 
     // Limpa as variáveis de data para corrigir o problema de repetição de data anterior no servidor
     delete dataAtual;

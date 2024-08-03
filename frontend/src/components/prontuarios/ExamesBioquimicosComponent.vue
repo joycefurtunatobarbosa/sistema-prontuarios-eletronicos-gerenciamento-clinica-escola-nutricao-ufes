@@ -1,7 +1,7 @@
 <template>
     <!-- Aba de Exames Bioquícos -->
     <div class="tab-pane fade show active" id="refeicoes">
-        <h5 class="text mt-5 text-primary"><b>10. EXAMES BIOQUÍMICOS</b></h5>
+        <h5 class="text mt-5 text-primary"><b>EXAMES BIOQUÍMICOS</b></h5>
         <form>
             <!-- Refeições -->
             <div class="form-group row">
