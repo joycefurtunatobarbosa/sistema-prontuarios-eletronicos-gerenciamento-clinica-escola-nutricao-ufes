@@ -69,7 +69,7 @@
             <div class="form-group mt-3 row">
                 <label class="mt-5 mb-3"><b>● Escala de Bristol: </b></label>
                 <div class="col d-flex justify-content-center">
-                    <img src="https://stopcancerportugal.com/wp-content/uploads/2021/04/escala-de-bristol.png" width="600px" alt="Escala de bristol">
+                    <img src="../img/escala-de-bristol.png" width="600px" alt="Escala de bristol">
                 </div>
             </div>
 
