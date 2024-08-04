@@ -1,5 +1,6 @@
 <template>
-  <div class="container-fluid">Main
+  <div class="container-fluid">
+    <h2 class="text-center"><b>Histórico de atendimentos</b></h2>
 
     <div class="row my-4">
       <!-- <div class="col-3 d-flex align-items-center">
@@ -20,8 +21,8 @@
           <th>Nº</th>
           <th>Paciente</th>
           <th>Motivo</th>
-          <th>Nutricionista</th>
           <th>Projeto</th>
+          <th>Nutricionista</th>
           <th>Opções</th>
         </tr>
       </thead>
@@ -31,10 +32,11 @@
           <td><b>{{ pacientesHistorico.indexOf(paciente) + 1 }}</b></td>
           <td>{{ paciente.dadosPessoais.nomeCompleto }}</td>
           <td>{{ paciente.motivo }}</td>
-          <td v-if="paciente.nutricionista">{{ paciente.nutricionista.nome }}</td>
           <td>{{ paciente.projeto }}</td>
+          <td v-if="paciente.nutricionista">{{ paciente.nutricionista.nome }}</td>
           <td>
-            <a :href="`http://cenufes.kinghost.net/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a>
+            <!-- <a :href="`http://localhost:8081/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a> -->
+            <a :href="`http://www.cenufes.kinghost.net/paciente/${paciente.cod}`" class="btn btn-success" target="_blank">Ver</a>
           </td>
         </tr>
 
@@ -70,7 +72,7 @@ export default {
   },
   methods: {
     carregarAluno(cod) {
-      fetch(`http://cenufes.kinghost.net/app/buscarAluno/${cod}`, {
+      fetch(`http://www.cenufes.kinghost.net/app/buscarAluno/${cod}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +88,7 @@ export default {
         });
     },
     carregarPacientes() {
-      fetch("http://cenufes.kinghost.net/app/listarPacientes", {
+      fetch("http://www.cenufes.kinghost.net/app/listarPacientes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +105,7 @@ export default {
     },
     atenderPaciente(codAluno, codPaciente, nomePaciente) {
       if (window.confirm('Tem certeza que deseja atender este paciente?')) {
-          fetch("http://cenufes.kinghost.net/app/atenderPaciente", {
+          fetch("http://www.cenufes.kinghost.net/app/atenderPaciente", {
               method: "POST",
               headers: {
                   "Content-Type": "application/json",
@@ -128,7 +130,7 @@ export default {
       }
     },
     alunoAtenderPaciente(codAluno, codPaciente, nomePaciente) {
-        fetch("http://cenufes.kinghost.net/app/alunoAtenderPaciente", {
+        fetch("http://www.cenufes.kinghost.net/app/alunoAtenderPaciente", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
