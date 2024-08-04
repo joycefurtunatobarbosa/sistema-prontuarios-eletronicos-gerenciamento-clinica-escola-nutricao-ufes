@@ -1,0 +1,12 @@
+# Node.js
+node_modules/
+# package-lock.json
+
+# MongoDB
+*.log
+*.lock
+*.conf
+/data/
+/dbpath/
+/mongod.lock
+.env
