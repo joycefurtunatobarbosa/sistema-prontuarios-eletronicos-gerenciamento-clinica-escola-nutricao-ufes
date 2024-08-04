@@ -1,6 +1,5 @@
 <template>
-  <div class="container-fluid">
-    <h2 class="text-center"><b>Histórico de atendimentos</b></h2>
+  <div class="container-fluid">Main
 
     <div class="row my-4">
       <!-- <div class="col-3 d-flex align-items-center">
