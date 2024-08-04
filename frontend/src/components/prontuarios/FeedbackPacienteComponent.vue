@@ -5,13 +5,13 @@
         <form>
 
             <div class="form-group mt-3 row">
-                <div class="col">
+                <div class="col-8">
                     <label for="intercorrencia" class="col-form-label">Alguma intercorrência desde a última consulta?</label>
                     <textarea class="form-control" rows="4" id="intercorrencia" v-model="feedbackPaciente.intercorrencia" placeholder="(Gripe, virose, cirurgias, etc)"></textarea>
                 </div>
             </div>
 
-            <div class="form-group d-flex mt-4">
+            <div class="form-group d-flex mt-5">
                 <div class="row">
                     <div class="col d-flex align-items-center">
                         <label class="col-form-label">● Qual sua dificuldade em aderir a dieta?</label>
@@ -30,12 +30,13 @@
 
             <div class="form-group row">
                 <div class="col-8">
-                    <label for="adesaoDetalhes" class="col-form-label">Detalhes: </label>
+                    <!-- <label for="adesaoDetalhes" class="col-form-label">Detalhes: </label> -->
+                    Detalhes:
                     <textarea class="form-control" rows="4" id="adesaoDetalhes" v-model="feedbackPaciente.adesao.descricao"></textarea>
                 </div>
             </div>
 
-            <div class="form-group d-flex mt-4">
+            <div class="form-group d-flex mt-5">
                 <div class="row">
                     <div class="col d-flex align-items-center">
                         <label class="col-form-label">● Como define o seu empenho?</label>
@@ -54,12 +55,13 @@
 
             <div class="form-group row">
                 <div class="col-8">
-                    <label for="empenhoDetalhes" class="col-form-label">Detalhes: </label>
+                    <!-- <label for="empenhoDetalhes" class="col-form-label">Detalhes: </label> -->
+                    Detalhes:
                     <textarea class="form-control" rows="4" id="empenhoDetalhes" v-model="feedbackPaciente.empenho.descricao"></textarea>
                 </div>
             </div>
 
-            <div class="form-group d-flex mt-4">
+            <div class="form-group d-flex mt-5">
                 <div class="row">
                     <div class="col d-flex align-items-center">
                         <label class="col-form-label">● Como classifica seus resultados?</label>
@@ -78,7 +80,8 @@
 
             <div class="form-group row">
                 <div class="col-8">
-                    <label for="resultadosDetalhes" class="col-form-label">Detalhes: </label>
+                    <!-- <label for="resultadosDetalhes" class="col-form-label">Detalhes: </label> -->
+                    Detalhes:
                     <textarea class="form-control" rows="4" id="resultadosDetalhes" v-model="feedbackPaciente.resultados.descricao"></textarea>
                 </div>
             </div>

@@ -4,7 +4,7 @@
         <h5 class="mt-5 text-primary"><b>HISTÓRIA FAMILIAR</b></h5>
         <form>
             <!-- Doenças Cardiovasculares -->
-            <h6 class="mt-4 mb-3"><b>● Doenças Cardiovasculares</b></h6>
+            <h6 class="mt-5 mb-3"><b>● Doenças Cardiovasculares</b></h6>
 
             <div class="form-group d-flex">
                 <div class="row">

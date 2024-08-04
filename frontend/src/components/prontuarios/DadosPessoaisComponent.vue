@@ -20,7 +20,7 @@
 
                 <div class="col">
                     <label for="idade" class="col-form-label">Idade:</label>
-                    <input type="text" class="form-control" id="idade" v-model="dadosPessoais.idade" disabled>
+                    <input type="text" class="form-control" id="idade" v-model="dadosPessoais.idade">
                 </div>
 
                 <div class="col">
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row col-8">
                 <div class="col">
                     <label for="profissao" class="col-form-label">Profissão:</label>
                     <input type="text" class="form-control" id="profissao" v-model="dadosPessoais.profissao" />
@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            <div class="form-group mt-3 row">
+            <div class="form-group mt-3 row col-8">
                 <div class="col">
                     <label for="celular" class="col-form-label">Celular:</label>
                     <input type="text" class="form-control" id="celular" v-model="dadosPessoais.celular" />

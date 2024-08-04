@@ -57,7 +57,7 @@
         <div class="d-flex flex-wrap gap-2" v-if="paciente && paciente.arquivos">
           <!-- Iterar sobre os arquivos e gerar os links para abrir em uma nova guia -->
           <template v-for="arquivo in paciente.arquivos" :key="arquivo.localizacao">
-            <a v-if="arquivo" :href="`${this.server_backend_url}/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
+            <a v-if="arquivo" :href="`${server_arquivos_url}/uploads/${arquivo.localizacao}`" class="btn btn-outline-secondary botao-navegacao"
                 target="_blank">
                 <IconFileFilled class="icon-user me-2" /> {{ arquivo.nome }}
             </a>
@@ -128,7 +128,7 @@ import HistoriaFamiliar from '@/models/prontuario/HistoriaFamiliar';
 import Medicamentos from "@/models/prontuario/Medicamentos";
 import Anamnese from "@/models/prontuario/Anamnese";
 import Refeicoes from "@/models/prontuario/Refeicoes";
-import { server_backend_url } from "../../server_url.js";
+import { server_backend_url, server_arquivos_url } from "../../server_url.js";
 
 // import Prontuario from '@/models/Prontuario';
 // import { getElement } from 'public/assets/libs/bootstrap/js/src/util';
@@ -141,7 +141,7 @@ export default {
   props: ["cod"],
   data() {
     return {
-      server_backend_url: server_backend_url,
+      server_arquivos_url: server_arquivos_url,
       // paciente: {},
       paciente: null,
       // nomeCompleto: "",

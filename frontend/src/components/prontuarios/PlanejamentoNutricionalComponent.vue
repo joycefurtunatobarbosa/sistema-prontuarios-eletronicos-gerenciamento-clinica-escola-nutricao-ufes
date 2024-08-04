@@ -43,7 +43,7 @@
             </div>
 
             <!-- Doenças Cardiovasculares -->
-            <h6 class="mt-4 mb-3"><b>● Plano alimentar</b></h6>
+            <h6 class="mt-5 mb-3"><b>● Plano alimentar</b></h6>
             <div class="form-group mt-3 row" >
                 <div class="col">
                     <label for="metSemanal" class="col-form-label">Kcal:</label>
@@ -69,7 +69,7 @@
                     <input type="text" class="form-control" id="tipoPlanoPrescrito" v-model="planejamentoNutricional.tipoPlanoPrescrito"/>
                 </div>
                 <div class="col">
-                    <label for="meta" class="col-form-label">g/Kg peso PTN:</label>
+                    <label for="meta" class="col-form-label">Peso PTN (g/Kg):</label>
                     <input type="text" class="form-control" id="meta" v-model="planejamentoNutricional.meta"/>
                 </div>
             </div>

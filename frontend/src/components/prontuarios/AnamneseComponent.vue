@@ -8,7 +8,7 @@
             <h6 class="mt-4 mb-3"><b>● Sobre o paciente</b></h6>
 
             <div class="form-group mt-3 row">
-                <div class="col-12">
+                <div class="col-8">
                     <label for="resumoRotina" class="col-form-label">Resumo da rotina:</label>
                     <textarea class="form-control" id="resumoRotina" rows="5" v-model="anamnese.sobrePaciente.resumoRotina"></textarea>
                 </div>

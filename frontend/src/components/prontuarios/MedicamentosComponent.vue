@@ -5,7 +5,7 @@
         <form>
 
             <!-- Medicamento 1 -->
-            <h6 class="mt-4 mb-3"><b>● Medicamento 1</b></h6>
+            <h6 class="mt-5 mb-3"><b>● Medicamento 1</b></h6>
 
             <div class="form-group row">
                 <div class="col">
