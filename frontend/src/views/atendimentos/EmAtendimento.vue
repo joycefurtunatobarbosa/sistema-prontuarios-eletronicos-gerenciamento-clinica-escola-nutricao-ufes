@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { server_frontend_url, server_backend_url } from "../../server_url.js";
+import { server_frontend_url, server_backend_url } from "../../../../backend/src/server_url.js";
 
 export default {
   name: "EmAtendimento",

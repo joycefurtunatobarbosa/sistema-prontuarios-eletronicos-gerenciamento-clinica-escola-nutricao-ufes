@@ -96,7 +96,7 @@ module.exports = function (app, mongo) {
             );
 
             if (ultimoProntuarioSalvo == null) {
-                console.log("Prontuario original copiado");
+                // console.log("Prontuario original copiado");
 
                 ultimoProntuarioSalvo = await colecao.findOne(
                     { tipo: "prontuario", codPaciente: parseInt(prontuario.codPaciente) },

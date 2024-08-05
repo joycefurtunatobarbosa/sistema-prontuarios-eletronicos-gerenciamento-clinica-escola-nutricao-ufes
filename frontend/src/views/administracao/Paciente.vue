@@ -128,7 +128,7 @@ import HistoriaFamiliar from '@/models/prontuario/HistoriaFamiliar';
 import Medicamentos from "@/models/prontuario/Medicamentos";
 import Anamnese from "@/models/prontuario/Anamnese";
 import Refeicoes from "@/models/prontuario/Refeicoes";
-import { server_backend_url, server_arquivos_url } from "../../server_url.js";
+import { server_backend_url, server_arquivos_url } from "../../../../backend/src/server_url.js";
 
 // import Prontuario from '@/models/Prontuario';
 // import { getElement } from 'public/assets/libs/bootstrap/js/src/util';

@@ -52,7 +52,7 @@
 
 <script>
 import Paciente from "../../models/Paciente.js";
-import { server_backend_url } from "../../server_url.js";
+import { server_backend_url } from "../../../../backend/src/server_url.js";
 
 export default {
   name: "CadastrarPaciente",

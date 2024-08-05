@@ -1,6 +1,6 @@
 var dataAtual = new Date(Date.now());
 var dataFormatada = dataAtual.toLocaleDateString('pt-BR');
-const { server_frontend_url } = require('../../../frontend/src/server_url.js');
+const { server_frontend_url } = require('../server_url.js');
 
 // require('dotenv').config();
 require('dotenv').config({ path: '/.env' });
