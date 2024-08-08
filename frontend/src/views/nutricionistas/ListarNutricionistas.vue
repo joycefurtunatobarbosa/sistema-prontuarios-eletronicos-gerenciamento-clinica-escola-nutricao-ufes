@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { server_backend_url } from "../../../../backend/src/server_url.js";
+import { server_backend_url } from "../../server_url.js";
 
 export default {
   name: "ListarNutricionistas",

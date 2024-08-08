@@ -19,7 +19,7 @@
 
 <script>
 import { IconUserFilled } from '@tabler/icons-vue';
-import { server_backend_url } from "../../../../backend/src/server_url.js";
+import { server_backend_url } from "../../server_url.js";
 
 export default {
   name: "Atendimentos",
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     carregarNutricionistas() {
-      fetch(`https://www.cenufes.com.br:21200/listarNutricionistas`, {
+      fetch(`${server_backend_url}/listarNutricionistas`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

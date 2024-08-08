@@ -9,7 +9,12 @@
     <h6 class="text-end" style="margin-top: "><b>Início: </b>{{ prontuario.dataCriacao }}</h6>
     <h6 class="text-end" style="margin-top: -5px"><b>Última atualização: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
     <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h6><br>
-  </div> 
+  </div>
+
+  <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-outline-primary me-auto"
+          @click="salvarPDF()">Salvar como PDF</button>
+  </div>
   
   <!-- Abas -->
   <div class="container-fluid col-9">
@@ -117,7 +122,7 @@ import ExamesBioquimicos from "@/models/prontuario/ExamesBioquimicos";
 import DadosAntropometricos from "@/models/prontuario/DadosAntropometricos";
 import PlanejamentoNutricional from "@/models/prontuario/PlanejamentoNutricional";
 import OrientacoesConduta from "@/models/prontuario/OrientacoesConduta";
-import { server_backend_url } from "../../../../backend/src/server_url.js";
+import { server_backend_url } from "../../server_url.js";
 
 export default {
   name: "AlunosFuncionarios",
@@ -140,16 +145,16 @@ export default {
     return {
       abas: [
         { label: 'Dados Pessoais', id: 'dadosPessoais', active: true },
-        { label: 'História Pessoal', id: 'historiaPessoal', active: false },
-        { label: 'História Familiar', id: 'historiaFamiliar', active: false },
-        { label: 'Medicamentos', id: 'medicamentos', active: false },
-        { label: 'Exames Clínicos', id: 'examesClinicos', active: false },
-        { label: 'Anamnese', id: 'anamnese', active: false },
-        { label: 'Refeições', id: 'refeicoes', active: false },
-        { label: 'ExamesBioquimicos', id: 'examesBioquimicos', active: false },
-        { label: 'DadosAntropometricos', id: 'dadosAntropometricos', active: false },
-        { label: 'PlanejamentoNutricional', id: 'planejamentoNutricional', active: false },
-        { label: 'OrientacoesConduta', id: 'orientacoesConduta', active: false },
+        { label: 'História Pessoal', id: 'historiaPessoal', active: true },
+        { label: 'História Familiar', id: 'historiaFamiliar', active: true },
+        { label: 'Medicamentos', id: 'medicamentos', active: true },
+        { label: 'Exames Clínicos', id: 'examesClinicos', active: true },
+        { label: 'Anamnese', id: 'anamnese', active: true },
+        { label: 'Refeições', id: 'refeicoes', active: true },
+        { label: 'ExamesBioquimicos', id: 'examesBioquimicos', active: true },
+        { label: 'DadosAntropometricos', id: 'dadosAntropometricos', active: true },
+        { label: 'PlanejamentoNutricional', id: 'planejamentoNutricional', active: true },
+        { label: 'OrientacoesConduta', id: 'orientacoesConduta', active: true },
       ],
       prontuario: {},
       nutricionista: "",
@@ -171,6 +176,12 @@ export default {
     this.carregarProntuario(this.cod);
   },
   methods: {
+    salvarPDF() {
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+            window.print();
+        }, 500);
+    },
     topoPagina() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       window.scrollTo({ top: 0, behavior: 'smooth' });

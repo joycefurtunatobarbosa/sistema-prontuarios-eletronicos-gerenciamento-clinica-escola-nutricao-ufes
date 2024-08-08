@@ -1,6 +1,6 @@
 var dataAtual = new Date(Date.now());
 var dataFormatada = dataAtual.toLocaleDateString('pt-BR');
-const { server_frontend_url } = require('../server_url.js');
+const server_frontend_url = "cenufes.com.br";
 
 // require('dotenv').config();
 require('dotenv').config({ path: '/.env' });

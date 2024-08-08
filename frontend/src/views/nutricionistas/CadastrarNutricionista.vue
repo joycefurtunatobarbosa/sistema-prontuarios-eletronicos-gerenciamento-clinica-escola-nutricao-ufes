@@ -52,14 +52,13 @@
 
 
 <script>
-import { server_backend_url } from "../../../../backend/src/server_url.js";
+import { server_backend_url } from "../../server_url.js";
 
 export default {
   name: "CadastroNutricionista",
   components: {},
   data() {
     return {
-      server_backend: "http://localhost:3000",
       nutricionista: {
         cod: 0,
         nome: "",

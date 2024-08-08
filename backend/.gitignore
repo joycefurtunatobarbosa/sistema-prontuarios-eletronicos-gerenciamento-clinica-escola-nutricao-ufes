@@ -10,4 +10,4 @@ node_modules/
 /dbpath/
 /mongod.lock
 .env
-/src/uploads/
+# /src/uploads/
