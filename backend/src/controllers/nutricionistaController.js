@@ -2,6 +2,53 @@ const { ObjectId } = require('mongodb');
 
 module.exports = function (app, mongo) {
 
+    app.post('/fazerLogin', async (req, res) => {
+        const usuario = req.body.username;
+        const senha = req.body.password;
+
+        if (!usuario || !senha) {
+            return res.status(404).json({ error: 'Usuário ou senha inválidos.' });
+        }
+
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('nutricionistas');
+
+            const nutricionista = await colecao.findOne({ usuario: usuario });
+
+            if (!nutricionista) {
+                return res.status(404).json({ error: 'Usuário não encontrado.' });
+            }
+
+            if (nutricionista.usuario === usuario && nutricionista.senha === senha) {
+                nutricionista.senha = undefined;
+                nutricionista._id = undefined;
+
+                let usuario = {
+                    cod: nutricionista.cod,
+                    nome: nutricionista.nome,
+                    email: nutricionista.email,
+                    tipo: nutricionista.tipo,
+                };
+
+                return res.json({ usuario });
+            }
+
+            if (nutricionista.usuario === usuario && nutricionista.senha !== senha) {
+                return res.status(404).json({ error: 'Senha inválida.' });
+            }
+
+            return res.status(404).json({ error: 'Usuário ou senha inválidos.' });
+        } catch (error) {
+            console.error("Erro ao fazer login:", error);
+            return res.status(500).json({ error: "Erro interno do servidor" });
+        } finally {
+            // Certifique-se de fechar a conexão com o MongoDB aqui, se necessário.
+            // await mongo.close();
+        }
+    });
+
     app.get('/listarNutricionistas', async (req, res) => {
         try {
             await mongo.connect();
@@ -24,7 +71,7 @@ module.exports = function (app, mongo) {
             const colecao = database.collection('nutricionistas');
 
             const nutricionista = await colecao.findOne({ cod: codNutricionista });
-            
+
             res.json({ nutricionista });
 
         } finally {
@@ -82,7 +129,7 @@ module.exports = function (app, mongo) {
 
     app.get('/excluirNutricionista/:cod', async (req, res) => {
         const codNutricionista = parseInt(req.params.cod);
-    
+
         try {
             await mongo.connect();
             const database = mongo.db('cen');

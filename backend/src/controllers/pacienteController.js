@@ -6,7 +6,7 @@ var dataFormatada = dataAtual.toLocaleDateString('pt-BR');
 module.exports = function (app, mongo) {
 
     mongo.connect();
-
+    
     app.post('/atenderPaciente', async (req, res) => {
         const nutricionista = req.body.nutricionista;
         const codPaciente = req.body.codPaciente;

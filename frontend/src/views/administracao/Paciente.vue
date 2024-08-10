@@ -293,9 +293,9 @@ export default {
         return;
       }
 
-      const maxSize = 5 * 1024 * 1024; // Limite de tamanho em bytes (2 MB)
+      const maxSize = 5 * 1024 * 1024; // Limite de tamanho em bytes (5 MB)
       if (arquivo.size > maxSize) {
-        alert("O arquivo selecionado é muito grande! O tamanho máximo permitido é 2 MB.");
+        alert("O arquivo selecionado é muito grande, o tamanho máximo permitido é de 5 MB.");
         document.getElementById('arquivo').value = '';
         return;
       }
@@ -327,18 +327,18 @@ export default {
             document.getElementById('nomeArquivo').value = '';
             document.getElementById('arquivo').value = '';
 
-            window.location.reload();
+            // window.location.reload();
 
           } else {
             console.error('Erro ao enviar arquivo:', response.statusText);
-            window.location.reload();
+            // window.location.reload();
             // Lógica adicional em caso de erro no envio
           }
 
         })
         .catch(error => {
           console.error('Erro ao enviar arquivo:', error);
-          window.location.reload();
+          // window.location.reload();
           // Lógica adicional em caso de erro de rede ou outro erro
         });
     },
@@ -487,7 +487,8 @@ export default {
         .catch(error => {
           console.error('Erro:', error);
         });
-        window.location.reload();
+        // window.location.reload();
+        console.log(this.email);
     }
   }
 };

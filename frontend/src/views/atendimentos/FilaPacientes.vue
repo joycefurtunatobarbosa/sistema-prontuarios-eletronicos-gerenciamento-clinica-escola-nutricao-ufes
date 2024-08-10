@@ -51,16 +51,15 @@ export default {
     return {
       pacientes: [],
       filtro: "Todos os Projetos",
-      nutricionista: {
-        cod: 1,
-        nome: "Joyce Furtunato Barbosa",
-        email: "joycefurtunatobarbosa@gmail.com"
-      },
+      nutricionista: {},
       email: {
       to: '',
       subject: '',
       text: '',
-      nutricionista: ''
+      nutricionista: '',
+        paciente: {
+          cod: 0
+        }
       },
     };
   },
@@ -81,6 +80,7 @@ export default {
   },
   mounted() {
     this.carregarPacientes();
+    this.nutricionista = JSON.parse(localStorage.getItem("usuario"));
   },
   methods: {
     carregarPacientes() {
@@ -122,6 +122,7 @@ export default {
               this.email.subject = "CEN - Novo atendimento";
               this.email.text = `O(a) paciente <strong>"${nomePaciente}"</strong> começou a ser atendido(a).`;
               this.email.nutricionista = nutricionista.nome;
+              this.email.paciente.cod = codPaciente;
               console.log(this.email)
               this.enviarEmail();
 

@@ -31,15 +31,15 @@
                   </a>
                 </div>
 
-                <form>
+                <form id="loginForm">
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Usuário</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                      placeholder="Seu email">
+                    <label for="username" class="form-label">Usuário</label>
+                    <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
+                      placeholder="Seu usuário ou email" required>
                   </div>
                   <div class="mb-4">
-                    <label for="exampleInputPassword1" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Sua senha">
+                    <label for="password" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="password" placeholder="Sua senha" required>
                   </div>
                   <!-- <div class="d-flex align-items-center justify-content-between mb-4">
                     <div class="form-check">
@@ -50,7 +50,7 @@
                     </div>
                     <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a>
                   </div> -->
-                  <button onclick="login()" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Entrar</button>
+                  <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Entrar</button>
                   <!-- <div class="d-flex align-items-center justify-content-center">
                     <p class="fs-4 mb-0 fw-bold">New to Modernize?</p>
                     <a class="text-primary fw-bold ms-2" href="./authentication-register.html">Create an account</a>
@@ -70,14 +70,54 @@
 </html>
 
 <script>
-  function login() {
-    const email = document.getElementById('exampleInputEmail1').value;
-    const password = document.getElementById('exampleInputPassword1').value;
+  // Simulação de um banco de dados de usuários
+  // const users = {
+  //   'admin': 'admin',
+  //   'aluno': 'aluno'
+  // };
 
-    if (email === 'admin' && password === 'admin') {
-      window.location.href = '/';
-    } else {
-      alert('Usuário ou senha inválidos');
-    }
+  // localStorage.setItem('logado', 'false');
+
+  // Função para realizar a requisição POST na rota /fazerLogin
+  function fazerLogin(username, password) {
+    fetch('http://localhost:3000/fazerLogin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username: username, password: password }) // Enviando os dados no corpo da requisição
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(response.status + ' ' + response.statusText);
+        }
+        return response.json(); // Ou response.json() dependendo da resposta do servidor
+      })
+      .then(data => {
+        if (data.error) {
+          alert('Usuário ou senha incorretos');
+        } else {
+          localStorage.setItem('usuario', JSON.stringify(data.usuario));
+          alert('Bem-vindo(a) ' + data.usuario.nome);
+          window.location.href = '/';
+        }
+      })
+      .catch(error => {
+        console.error('Erro no login:', error);
+        alert('Erro ao tentar realizar o login. Verifique o console para mais detalhes.');
+      });
   }
+
+  // Exemplo de uso da função após o login
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Captura os valores de username e password
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Chama a função validarLogin passando username e password
+    fazerLogin(username, password);
+  });
+
 </script>

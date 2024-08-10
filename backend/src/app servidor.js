@@ -3,15 +3,25 @@ const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
+const https = require('https');
+
+// Defina a porta para HTTPS
+const porta = 21058;
+
+// Carregar chave privada e certificados SSL
+const options = {
+    key: fs.readFileSync('/private.key'),
+    cert: fs.readFileSync('/certificate.crt'),
+    // Se houver um certificado intermediário, adicione-o assim:
+    ca: fs.readFileSync('/intermediate.crt') // opcional, caso tenha
+};
+
+// String de conexão do MongoDB
+const conexao = 'mongodb+srv://gabrielnama:ugcYK4KayTIoRNl9@cen.vswafpl.mongodb.net/?retryWrites=true&w=majority';
+const mongo = new MongoClient(conexao);
 
 const app = express();
-// const porta = 3000;
-const porta = 3000;
-
-// const conexao = 'mongodb://localhost:27017';
-const conexao = 'mongodb+srv://gabrielnama:ugcYK4KayTIoRNl9@cen.vswafpl.mongodb.net/?retryWrites=true&w=majority';
-// const conexao = 'mongodb://cenufes01:sMWuew43Cue4uAF@mongodb.cenufes.kinghost.net:27017/?authSource=cenufes01';
-const mongo = new MongoClient(conexao);
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -32,6 +42,7 @@ require('./controllers/pacienteController.js')(app, mongo);
 require('./controllers/prontuarioController.js')(app, mongo);
 require('./controllers/emailController.js')(app);
 
-app.listen(porta, () => {
-    console.log(`Servidor Node.js está rodando em http://localhost:${porta}`);
+// Cria o servidor HTTPS
+https.createServer(options, app).listen(porta, () => {
+    console.log(`Servidor Node.js está rodando em https://localhost:${porta}`);
 });
