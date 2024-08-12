@@ -1,13 +1,3 @@
-// const nodemailer = require('nodemailer');
-
-// const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'gabrielnama2@gmail.com',
-//         pass: 'drnsrubdgmxbfxub'
-//     }
-// });
-
 const path = require("path");
 const multer = require("multer");
 // const enviarEmail = require("./emailController");

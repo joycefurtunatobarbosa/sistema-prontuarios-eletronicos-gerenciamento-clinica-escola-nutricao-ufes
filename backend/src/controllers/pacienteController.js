@@ -6,17 +6,21 @@ var dataFormatada = dataAtual.toLocaleDateString('pt-BR');
 module.exports = function (app, mongo) {
 
     mongo.connect();
-    
+
     app.post('/atenderPaciente', async (req, res) => {
         const nutricionista = req.body.nutricionista;
         const codPaciente = req.body.codPaciente;
+        const nomePaciente = req.body.nomePaciente;
+
+        // console.log("Nutricionista:", nutricionista);
 
         try {
             await mongo.connect();
             const database = mongo.db('cen');
             const pacientesColecao = database.collection('pacientes');
+            const nutricionistasColecao = database.collection('nutricionistas');
 
-            const pacienteNoBanco = await pacientesColecao.updateOne(
+            const pacienteAtualizado = await pacientesColecao.updateOne(
                 { cod: codPaciente },
                 {
                     $set: {
@@ -29,16 +33,22 @@ module.exports = function (app, mongo) {
                 }
             );
 
-            if (pacienteNoBanco.modifiedCount === 1) {
-                res.json({ message: 'O paciente começou a ser atendido.' });
+            const nutricionistaAtualizado = await nutricionistasColecao.updateOne(
+                { cod: nutricionista.cod },
+                { $addToSet: { pacientes: { cod: codPaciente, nome: nomePaciente } } }
+            );
+
+            if (pacienteAtualizado.modifiedCount === 1 && nutricionistaAtualizado.modifiedCount === 1) {
+                res.json({ message: 'Paciente começou a ser atendido e nutricionista está atendendo o paciente.' });
             } else {
-                res.status(404).json({ error: 'Paciente não encontrado.' });
+                res.status(404).json({ error: 'Paciente ou nutricionista não encontrados.' });
             }
 
         } catch (error) {
             console.error("Erro ao atender paciente:", error);
             res.status(500).json({ error: "Erro interno do servidor" });
         } finally {
+            // Feche a conexão com o banco de dados se necessário
             // await mongo.close();
             limparData();
         }
@@ -113,30 +123,50 @@ module.exports = function (app, mongo) {
     });
 
     app.post('/nutricionistaAtenderPaciente', async (req, res) => {
-        const codNutricionista = req.body.codNutricionista;
-        const codPaciente = req.body.codPaciente;
-        const nomePaciente = req.body.nomePaciente;
+        const { codNutricionista, codPaciente, nomePaciente } = req.body;
 
         try {
             await mongo.connect();
             const database = mongo.db('cen');
             const nutricionistasColecao = database.collection('nutricionistas');
 
-            const nutricionista = await nutricionistasColecao.updateOne(
-                { cod: codNutricionista },
-                { $addToSet: { pacientes: { cod: codPaciente, nome: nomePaciente } } }
-            );
+            let nutricionista = await nutricionistasColecao.findOne({ cod: codNutricionista });
 
-            if (nutricionista.modifiedCount === 1) {
-                res.json({ message: 'O nutricionista está atendendo o paciente.' });
-            } else {
-                res.status(404).json({ error: 'Nutricionista ou paciente não encontrados.' });
+            // Verifica se o nutricionista existe
+            if (!nutricionista) {
+                return res.status(404).json({ error: 'Nutricionista não encontrado.' });
             }
 
+            // Atualiza o nutricionista com o novo paciente
+            let result;
+            let alteracaoRealizada = false;
+
+            while (!alteracaoRealizada) {
+                result = await nutricionistasColecao.updateOne(
+                    { cod: codNutricionista },
+                    { $addToSet: { pacientes: { cod: codPaciente, nome: nomePaciente } } }
+                );
+
+                // Recarrega o documento atualizado para verificar se a alteração foi feita
+                nutricionista = await nutricionistasColecao.findOne({ cod: codNutricionista });
+
+                // Verifica se o paciente foi adicionado
+                const pacienteAdicionado = nutricionista.pacientes.some(paciente => paciente.cod === codPaciente);
+
+                if (pacienteAdicionado) {
+                    alteracaoRealizada = true;
+                    res.json({ message: 'O nutricionista está atendendo o paciente.' });
+                } else if (result.modifiedCount === 0) {
+                    // Caso não tenha havido modificação, o paciente pode já estar presente
+                    res.status(404).json({ error: 'Paciente já está na lista ou erro ao atualizar.' });
+                    alteracaoRealizada = true;
+                }
+            }
         } catch (error) {
             console.error("Erro ao atender paciente:", error);
             res.status(500).json({ error: "Erro interno do servidor" });
         } finally {
+            // Lembre-se de fechar a conexão com o banco de dados, se aplicável
             // await mongo.close();
             limparData();
         }

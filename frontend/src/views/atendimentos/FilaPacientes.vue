@@ -33,7 +33,7 @@
           <td>{{ paciente.motivo }}</td>
           <td>{{ paciente.projeto }}</td>
           <td>
-            <button @click="atenderPaciente(nutricionista, paciente.cod, paciente.dadosPessoais.nomeCompleto)" class="btn btn-success me-1">Atender</button>
+            <button @click="atenderPaciente(paciente.cod, paciente.dadosPessoais.nomeCompleto)" class="btn btn-success me-1">Atender</button>
           </td>
         </tr>
 
@@ -57,20 +57,21 @@ export default {
       subject: '',
       text: '',
       nutricionista: '',
-        paciente: {
-          cod: 0
-        }
+      paciente: {
+        cod: 0
+      },
+      usuario: {}
       },
     };
   },
   computed: {
-    pacienteFiltro() {
-      if (this.filtro === "Todos os Projetos") {
-        return this.paciente;
-      } else {
-        return this.nutricionista.filter(paciente => paciente.projeto === this.filtro);
-      }
-    },
+    // pacienteFiltro() {
+    //   if (this.filtro === "Todos os Projetos") {
+    //     return this.paciente;
+    //   } else {
+    //     return this.nutricionista.filter(paciente => paciente.projeto === this.filtro);
+    //   }
+    // },
     pacientesNaFila() {
       if (this.pacientes) {
         return this.pacientes.filter(paciente => paciente.status === 'Na fila');
@@ -80,7 +81,8 @@ export default {
   },
   mounted() {
     this.carregarPacientes();
-    this.nutricionista = JSON.parse(localStorage.getItem("usuario"));
+    this.usuario = JSON.parse(localStorage.getItem("usuario"));
+    // console.log(this.usuario);
   },
   methods: {
     carregarPacientes() {
@@ -99,7 +101,7 @@ export default {
           console.error("Erro ao carregar dados dos pacientes:", error);
         });
     },
-    atenderPaciente(nutricionista, codPaciente, nomePaciente) {
+    atenderPaciente(codPaciente, nomePaciente) {
       if (window.confirm('Tem certeza que deseja atender este paciente?')) {
           fetch(`${server_backend_url}/atenderPaciente`, {
               method: "POST",
@@ -108,8 +110,8 @@ export default {
               },
               body: JSON.stringify({ 
                   codPaciente: codPaciente,
-                  nutricionista: nutricionista,
-                  // nomePaciente: nomePaciente
+                  nutricionista: this.usuario,
+                  nomePaciente: nomePaciente
               }),
               mode: "cors",
           })
@@ -117,17 +119,16 @@ export default {
           .then((data) => {
               this.pacientes = data.pacientes;
 
-              // Enviar email
-              this.email.to = this.nutricionista.email;
-              this.email.subject = "CEN - Novo atendimento";
-              this.email.text = `O(a) paciente <strong>"${nomePaciente}"</strong> começou a ser atendido(a).`;
-              this.email.nutricionista = nutricionista.nome;
-              this.email.paciente.cod = codPaciente;
-              console.log(this.email)
-              this.enviarEmail();
+            // this.nutricionistaAtenderPaciente(nutricionista.cod, codPaciente, nomePaciente);
 
-              this.nutricionistaAtenderPaciente(nutricionista.cod, codPaciente, nomePaciente);
-              window.location.reload();
+            // Enviar email
+            this.email.subject = "CEN - Novo atendimento";
+            this.email.text = `O(a) paciente <strong>"${nomePaciente}"</strong> começou a ser atendido(a).`;
+            this.email.nutricionista = this.usuario.nome;
+            this.email.paciente.cod = codPaciente;
+
+            this.enviarEmail();
+            // window.location.reload();
           })
           .catch((error) => {
               console.error("Erro ao atender paciente:", error);
@@ -136,33 +137,49 @@ export default {
           console.log('O usuário cancelou o atendimento do paciente.');
       }
     },
-    nutricionistaAtenderPaciente(codNutricionista, codPaciente, nomePaciente) {
-        fetch(`${server_backend_url}/nutricionistaAtenderPaciente`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              codNutricionista: codNutricionista,
-              codPaciente: codPaciente,
-              nomePaciente: nomePaciente
-            }),
-            mode: "cors",
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data.message);
-            // window.location.reload(true);  
-            // window.location.href = `/paciente/${codPaciente}`;
-            window.open(`/paciente/${codPaciente}`);
-        })
-        .catch((error) => {
-            console.error("Erro ao atender paciente:", error);
-        });
-        // window.location.reload(true);
-        window.open(`/paciente/${codPaciente}`);
-    },
+    // nutricionistaAtenderPaciente(codNutricionista, codPaciente, nomePaciente) {
+    //     fetch(`${server_backend_url}/nutricionistaAtenderPaciente`, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           codNutricionista: codNutricionista,
+    //           codPaciente: codPaciente,
+    //           nomePaciente: nomePaciente
+    //         }),
+    //         mode: "cors",
+    //     })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //         console.log(data.message);
+
+    //         // Enviar email
+    //         this.email.subject = "CEN - Novo atendimento";
+    //         this.email.text = `O(a) paciente <strong>"${nomePaciente}"</strong> começou a ser atendido(a).`;
+    //         this.email.nutricionista = this.usuario.nome;
+    //         this.email.paciente.cod = codPaciente;
+
+    //         this.enviarEmail();
+
+    //         // window.location.reload(true);  
+    //         // window.location.href = `/paciente/${codPaciente}`;
+    //         window.open(`/paciente/${codPaciente}`);
+    //     })
+    //     .catch((error) => {
+    //         console.error("Erro ao atender paciente:", error);
+    //     });
+    //     // window.location.reload(true);
+    //     // window.open(`/paciente/${codPaciente}`);
+    // },
     enviarEmail() {
+      this.email.to = this.usuario.email;
+      alert(this.email.to);
+      alert(this.email.subject);
+      alert(this.email.text);
+      alert(this.email.nutricionista);
+      alert(this.email.paciente.cod);
+
       fetch(`${server_backend_url}/enviarEmail`, {
         method: 'POST',
         headers: {
