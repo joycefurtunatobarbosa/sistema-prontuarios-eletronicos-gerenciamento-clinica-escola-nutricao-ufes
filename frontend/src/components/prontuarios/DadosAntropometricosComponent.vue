@@ -12,104 +12,95 @@
             </div>
 
             <!-- Dados Básicos -->
-            <label class="mt-5 mb-3"><b>● Dados Básicos:</b></label>
+            <label class="mt-5 mb-3 text-primary"><b>● Dados Básicos:</b></label>
             <div class="form-group mt-3 row">
-                <div class="col">
+                <div class="col-3">
                     <label for="peso" class="col-form-label">Peso (Kg):</label>
                     <!-- <input type="text" class="form-control" id="peso" v-model="dadosAntropometricos.peso" /> -->
                     <!-- <input type="text" class="form-control" id="peso" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 || event.charCode == 44" /> -->
                     <input type="text" class="form-control" id="peso" v-model="dadosAntropometricos.peso" @input="formatarValor($event, 'peso')"/>
                 </div>
-                <div class="col">
+                <div class="col-3">
                     <label for="altura" class="col-form-label">Altura (m):</label>
                     <input type="text" class="form-control" id="altura" v-model="dadosAntropometricos.altura" @input="formatarValor($event, 'altura')" />
                 </div>
-                <div class="col">
-                    <label for="gcBia" class="col-form-label">GC BIA (%):</label>
-                    <input type="text" class="form-control" id="gcBia" v-model="dadosAntropometricos.gcBia" @input="formatarValor($event, 'gcBia')" />
+            </div>
+
+            <!-- Circunferências -->
+            <label class="mt-5 mb-3 text-primary"><b>● Circunferências:</b></label>
+            <div class="form-group mt-3 row">
+                <div class="col-3">
+                    <label for="ccAparente" class="col-form-label">CC aparente (cm):</label>
+                    <input type="text" class="form-control" id="ccAparente" v-model="dadosAntropometricos.ccAparente" @input="formatarValor($event, 'ccAparente')" />
                 </div>
-                <div class="col">
-                    <label for="dum" class="col-form-label">DUM:</label>
-                    <input type="text" class="form-control" id="dum" v-model="dadosAntropometricos.dum" @input="formatarValor($event, 'dum')" />
+                <div class="col-3">
+                    <label for="ccMedia" class="col-form-label">CC média (cm):</label>
+                    <input type="text" class="form-control" id="ccMedia" v-model="dadosAntropometricos.ccMedia" @input="formatarValor($event, 'ccMedia')" />
+                </div>
+                <div class="col-3">
+                    <label for="cb" class="col-form-label">CB (cm):</label>
+                    <input type="text" class="form-control" id="cb" v-model="dadosAntropometricos.cb" @input="formatarValor($event, 'cb')" />
                 </div>
             </div>
 
-            <!-- Massa e Circunferências -->
-            <label class="mt-5 mb-3"><b>● Massa e Circunferências:</b></label>
+            <!-- Análise músculo-gordura -->
+            <label class="mt-5 mb-3 text-primary"><b>● Análise músculo-gordura:</b></label>
             <div class="form-group mt-3 row">
-                <div class="col">
-                    <label for="pct" class="col-form-label">PCT (mm):</label>
-                    <input type="text" class="form-control" id="pct" v-model="dadosAntropometricos.pct" @input="formatarValor($event, 'pct')" />
-                </div>
                 <div class="col">
                     <label for="massaMagra" class="col-form-label">Massa magra (Kg):</label>
                     <input type="text" class="form-control" id="massaMagra" v-model="dadosAntropometricos.massaMagra" @input="formatarValor($event, 'massaMagra')" />
                 </div>
                 <div class="col">
-                    <label for="pcb" class="col-form-label">PCB (mm):</label>
-                    <input type="text" class="form-control" id="pcb" v-model="dadosAntropometricos.pcb" @input="formatarValor($event, 'pcb')" />
-                </div>
-            </div>
-
-            <!-- Massa Muscular e Gordura -->
-            <label class="mt-5 mb-3"><b>● Massa Muscular e Gordura:</b></label>
-            <div class="form-group mt-3 row">
-                <div class="col">
                     <label for="massaMuscularEsqueletica" class="col-form-label">Massa Muscular Esquelética (Kg):</label>
                     <input type="text" class="form-control" id="massaMuscularEsqueletica" v-model="dadosAntropometricos.massaMuscularEsqueletica" @input="formatarValor($event, 'massaMuscularEsqueletica')" />
+                </div>
+                <div class="col">
+                    <label for="massaGordura" class="col-form-label">Massa de gordura (Kg):</label>
+                    <input type="text" class="form-control" id="massaGordura" v-model="dadosAntropometricos.massaGordura" @input="formatarValor($event, 'massaGordura')" />
+                </div>
+                <div class="col">
+                    <label for="pcb" class="col-form-label">PCB (mm):</label>
+                    <input type="text" class="form-control" id="pcb" v-model="dadosAntropometricos.pcb" @input="formatarValor($event, 'pcb')" />
+                </div>                
+            </div>
+
+            <div class="form-group mt-3 row">
+                <div class="col">
+                    <label for="pcsi" class="col-form-label">PCSi (mm):</label>
+                    <input type="text" class="form-control" id="pcsi" v-model="dadosAntropometricos.pcsi" @input="formatarValor($event, 'pcsi')" />
                 </div>
                 <div class="col">
                     <label for="pcse" class="col-form-label">PCSE (mm):</label>
                     <input type="text" class="form-control" id="pcse" v-model="dadosAntropometricos.pcse" @input="formatarValor($event, 'pcse')" />
                 </div>
                 <div class="col">
-                    <label for="massaGordura" class="col-form-label">Massa de gordura (Kg):</label>
-                    <input type="text" class="form-control" id="massaGordura" v-model="dadosAntropometricos.massaGordura" @input="formatarValor($event, 'massaGordura')" />
-                </div>
+                    <label for="pct" class="col-form-label">PCT (mm):</label>
+                    <input type="text" class="form-control" id="pct" v-model="dadosAntropometricos.pct" @input="formatarValor($event, 'pct')" />
+                </div> 
+                <div class="col">
+                    <label for="gcBia" class="col-form-label">GC BIA (%):</label>
+                    <input type="text" class="form-control" id="gcBia" v-model="dadosAntropometricos.gcBia" @input="formatarValor($event, 'gcBia')" />
+                </div>      
             </div>
 
-            <!-- Água e Circunferências -->
-            <label class="mt-5 mb-3"><b>● Água e Circunferências:</b></label>
-            <div class="form-group mt-3 row">
-                <div class="col">
-                    <label for="pcsi" class="col-form-label">PCSI (mm):</label>
-                    <input type="text" class="form-control" id="pcsi" v-model="dadosAntropometricos.pcsi" @input="formatarValor($event, 'pcsi')" />
-                </div>
-                <div class="col">
-                    <label for="agua" class="col-form-label">Água (L):</label>
-                    <input type="text" class="form-control" id="agua" v-model="dadosAntropometricos.agua" @input="formatarValor($event, 'agua')" />
-                </div>
-                <div class="col">
-                    <label for="ccAparente" class="col-form-label">CC aparente (cm):</label>
-                    <input type="text" class="form-control" id="ccAparente" v-model="dadosAntropometricos.ccAparente" @input="formatarValor($event, 'ccAparente')" />
-                </div>
-            </div>
-
-            <!-- Outros Dados -->
-            <label class="mt-5 mb-3"><b>● Outros Dados:</b></label>
+            <!-- Composição corporal -->
+            <label class="mt-5 mb-3 text-primary"><b>● Composição corporal:</b></label>
             <div class="form-group mt-3 row">
                 <div class="col">
                     <label for="proteina" class="col-form-label">Proteína (Kg):</label>
                     <input type="text" class="form-control" id="proteina" v-model="dadosAntropometricos.proteina" @input="formatarValor($event, 'proteina')" />
                 </div>
                 <div class="col">
-                    <label for="ccMedia" class="col-form-label">CC média (cm):</label>
-                    <input type="text" class="form-control" id="ccMedia" v-model="dadosAntropometricos.ccMedia" @input="formatarValor($event, 'ccMedia')" />
-                </div>
-                <div class="col">
                     <label for="mineral" class="col-form-label">Mineral (Kg):</label>
                     <input type="text" class="form-control" id="mineral" v-model="dadosAntropometricos.mineral" @input="formatarValor($event, 'mineral')" />
                 </div>
-            </div>
-
-            <div class="form-group mt-3 row">
-                <div class="col-4">
+                <div class="col">
+                    <label for="agua" class="col-form-label">Água (L):</label>
+                    <input type="text" class="form-control" id="agua" v-model="dadosAntropometricos.agua" @input="formatarValor($event, 'agua')" />
+                </div>
+                <div class="col">
                     <label for="visceral" class="col-form-label">Visceral:</label>
                     <input type="text" class="form-control" id="visceral" v-model="dadosAntropometricos.visceral" @input="formatarValor($event, 'visceral')" />
-                </div>
-                <div class="col-4">
-                    <label for="cb" class="col-form-label">CB:</label>
-                    <input type="text" class="form-control" id="cb" v-model="dadosAntropometricos.cb" @input="formatarValor($event, 'cb')" />
                 </div>
             </div>
 

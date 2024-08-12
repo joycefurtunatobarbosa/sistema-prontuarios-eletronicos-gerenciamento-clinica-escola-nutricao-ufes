@@ -5,40 +5,55 @@
       <div class="form-group mt-3 row">
         <label for="nome" class="col-2 col-form-label">Nome:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="nome" v-model="nutricionista.nome" />
+          <input type="text" class="form-control" name="nome" v-model="nutricionista.nome" required/>
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="matricula" class="col-2 col-form-label">Matrícula:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="matricula" v-model="nutricionista.matricula" />
-        </div>
-      </div>
-
-      <div class="form-group mt-3 row">
-        <label for="email" class="col-2 col-form-label">Email:</label>
-        <div class="col-10">
-          <input type="text" class="form-control" id="email" v-model="nutricionista.email" />
+          <input type="text" class="form-control" name="matricula" v-model="nutricionista.matricula" />
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="celular" class="col-2 col-form-label">Celular:</label>
         <div class="col-10">
-          <input type="text" class="form-control" id="celular" v-model="nutricionista.celular" />
+          <input type="text" class="form-control" name="celular" v-model="nutricionista.celular" />
+        </div>
+      </div>
+
+      <div class="form-group mt-3 row">
+        <label for="email" class="col-2 col-form-label">Email:</label>
+        <div class="col-10">
+          <input type="text" class="form-control" name="email" v-model="nutricionista.email" required/>
         </div>
       </div>
 
       <div class="form-group mt-3 row">
         <label for="projeto" class="col-2 col-form-label">Projeto:</label>
         <div class="col-10">
-          <select class="form-select" id="projeto" v-model="nutricionista.projeto" disabled>
+          <select class="form-select" name="projeto" v-model="nutricionista.projeto" disabled>
             <option value="Alunos e Funcionários">Alunos e Funcionários</option>
             <option value="Cardiovascular">Cardiovascular</option>
             <option value="Materno Infantil">Materno Infantil</option>
             <option value="Obesidade">Obesidade</option>
           </select>
+        </div>
+      </div>
+
+      <!-- <h6 class="mt-5 mb-3 text-primary"><b>● Acesso ao sistema</b></h6> -->
+      <div class="form-group mt-5 row">
+        <label for="usuario" class="col-2 col-form-label">Usuário:</label>
+        <div class="col-10">
+          <input type="text" class="form-control" name="usuario" placeholder="Nome de usuário para acessar o sistema" required v-model="nutricionista.usuario"/>
+        </div>
+      </div>
+
+      <div class="form-group mt-3 row">
+        <label for="password" class="col-2 col-form-label">Senha:</label >
+        <div class="col-10">
+          <input type="password" class="form-control" name="password" placeholder="Senha para acessar o sistema" v-model="nutricionista.senha" required>
         </div>
       </div>
 
@@ -86,6 +101,10 @@ export default {
     },
     atualizarNutricionista() {
       const nutri = this.nutricionista;
+      if (nutri.nome === "" || nutri.email === "" || nutri.usuario === "" || nutri.senha === "") {
+        alert("Nenhum campo pode ficar vazio.");
+        return;
+      }
       if (isEqual(this.nutricionista, this.nutricionistaOriginal)) {
         alert("Nenhuma alteração foi realizada.");
         return;

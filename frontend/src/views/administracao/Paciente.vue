@@ -229,7 +229,7 @@ export default {
         .then(response => {
           if (response.ok) {
             // Enviar email
-            this.email.to = this.paciente.nutricionista.email;
+            // this.email.to = this.paciente.nutricionista.email;
             this.email.subject = "CEN - Atualização de atendimento";
             this.email.text = `A situa&ccedil;&atilde;o do(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi alterada para <strong>"${novaSituacao}"</strong>.`;
             this.email.nutricionista = this.nutricionista.nome;
@@ -260,7 +260,7 @@ export default {
           .then(response => {
               if (response.ok) {
                   // Enviar email
-                  this.email.to = this.paciente.nutricionista.email;
+                  // this.email.to = this.paciente.nutricionista.email;
                   this.email.subject = "CEN - Finalização de atendimento";
                   this.email.text = `O atendimento do(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}"</strong> foi finalizado.`;
                   this.email.nutricionista = this.nutricionista.nome;
@@ -315,7 +315,7 @@ export default {
             alert('Arquivo enviado com sucesso.');
             // document.getElementById('codigoPaciente').value = '';
 
-            this.email.to = this.paciente.nutricionista.email;
+            // this.email.to = this.paciente.nutricionista.email;
             this.email.subject = "CEN - Atualização de atendimento";
             this.email.text = `Um novo arquivo foi salvo para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
             this.email.nutricionista = this.nutricionista.nome;
@@ -327,18 +327,18 @@ export default {
             document.getElementById('nomeArquivo').value = '';
             document.getElementById('arquivo').value = '';
 
-            // window.location.reload();
+            window.location.reload();
 
           } else {
             console.error('Erro ao enviar arquivo:', response.statusText);
-            // window.location.reload();
+            window.location.reload();
             // Lógica adicional em caso de erro no envio
           }
 
         })
         .catch(error => {
           console.error('Erro ao enviar arquivo:', error);
-          // window.location.reload();
+          window.location.reload();
           // Lógica adicional em caso de erro de rede ou outro erro
         });
     },
@@ -402,7 +402,7 @@ export default {
               alert("Algo deu errado, tente novamente.");
             }
 
-            this.email.to = this.paciente.nutricionista.email;
+            // this.email.to = this.paciente.nutricionista.email;
             this.email.subject = "CEN - Novo prontuário de retorno";
             this.email.text = `Um novo <b>prontuário de retorno</b> foi criado para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
             this.email.nutricionista = this.nutricionista.nome;
@@ -436,7 +436,7 @@ export default {
               alert("Algo deu errado, tente novamente.");
             }
 
-            this.email.to = this.paciente.nutricionista.email;
+            // this.email.to = this.paciente.nutricionista.email;
             this.email.subject = "CEN - Novo prontuário";
             this.email.text = `Um novo <b>prontuário </b> foi criado para o(a) paciente <strong>"${this.paciente.dadosPessoais.nomeCompleto}".`;
             this.email.nutricionista = this.nutricionista.nome;
@@ -473,6 +473,9 @@ export default {
     //     window.location.reload();
     // },
     enviarEmail() {
+      const usuario = JSON.parse(localStorage.getItem('usuario'));
+      this.email.to = usuario.email;
+
       fetch(`${server_backend_url}/enviarEmail`, {
         method: 'POST',
         headers: {
@@ -487,7 +490,7 @@ export default {
         .catch(error => {
           console.error('Erro:', error);
         });
-        // window.location.reload();
+        window.location.reload();
         console.log(this.email);
     }
   }

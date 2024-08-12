@@ -4,20 +4,21 @@
     <h5 class="text-center"><b>Paciente: </b>{{ dadosPessoais.nomeCompleto }}</h5>
     <!-- <h5 class="text-center"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h5> -->
   </div>
-
-  <div class="informacoes">
-    <h6 class="text-end" style="margin-top: "><b>Início: </b>{{ prontuario.dataCriacao }}</h6>
-    <h6 class="text-end" style="margin-top: -5px"><b>Última atualização: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
-    <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h6><br>
-  </div>
-
-  <div class="d-flex justify-content-between">
-      <button type="button" class="btn btn-outline-primary me-auto"
-          @click="salvarPDF()">Salvar como PDF</button>
-  </div>
   
+  <div class="informacoes mt-5 mb-3">
+    <h6 class="text-end" style="margin-top:"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h6>
+    <h6 class="text-end" style="margin-top: -5px"><b>Início do atendimento: </b>{{ prontuario.dataCriacao }}</h6>
+    <h6 class="text-end" style="margin-top: -5px"><b>Última atualização: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
+  </div>
+
+  <div class="col d-flex justify-content-end">
+    <button type="button" class="btn btn-warning mb-3 removerImpressao" @click="imprimir()">
+      <i class="ti ti-printer"></i> Imprimir
+    </button>
+  </div>
+
   <!-- Abas -->
-  <div class="container-fluid col-9">
+  <div class="container-fluid col-9 removerImpressao">
     <div class="nav nav-tabs mt-3 text-center d-flex justify-content-center">
       <a class="nav-link" :class="{ 'active': abas[0].active }" @click="trocarAba(0)" href="#"><b>1.</b> Dados Pessoais</a>
       <a class="nav-link" :class="{ 'active': abas[1].active }" @click="trocarAba(1)" href="#"><b>2.</b> História Pessoal</a>
@@ -80,13 +81,17 @@
       <div v-if="abas[10].active" class="show active">
         <OrientacoesCondutaComponent :orientacoesCondutaProps="orientacoesConduta" ref="orientacoesCondutaComponentForm" />
       </div>
+      <!-- Componente com as Assinaturas -->
+      <div v-if="assinatura" class="show active">
+        <AssinaturasComponent />
+      </div>
     </form>
 
     <!-- Botões de navegação -->
-    <div class="form-group mt-4 row">
+    <div class="form-group mt-5 row">
       <div class="col d-flex justify-content-start">
       <!-- <div class="col d-flex justify-content-end" v-if="abas[5].active"> -->
-        <button class="btn btn-success" @click="salvarProntuario()">Salvar</button>
+        <button class="btn btn-success removerImpressao" @click="salvarProntuario()">Salvar</button>
       </div>
       <div class="col d-flex justify-content-end">
         <button type="button" class="btn btn-outline-secondary me-2" v-if="!abas[0].active" @click="anteriorAba">Anterior</button>
@@ -109,6 +114,7 @@ import ExamesBioquimicosComponent from '@/components/prontuarios/ExamesBioquimic
 import DadosAntropometricosComponent from '@/components/prontuarios/DadosAntropometricosComponent.vue';
 import PlanejamentoNutricionalComponent from '@/components/prontuarios/PlanejamentoNutricionalComponent.vue';
 import OrientacoesCondutaComponent from '@/components/prontuarios/OrientacoesCondutaComponent.vue';
+import AssinaturasComponent from '@/components/prontuarios/AssinaturasComponent.vue';
 
 // Classes
 import DadosPessoais from '@/models/prontuario/DadosPessoais';
@@ -125,7 +131,7 @@ import OrientacoesConduta from "@/models/prontuario/OrientacoesConduta";
 import { server_backend_url } from "../../server_url.js";
 
 export default {
-  name: "AlunosFuncionarios",
+  name: "Cardiovascular",
   components: {
     DadosPessoaisComponent,
     HistoriaPessoalComponent,
@@ -138,6 +144,7 @@ export default {
     DadosAntropometricosComponent,
     PlanejamentoNutricionalComponent,
     OrientacoesCondutaComponent,
+    AssinaturasComponent,
   },
   // props: ["codPaciente", "cod"],
   props: ["cod"],
@@ -145,16 +152,16 @@ export default {
     return {
       abas: [
         { label: 'Dados Pessoais', id: 'dadosPessoais', active: true },
-        { label: 'História Pessoal', id: 'historiaPessoal', active: true },
-        { label: 'História Familiar', id: 'historiaFamiliar', active: true },
-        { label: 'Medicamentos', id: 'medicamentos', active: true },
-        { label: 'Exames Clínicos', id: 'examesClinicos', active: true },
-        { label: 'Anamnese', id: 'anamnese', active: true },
-        { label: 'Refeições', id: 'refeicoes', active: true },
-        { label: 'ExamesBioquimicos', id: 'examesBioquimicos', active: true },
-        { label: 'DadosAntropometricos', id: 'dadosAntropometricos', active: true },
-        { label: 'PlanejamentoNutricional', id: 'planejamentoNutricional', active: true },
-        { label: 'OrientacoesConduta', id: 'orientacoesConduta', active: true },
+        { label: 'História Pessoal', id: 'historiaPessoal', active: false },
+        { label: 'História Familiar', id: 'historiaFamiliar', active: false },
+        { label: 'Medicamentos', id: 'medicamentos', active: false },
+        { label: 'Exames Clínicos', id: 'examesClinicos', active: false },
+        { label: 'Anamnese', id: 'anamnese', active: false },
+        { label: 'Refeições', id: 'refeicoes', active: false },
+        { label: 'ExamesBioquimicos', id: 'examesBioquimicos', active: false },
+        { label: 'DadosAntropometricos', id: 'dadosAntropometricos', active: false },
+        { label: 'PlanejamentoNutricional', id: 'planejamentoNutricional', active: false },
+        { label: 'OrientacoesConduta', id: 'orientacoesConduta', active: false },
       ],
       prontuario: {},
       nutricionista: "",
@@ -170,21 +177,51 @@ export default {
       dadosAntropometricos: new DadosAntropometricos(),
       planejamentoNutricional: new PlanejamentoNutricional(),
       orientacoesConduta: new OrientacoesConduta(),
+      assinatura: false,
     };
   },
   mounted(){
+    this.topoPagina();
     this.carregarProntuario(this.cod);
   },
+  created(){
+    window.scrollTo(0, 0);
+    this.topoPagina();
+  },
+  updated(){
+    setTimeout(() => {
+      this.topoPagina();
+    }, 1); // 1000 milissegundos = 1 segundo
+  },
   methods: {
-    salvarPDF() {
-        window.scrollTo(0, 0);
-        setTimeout(() => {
-            window.print();
-        }, 500);
+    imprimir() {
+      this.topoPagina();
+      // Ativa todas as abas para serem impressas
+      this.abas.forEach((label) => {
+        label.active = true;
+      });
+
+      // Esconde os elementos que não devem ser impressos
+      let removerImpressao = document.getElementsByClassName('removerImpressao');
+      removerImpressao.forEach((element) => {
+        element.style.display = 'none';
+      });
+
+      // Ativa a aba de assinaturas
+      this.assinatura = true;
+
+      // Faz a impressão da página
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        window.print();
+        window.location.reload();
+      }, 500);
+
     },
     topoPagina() {
+      // window.scrollTo(0, 0);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     trocarAba(index) {
       this.abas.forEach((aba, abaIndex) => {
@@ -198,7 +235,7 @@ export default {
       this.trocarAba(newIndex);
     },
     proximoAba() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
       const abaAtual = this.abas.findIndex((aba) => aba.active);
       const newIndex = abaAtual < this.abas.length - 1 ? abaAtual + 1 : abaAtual;
       this.topoPagina();
@@ -239,9 +276,8 @@ export default {
           console.error('Erro ao enviar dados para o servidor:', error);
         });
         alert("Prontuário salvo com sucesso!");
-        // window.location.reload();
         this.topoPagina();
-        
+        this.carregarProntuario(this.cod);
     },
     carregarProntuario(cod) {
       fetch(`${server_backend_url}/buscarProntuario/${cod}`, {

@@ -30,38 +30,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 module.exports = function (app, mongo) {
-    // const sendEmail = (to, text) => {
-    //     const mailOptions = {
-    //         from: 'gabrielnama2@gmail.com',
-    //         to: to,
-    //         subject: 'CEN - Atualização em atendimento',
-    //         text: text
-    //     };
-
-    //     transporter.sendMail(mailOptions, (error, info) => {
-    //         if (error) {
-    //             return console.log(error);
-    //         }
-    //         console.log('Email sent: ' + info.response);
-    //     });
-    // };
-
-    // app.post('/enviarEmail', (req, res) => {
-
-    //     // const to = req.body.paciente.nutricionista.email;
-    //     // subject = 'CEN - Atualização em atendimento';
-    //     // const text = req.body.mensagem;
-
-    //     const { to, subject, text } = req.body;
-    //     sendEmail(to, subject, text);
-    //     // sendEmail(to, text);
-    //     res.send('Email enviado com sucesso');
-    // });
-
-
+    
     app.post('/salvarArquivo', upload.single("file"), async (req, res) => {
         try {
-            await mongo.connect();
+            mongo.connect();
             const database = mongo.db('cen');
             const colecao = database.collection('pacientes');
 

@@ -4,7 +4,7 @@
 
     <div class="row my-4">
       <div class="col d-flex justify-content-start">
-      <router-link class="btn btn-primary" to="/cadastrar-paciente">Novo paciente</router-link>
+        <router-link class="btn btn-primary" to="/cadastrar-paciente">Novo paciente</router-link>
       </div>
 
       <!-- <div class="col-3 d-flex align-items-center">

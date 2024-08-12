@@ -177,6 +177,28 @@ module.exports = function (app, mongo) {
         }
     });
 
+    app.post('/historicoPacientes', async (req, res) => {
+        const usuario = req.body.usuario;
+        let pacientes = [];
+        mongo.connect();
+        try {
+            await mongo.connect();
+            const database = mongo.db('cen');
+            const colecao = database.collection('pacientes');
+            if (usuario.tipo === 'comum') {
+                pacientes = await colecao.find({ 'nutricionista.cod': usuario.cod }).toArray();
+            }
+            if (usuario.tipo === 'admin') {
+                pacientes = await colecao.find().toArray();
+            }
+
+            res.json({ pacientes });
+        } finally {
+            // await mongo.close();
+            limparData();
+        }
+    });
+
     app.post('/atualizarPaciente', async (req, res) => {
         const paciente = req.body.paciente;
         const pacienteID = paciente._id;

@@ -1,4 +1,4 @@
-class Aluno {
+class Nutricionista {
     constructor() {
         // this._id = "";
         this.cod = "";
@@ -6,7 +6,8 @@ class Aluno {
         this.matricula = matricula;
         this.email = email;
         this.projeto = projeto;
+        this.tipo = tipo;
     }
 }
 
-export default Aluno;
+export default Nutricionista;

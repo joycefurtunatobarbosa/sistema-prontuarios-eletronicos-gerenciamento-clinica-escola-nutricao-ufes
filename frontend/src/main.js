@@ -27,9 +27,9 @@ import CadastrarPaciente from './views/pacientes/CadastrarPaciente.vue';
 import EditarPaciente from './views/pacientes/EditarPaciente.vue';
 
 /* PRONTUÁRIOS */
-// Alunos e Funcionários
-import AlunosFuncionarios from "./views/prontuarios/AlunosFuncionarios.vue";
-import AlunosFuncionariosRetorno from "./views/prontuarios/AlunosFuncionariosRetorno.vue";
+// Cardiovascular
+import Cardiovascular from "./views/prontuarios/Cardiovascular.vue";
+import CardiovascularRetorno from "./views/prontuarios/CardiovascularRetorno.vue";
 
 
 // Roteamento das páginas
@@ -50,7 +50,7 @@ const router = createRouter({
         { path: "/nutricionistas", component: ListarNutricionistas },
         { path: "/cadastrar-nutricionista", component: CadastrarNutricionista },
         { path: "/editar-nutricionista/:cod", component: EditarNutricionista, props: true },
-        { path: '/pacientes-nutriciosta/:cod', component: PacientesDoNutricionista, props: true },
+        { path: '/pacientes-nutricionista/:cod', component: PacientesDoNutricionista, props: true },
 
         //Paciente
         { path: "/paciente/:cod", component: Paciente, props: true },
@@ -59,10 +59,10 @@ const router = createRouter({
         { path: "/editar-paciente/:cod", component: EditarPaciente, props: true },
 
         /* PRONTUÁRIOS */
-        // Alunos e Funcionários
-        { path: "/alunos-funcionarios", component: AlunosFuncionarios},
-        { path: "/prontuario/:cod", component: AlunosFuncionarios,  props: true},
-        { path: "/retorno/:cod", component: AlunosFuncionariosRetorno, props: true },
+        // Cardiovascular
+        { path: "/alunos-funcionarios", component: Cardiovascular },
+        { path: "/prontuario/:cod", component: Cardiovascular,  props: true},
+        { path: "/retorno/:cod", component: CardiovascularRetorno, props: true },
     ]
 });
 

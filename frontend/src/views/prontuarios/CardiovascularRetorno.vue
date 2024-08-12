@@ -5,11 +5,17 @@
     <!-- <h5 class="text-center"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h5> -->
   </div>
 
-  <div class="informacoes">
-    <h6 class="text-end" style="margin-top: "><b>Início: </b>{{ prontuario.dataCriacao }}</h6>
+  <div class="informacoes mt-5 mb-3">
+    <h6 class="text-end" style="margin-top:"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h6>
+    <h6 class="text-end" style="margin-top: -5px"><b>Início do atendimento: </b>{{ prontuario.dataCriacao }}</h6>
     <h6 class="text-end" style="margin-top: -5px"><b>Última atualização: </b>{{ prontuario.dataUltimaMovimentacao }}</h6>
-    <h6 class="text-end" style="margin-top: -5px"><b>Nutricionista: </b>{{ prontuario.nutricionista }}</h6><br>
-  </div> 
+  </div>
+
+  <div class="col d-flex justify-content-end">
+    <button type="button" class="btn btn-warning mb-3 removerImpressao" @click="imprimir()">
+      <i class="ti ti-printer"></i> Imprimir
+    </button>
+  </div>
   
   <!-- Abas -->
   <div class="container-fluid col-9">
@@ -65,6 +71,10 @@
       <div v-if="abas[8].active" class="show active">
         <OrientacoesCondutaComponent :orientacoesCondutaProps="orientacoesConduta" ref="orientacoesCondutaComponentForm" />
       </div>
+      <!-- Componente com as Assinaturas -->
+      <div v-if="assinatura" class="show active">
+        <AssinaturasComponent />
+      </div>
     </form>
 
     <!-- Botões de navegação -->
@@ -92,10 +102,11 @@ import ExamesBioquimicosComponent from '@/components/prontuarios/ExamesBioquimic
 import DadosAntropometricosComponent from '@/components/prontuarios/DadosAntropometricosComponent.vue';
 import PlanejamentoNutricionalComponent from '@/components/prontuarios/PlanejamentoNutricionalComponent.vue';
 import OrientacoesCondutaComponent from '@/components/prontuarios/OrientacoesCondutaComponent.vue';
+import AssinaturasComponent from '@/components/prontuarios/AssinaturasComponent.vue';
 
 // Classes
 import DadosPessoais from '@/models/prontuario/DadosPessoais';
-import FeedbackPaciente from '../../models/prontuario/FeedbackPaciente';
+import FeedbackPaciente from '../../models/prontuario/FeedbackPaciente.js';
 import Medicamentos from "@/models/prontuario/Medicamentos";
 import ExamesClinicos from "@/models/prontuario/ExamesClinicos";
 import Anamnese from "@/models/prontuario/Anamnese";
@@ -106,7 +117,7 @@ import OrientacoesConduta from "@/models/prontuario/OrientacoesConduta";
 import { server_backend_url } from "../../server_url.js";
 
 export default {
-  name: "AlunosFuncionarios",
+  name: "Cardiovascular",
   components: {
     DadosPessoaisComponent,
     FeedbackPacienteComponent,
@@ -117,6 +128,7 @@ export default {
     DadosAntropometricosComponent,
     PlanejamentoNutricionalComponent,
     OrientacoesCondutaComponent,
+    AssinaturasComponent,
   },
   // props: ["codPaciente", "cod"],
   props: ["cod"],
@@ -145,15 +157,50 @@ export default {
       dadosAntropometricos: new DadosAntropometricos(),
       planejamentoNutricional: new PlanejamentoNutricional(),
       orientacoesConduta: new OrientacoesConduta(),
+      assinatura: false,
     };
   },
   mounted(){
+    this.topoPagina();
     this.carregarProntuario(this.cod);
   },
+  created(){
+    window.scrollTo(0, 0);
+    this.topoPagina();
+  },
+  updated(){
+    setTimeout(() => {
+      this.topoPagina();
+    }, 1); // 1000 milissegundos = 1 segundo
+  },
   methods: {
+    imprimir() {
+      this.topoPagina();
+      // Ativa todas as abas para serem impressas
+      this.abas.forEach((label) => {
+        label.active = true;
+      });
+
+      // Esconde os elementos que não devem ser impressos
+      let removerImpressao = document.getElementsByClassName('removerImpressao');
+      removerImpressao.forEach((element) => {
+        element.style.display = 'none';
+      });
+
+      // Ativa a aba de assinaturas
+      this.assinatura = true;
+
+      // Faz a impressão da página
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        window.print();
+        window.location.reload();
+      }, 500);
+
+    },
     topoPagina() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     trocarAba(index) {
       this.abas.forEach((aba, abaIndex) => {
@@ -167,7 +214,7 @@ export default {
       this.trocarAba(newIndex);
     },
     proximoAba() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
       const abaAtual = this.abas.findIndex((aba) => aba.active);
       const newIndex = abaAtual < this.abas.length - 1 ? abaAtual + 1 : abaAtual;
       this.topoPagina();
@@ -207,6 +254,7 @@ export default {
         });
         alert("Prontuário salvo com sucesso!");
         // window.location.reload();
+        this.carregarProntuario(this.cod);
         this.topoPagina();
         
     },

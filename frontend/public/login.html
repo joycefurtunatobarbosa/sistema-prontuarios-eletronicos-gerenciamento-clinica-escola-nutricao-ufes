@@ -24,7 +24,7 @@
                   <img src="../assets/images/logos/dark-logo.svg" width="180" alt="">
                 </a> -->
 
-                <div class="brand-logo d-flex align-items-center justify-content-between text-center mt-3">
+                <div class="brand-logo d-flex align-items-center justify-content-between text-center my-3">
                   <a href="./" class="text-nowrap logo-img mx-auto">
                     <img src="../../assets/images/logos/logo.png" width="120" alt="" />
                     <h6><b>Clínica Escola de Nutrição</b></h6>
@@ -35,7 +35,7 @@
                   <div class="mb-3">
                     <label for="username" class="form-label">Usuário</label>
                     <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
-                      placeholder="Seu usuário ou email" required>
+                      placeholder="Seu nome de usuário" required>
                   </div>
                   <div class="mb-4">
                     <label for="password" class="form-label">Senha</label>
@@ -78,8 +78,18 @@
 
   // localStorage.setItem('logado', 'false');
 
+  function configurarAcesso() {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    if (usuario.tipo === 'admin') {
+      window.location.href = '/';
+    } else {
+      window.location.href = `/pacientes-nutricionista/${usuario.cod}`;
+    }
+  }
+
   // Função para realizar a requisição POST na rota /fazerLogin
   function fazerLogin(username, password) {
+    
     fetch('http://localhost:3000/fazerLogin', {
       method: 'POST',
       headers: {
@@ -98,13 +108,13 @@
           alert('Usuário ou senha incorretos');
         } else {
           localStorage.setItem('usuario', JSON.stringify(data.usuario));
-          alert('Bem-vindo(a) ' + data.usuario.nome);
-          window.location.href = '/';
+          // alert('Bem-vindo(a) ' + data.usuario.nome);
+          configurarAcesso();
         }
       })
       .catch(error => {
         console.error('Erro no login:', error);
-        alert('Erro ao tentar realizar o login. Verifique o console para mais detalhes.');
+        alert('Usuário ou senha incorretos');
       });
   }
 

@@ -54,7 +54,8 @@ module.exports = function (app, mongo) {
             await mongo.connect();
             const database = mongo.db('cen');
             const colecao = database.collection('nutricionistas');
-            const nutricionistas = await colecao.find().toArray();
+            // const nutricionistas = await colecao.find().toArray();
+            const nutricionistas = await colecao.find({ tipo: "comum" }).toArray();
 
             res.json({ nutricionistas });
         } finally {

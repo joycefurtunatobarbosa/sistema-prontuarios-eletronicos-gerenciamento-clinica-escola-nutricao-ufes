@@ -1,6 +1,6 @@
 <template>
     <!-- Aba de Planejamento Nutricional -->
-    <div class="tab-pane fade show active" id="refeicoes">
+    <div class="tab-pane fade show active" id="orientacoes">
         <h5 class="text mt-5 text-primary"><b>ORIENTAÇÕES</b></h5>
         <form>
 
@@ -80,18 +80,6 @@
                 </div>
             </div>
 
-            <!-- Termo de autorização -->
-            <h5 class="text mt-5 text-primary"><b>ASSINATURA</b></h5>
-            <div class="form-group mt-4 row">
-                <div class="col">
-                    <label for="assinatura" class="">Eu, sou responsável pelo atendimento nutricional do paciente e comprometo-me a seguir todas as normas e diretrizes profissionais.</label>
-                    
-                    <input class="mt-4 form-check-input my-auto" type="checkbox" id="assinatura"
-                        v-model="orientacoesConduta.assinatura">
-                    <label class="mt-4 form-check-label ms-2" for="assinatura"><b>Eu assino.</b></label>
-                </div>
-            </div>
-
         </form>
     </div>
 </template>
@@ -113,4 +101,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+/* #assinatura{
+    display: none;
+} */
+</style>

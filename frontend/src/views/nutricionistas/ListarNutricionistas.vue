@@ -124,7 +124,7 @@ export default {
             console.error("Erro ao enviar dados para o servidor:", error);
           });
       }
-      window.location.reload();
+      window.location.reload(true);
     },
   },
 };

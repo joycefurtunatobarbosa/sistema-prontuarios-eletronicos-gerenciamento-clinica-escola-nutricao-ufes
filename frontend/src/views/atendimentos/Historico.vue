@@ -70,7 +70,8 @@ export default {
     }
   },
   mounted() {
-    this.carregarPacientes();
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    this.carregarPacientes(usuario);
   },
   methods: {
     carregarAluno(cod) {
@@ -89,12 +90,13 @@ export default {
           console.error("Erro ao carregar dados do aluno:", error);
         });
     },
-    carregarPacientes() {
-      fetch(`${server_backend_url}/listarPacientes`, {
-        method: "GET",
+    carregarPacientes(usuario) {
+      fetch(`${server_backend_url}/historicoPacientes`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({usuario}),
         mode: "cors",
       })
         .then((response) => response.json())
