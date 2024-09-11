@@ -129,6 +129,7 @@ export default {
 
             this.enviarEmail();
             // window.location.reload();
+            window.open(`/paciente/${codPaciente}`);
           })
           .catch((error) => {
               console.error("Erro ao atender paciente:", error);
@@ -174,11 +175,6 @@ export default {
     // },
     enviarEmail() {
       this.email.to = this.usuario.email;
-      alert(this.email.to);
-      alert(this.email.subject);
-      alert(this.email.text);
-      alert(this.email.nutricionista);
-      alert(this.email.paciente.cod);
 
       fetch(`${server_backend_url}/enviarEmail`, {
         method: 'POST',

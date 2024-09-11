@@ -16,7 +16,12 @@
     const usuario = JSON.parse(localStorage.getItem('usuario'));
     
     function abrirPacientesNutricionista() {
-      window.location.href = `/pacientes-nutricionista/${usuario.cod}`;
+      if (usuario.tipo === 'admin') {
+        window.location.href = '/';
+      }
+      if (usuario.tipo === 'comum') {
+        window.location.href = `/pacientes-nutricionista/${usuario.cod}`;
+      }
     }
 
     function sairConta() {
@@ -71,7 +76,7 @@
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between text-center mt-3">
-          <a href="./" class="text-nowrap logo-img mx-auto">
+          <a onclick="abrirPacientesNutricionista()" href="#" class="text-nowrap logo-img mx-auto">
             <img src="/assets/images/logos/logo.png" width="120" alt="" />
             <h6><b>Clínica Escola de Nutrição</b></h6>
           </a>

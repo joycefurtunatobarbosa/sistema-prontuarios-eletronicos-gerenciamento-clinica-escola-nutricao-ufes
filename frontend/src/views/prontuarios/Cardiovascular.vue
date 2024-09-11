@@ -201,14 +201,14 @@ export default {
         label.active = true;
       });
 
+      // Ativa a aba de assinaturas
+      this.assinatura = true;
+
       // Esconde os elementos que não devem ser impressos
       let removerImpressao = document.getElementsByClassName('removerImpressao');
       removerImpressao.forEach((element) => {
         element.style.display = 'none';
       });
-
-      // Ativa a aba de assinaturas
-      this.assinatura = true;
 
       // Faz a impressão da página
       window.scrollTo(0, 0);

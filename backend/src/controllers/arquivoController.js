@@ -27,10 +27,12 @@ module.exports = function (app, mongo) {
             const database = mongo.db('cen');
             const colecao = database.collection('pacientes');
 
+            console.log(req.body);
+
             const codPaciente = req.body.cod;
             nome = req.body.fileName;
 
-            const paciente = await colecao.updateOne(
+            await colecao.updateOne(
                 { cod: parseInt(codPaciente) },
                 { $push: { arquivos: { nome, localizacao } } }
             );
